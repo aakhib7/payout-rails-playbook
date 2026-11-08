@@ -25,7 +25,7 @@
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55}
 .layout{display:grid;grid-template-columns:200px minmax(0,1000px);gap:36px;justify-content:center;padding:0 24px}
-.wrap{min-width:0;padding:30px 0 44px;display:flex;flex-direction:column;gap:30px}
+.wrap{min-width:0;padding:30px 0 44px;display:flex;flex-direction:column;gap:26px}
 section{scroll-margin-top:24px;display:flex;flex-direction:column;gap:12px}
 .step{scroll-margin-top:64px}
 h1,h2,h3,p{margin:0}
@@ -79,30 +79,42 @@ header .sub{color:#d3ece8}
 .hero-btn:hover{transform:translateY(-2px)}
 .hero-btn:focus-visible{outline:2px solid #fff;outline-offset:3px}
 
-/* role */
+/* overview */
 .phases{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;font-size:15px;font-weight:600}
 .phases span{padding:6px 14px;border-radius:99px;background:var(--accent-soft);color:var(--accent)}
 .phases span small{font-size:11px;font-weight:600;opacity:.65;margin-left:2px}
 .phases i{font-style:normal;color:var(--muted)}
 .phases em{font-style:normal;margin-left:6px;font-size:17px;font-weight:700;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-.rgrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
-@media (max-width:900px){.rgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:520px){.rgrid{grid-template-columns:minmax(0,1fr)}}
-.rc{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:4px;transition:transform .2s ease,box-shadow .2s ease}
-.rc:hover{transform:translateY(-3px);box-shadow:0 14px 30px -18px color-mix(in srgb,var(--accent) 60%,transparent)}
-.rc .ic{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;font-size:16px;background:var(--grad)}
-.rc b{font-size:14px;line-height:1.3}
-.rc p{font-size:13px;color:var(--muted)}
 
 /* flow */
-.stepnav{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:8px 0;margin:-4px 0 2px;position:sticky;top:0;z-index:6;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
-.stepnav::-webkit-scrollbar{display:none}
-.stepnav a{flex:none;display:inline-flex;align-items:center;gap:6px;padding:4px 11px 4px 4px;border-radius:99px;border:1px solid var(--line);background:var(--surface);color:var(--ink);text-decoration:none;font-size:12.5px;font-weight:600;white-space:nowrap;transition:background .2s,border-color .2s,color .2s}
-.stepnav a span{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-mono);font-size:11px;background:var(--accent-soft);color:var(--accent)}
-.stepnav a:hover{border-color:var(--accent);color:var(--accent)}
+.stepnav{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.stepnav a{display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:8px 9px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);text-decoration:none;font-size:12.5px;font-weight:600;line-height:1.25;transition:background .2s,border-color .2s,color .2s,transform .2s}
+.stepnav a span{display:flex;align-items:center;gap:6px;font-size:15px}
+.stepnav a span i{font-style:normal;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-mono);font-size:11px;background:var(--accent-soft);color:var(--accent)}
+.stepnav a:hover{border-color:var(--accent);transform:translateY(-2px)}
 .stepnav a.on{background:var(--grad);border-color:transparent;color:#fff}
-.stepnav a.on span{background:rgba(255,255,255,.25);color:#fff}
-@media (max-width:1100px){.stepnav{position:static;background:none;backdrop-filter:none;-webkit-backdrop-filter:none}}
+.stepnav a.on span i{background:rgba(255,255,255,.25);color:#fff}
+.stepnav a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (max-width:900px){.stepnav{display:flex;overflow-x:auto;scrollbar-width:none}.stepnav::-webkit-scrollbar{display:none}.stepnav a{flex:none;width:118px}}
+/* one step at a time on screen; print shows them all */
+@media screen{
+  .js .flow .step:not(.cur){display:none}
+  .js .flow .step .line{display:none}
+  .js .flow .step .body{padding-bottom:0}
+  .js .flow{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px}
+}
+/* collapsible deep dives */
+.foldbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:-14px}
+.btn.ghost{background:transparent;color:var(--accent);box-shadow:inset 0 0 0 1.5px var(--accent);padding:5px 14px;font-size:13px}
+.fold{gap:10px;border-top:1px solid var(--line);padding-top:12px}
+.sum{font-size:13.5px;color:var(--muted);margin-top:-8px}
+.js .fold>h2{cursor:pointer;display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;border-radius:8px}
+.js .fold>h2::after{content:"›";margin-left:auto;font-size:22px;line-height:1;color:var(--muted);transition:transform .2s}
+.js .fold.open>h2::after{transform:rotate(90deg)}
+.js .fold>h2:hover{color:var(--accent)}
+.js .fold>h2:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+.js .fold>h2 .live{margin-left:2px}
+@media screen{.js .fold:not(.open)>:not(h2):not(.sum){display:none}}
 .flow{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
 .step{display:grid;grid-template-columns:36px minmax(0,1fr);gap:0 14px}
 .rail{display:flex;flex-direction:column;align-items:center}
@@ -341,8 +353,6 @@ header>:nth-child(2){animation-delay:.08s}
   .phases{gap:6px;font-size:13px}
   .phases span{padding:5px 11px}
   .phases em{flex-basis:100%;margin:4px 0 0;font-size:16px}
-  .rc{display:grid;grid-template-columns:36px minmax(0,1fr);gap:2px 12px}
-  .rc .ic{grid-row:span 2}
   .demo{padding:14px;gap:14px}
   .rails{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
   .bar{flex-wrap:wrap;margin-top:0}
@@ -365,7 +375,7 @@ header>:nth-child(2){animation-delay:.08s}
   .wrap{padding:0;gap:22px}
   header{padding:26px 28px}
   header h1{padding-right:0}
-  .hero-btn,.toc,.stepnav,#play,.track,.railcol,.bar .seqcap,.kitd .btn,.live::before{display:none!important}
+  .hero-btn,.toc,.stepnav,.foldbar,#play,.track,.railcol,.bar .seqcap,.kitd .btn,.live::before{display:none!important}
   #rails{display:flex!important}
   .js .step .dot,.js .step .body,.js .reveal,.js .step .line,header>*{opacity:1!important;transform:none!important}
   .demo{grid-template-columns:minmax(0,1fr);box-shadow:none}
@@ -373,7 +383,7 @@ header>:nth-child(2){animation-delay:.08s}
   .seq{min-width:0}
   .seqlist{display:none!important}
   .phases em{background:none!important;color:var(--accent)!important;-webkit-text-fill-color:var(--accent)}
-  .card,.rc,.bpc,.kpis div,.reqs li,.pf div,.fb,.step,.gr,.glist li,.dm tr,.facts div,.opts div{box-shadow:none!important;break-inside:avoid}
+  .card,.bpc,.kpis div,.reqs li,.pf div,.fb,.step,.gr,.glist li,.dm tr,.facts div,.opts div{box-shadow:none!important;break-inside:avoid}
   h2,h3{break-after:avoid}
   .tw{overflow:visible}
   #failures{break-before:page}
@@ -389,12 +399,11 @@ header>:nth-child(2){animation-delay:.08s}
 <nav class="toc" aria-label="Contents">
   <span class="toct">Contents</span>
   <ol>
-    <li><a href="#role">Role at a glance</a></li>
-    <li><a href="#flow">Onboarding flow</a></li>
+    <li><a href="#flow">At a glance</a></li>
     <li><a href="#plan">Delivery plan</a></li>
     <li><a href="#review">API review &amp; credentials</a></li>
-    <li><a href="#blueprint">Corridor blueprint</a></li>
     <li><a href="#mapping">Field &amp; error mapping</a></li>
+    <li><a href="#blueprint">Corridor blueprint</a></li>
     <li><a href="#cert">Certification tests</a></li>
     <li><a href="#failures">Failure handling</a></li>
     <li><a href="#run">Run &amp; escalate</a></li>
@@ -416,22 +425,11 @@ header>:nth-child(2){animation-delay:.08s}
   <p class="sub">How I would take a new payout partner from API review to a stable live corridor, and keep it there.</p>
 </header>
 
-<section id="role">
-  <h2>Role at a glance</h2>
-  <p class="phases"><span>Review <small>1–2</small></span><i>→</i><span>Map <small>3</small></span><i>→</i><span>Specify <small>4</small></span><i>→</i><span>Certify <small>5</small></span><i>→</i><span>Launch <small>6</small></span><i>→</i><span>Run <small>7</small></span><em>One owner per connection, into production.</em></p>
-  <div class="rgrid">
-    <div class="rc"><span class="ic">🔌</span><b>Partner onboarding</b><p>API review, environments, credential exchange, certification and launch.</p></div>
-    <div class="rc"><span class="ic">🗺️</span><b>Corridor configuration</b><p>Rail setup, field mappings, account and alias validation, error codes.</p></div>
-    <div class="rc"><span class="ic">📐</span><b>Specs delivery runs on</b><p>Sequence diagrams, mappings, validation rules and test matrices.</p></div>
-    <div class="rc"><span class="ic">📈</span><b>Life after launch</b><p>SLAs held, every failure driven to a fix on whichever side it sits.</p></div>
-    <div class="rc"><span class="ic">🧭</span><b>Critical path, visible</b><p>Partner, platform, Compliance and Commercial; recurring friction goes to the roadmap.</p></div>
-  </div>
-</section>
-
 <section id="flow">
-  <h2>Onboarding flow</h2>
+  <h2>At a glance: onboarding a payout partner</h2>
+  <p class="phases"><span>Review <small>1–2</small></span><i>→</i><span>Map <small>3</small></span><i>→</i><span>Specify <small>4</small></span><i>→</i><span>Certify <small>5</small></span><i>→</i><span>Launch <small>6</small></span><i>→</i><span>Run <small>7</small></span><em>One owner per connection, into production.</em></p>
   <nav class="stepnav" aria-label="Onboarding steps">
-    <a href="#step-1"><span>1</span>API review</a><a href="#step-2"><span>2</span>Credentials</a><a href="#step-3"><span>3</span>Corridor mapping</a><a href="#step-4"><span>4</span>Integration spec</a><a href="#step-5"><span>5</span>Certification</a><a href="#step-6"><span>6</span>Launch</a><a href="#step-7"><span>7</span>Run &amp; improve</a>
+    <a href="#step-1"><span><i>1</i>🔍</span>API review</a><a href="#step-2"><span><i>2</i>🔐</span>Credentials</a><a href="#step-3"><span><i>3</i>🗺️</span>Corridor mapping</a><a href="#step-4"><span><i>4</i>📐</span>Integration spec</a><a href="#step-5"><span><i>5</i>🧪</span>Certification</a><a href="#step-6"><span><i>6</i>🚀</span>Launch</a><a href="#step-7"><span><i>7</i>📈</span>Run &amp; improve</a>
   </nav>
   <ol class="flow">
     <li class="step" id="step-1"><div class="rail"><span class="dot">1</span><span class="line"></span></div>
@@ -452,7 +450,7 @@ header>:nth-child(2){animation-delay:.08s}
     <li class="step" id="step-4"><div class="rail"><span class="dot">4</span><span class="line"></span></div>
       <div class="body"><h3><span class="emo" aria-hidden="true">📐</span>Integration spec<span class="tag">Sequence diagrams · test matrix</span></h3>
         <div class="pf"><div class="p"><b>✕</b><span>Engineering builds from the partner's PDF, and three people read it three ways.</span></div>
-        <div class="f"><b>✓</b><span>One spec per corridor: sequence diagram, field mappings, validation rules and the test matrix. See the corridor blueprint below.</span></div></div>
+        <div class="f"><b>✓</b><span>One spec per corridor: sequence diagram, field mappings, validation rules and the test matrix. See the <a href="#blueprint">corridor blueprint</a>.</span></div></div>
         <p class="donew"><span aria-hidden="true">🏁</span><b>Done when:</b> The partner and our platform team both sign off the spec.</p></div></li>
     <li class="step" id="step-5"><div class="rail"><span class="dot">5</span><span class="line"></span></div>
       <div class="body"><h3><span class="emo" aria-hidden="true">🧪</span>Certification<span class="tag">Raw traces as evidence</span></h3>
@@ -479,8 +477,11 @@ header>:nth-child(2){animation-delay:.08s}
   </ol>
 </section>
 
-<section class="reveal" id="plan">
+<div class="foldbar"><span class="lbl">Deep dives · click to open</span><button class="btn ghost" id="foldall" type="button">Expand all</button></div>
+
+<section class="reveal fold" id="plan">
   <h2>Delivery plan <em class="pill">Proposed</em></h2>
+  <p class="sum">8 weeks for one partner and one corridor; Compliance review runs alongside the build.</p>
   <p class="note">A typical 8-week path for one partner and one corridor. Compliance review runs alongside the build, so it never blocks launch at the end.</p>
   <div class="card gantt" role="table" aria-label="Delivery plan">
     <div class="gr gh"><div class="gl"></div><div class="gt"><span>W1</span><span>W2</span><span>W3</span><span>W4</span><span>W5</span><span>W6</span><span>W7</span><span>W8</span></div></div>
@@ -495,8 +496,9 @@ header>:nth-child(2){animation-delay:.08s}
   <p class="hint">SE = solutions engineer, who owns the connection. The bold name leads; the others support.</p>
 </section>
 
-<section class="reveal" id="review">
+<section class="reveal fold" id="review">
   <h2>API review &amp; credentials</h2>
+  <p class="sum">Ten questions for the partner's API, and how each credential is exchanged and rotated.</p>
   <div class="duo">
     <div class="card">
       <h3>Partner API review questions</h3>
@@ -536,35 +538,9 @@ header>:nth-child(2){animation-delay:.08s}
   </div>
 </section>
 
-<section class="reveal" id="blueprint">
-  <h2>Corridor blueprint (live demo)<span class="live">Interactive</span></h2>
-  <div class="card demo">
-    <div class="railcol">
-      <span class="lbl">Corridor · rail</span>
-      <div class="rails" id="railbtns" role="group" aria-label="Corridor"></div>
-    </div>
-    <div class="stage">
-      <div class="bar"><span class="lbl">Payout flow</span><span class="seqcap" id="seqcap" aria-live="polite"></span><button class="btn" id="play" type="button">▶ Play</button></div>
-      <div class="seqwrap"><svg class="seq" id="seq" viewBox="0 0 800 560" role="img" aria-label="Payout sequence diagram"></svg></div>
-      <ol class="seqlist" id="seqlist" aria-label="Payout message flow"></ol>
-      <div class="track" id="track"></div>
-      <div class="facts" id="facts"></div>
-      <div class="legend"><span>🔒 Signed callback: the status we act on, after verifying it</span><span>Steps 2–3 run before money moves</span></div>
-    </div>
-  </div>
-  <div class="card stack" style="gap:10px">
-    <h3>Rails primer: what I explain to engineers and business leads</h3>
-    <div class="opts four">
-      <div><b>Clearing vs settlement</b><span>Clearing exchanges and confirms the payment messages; settlement moves the funds between institutions. A "credited" status is not the same as settled.</span></div>
-      <div><b>Instant vs deferred batch</b><span>Instant rails confirm in seconds, all day. Batch rails clear in windows, so cutoffs and holidays decide the credit date.</span></div>
-      <div><b>Alias vs account</b><span>An alias (UPI ID, mobile number) is resolved to an account by the rail or a directory; validating it first avoids most rejections.</span></div>
-      <div><b>ISO 20022 vs ISO 8583</b><span>ISO 20022 (pacs.008 credit, pacs.002 status, camt.05x statements) for account rails; ISO 8583 (MTI 0200/0210, response code in field 39) for card-based payouts.</span></div>
-    </div>
-  </div>
-</section>
-
-<section class="reveal" id="mapping">
+<section class="reveal fold" id="mapping">
   <h2>Field &amp; error mapping <em class="pill">Sample</em></h2>
+  <p class="sum">Our fields to ISO 20022, and every partner error code to final, retryable, hold or unknown.</p>
   <div class="card stack" style="gap:10px">
     <h3>Field mapping</h3>
     <p class="note">Our canonical fields, the matching ISO 20022 pacs.008 element, and the check that runs before anything is sent. The partner's own field names are added from their spec.</p>
@@ -600,8 +576,37 @@ header>:nth-child(2){animation-delay:.08s}
   </div>
 </section>
 
-<section class="reveal" id="cert">
+<section class="reveal fold open" id="blueprint">
+  <h2>Corridor blueprint (live demo)<span class="live">Interactive</span></h2>
+  <p class="sum">Pick a rail to see the payout flow, and what to validate before money moves.</p>
+  <div class="card demo">
+    <div class="railcol">
+      <span class="lbl">Corridor · rail</span>
+      <div class="rails" id="railbtns" role="group" aria-label="Corridor"></div>
+    </div>
+    <div class="stage">
+      <div class="bar"><span class="lbl">Payout flow</span><span class="seqcap" id="seqcap" aria-live="polite"></span><button class="btn" id="play" type="button">▶ Play</button></div>
+      <div class="seqwrap"><svg class="seq" id="seq" viewBox="0 0 800 560" role="img" aria-label="Payout sequence diagram"></svg></div>
+      <ol class="seqlist" id="seqlist" aria-label="Payout message flow"></ol>
+      <div class="track" id="track"></div>
+      <div class="facts" id="facts"></div>
+      <div class="legend"><span>🔒 Signed callback: the status we act on, after verifying it</span><span>Steps 2–3 run before money moves</span></div>
+    </div>
+  </div>
+  <div class="card stack" style="gap:10px">
+    <h3>Rails primer: what I explain to engineers and business leads</h3>
+    <div class="opts four">
+      <div><b>Clearing vs settlement</b><span>Clearing exchanges and confirms the payment messages; settlement moves the funds between institutions. A "credited" status is not the same as settled.</span></div>
+      <div><b>Instant vs deferred batch</b><span>Instant rails confirm in seconds, all day. Batch rails clear in windows, so cutoffs and holidays decide the credit date.</span></div>
+      <div><b>Alias vs account</b><span>An alias (UPI ID, mobile number) is resolved to an account by the rail or a directory; validating it first avoids most rejections.</span></div>
+      <div><b>ISO 20022 vs ISO 8583</b><span>ISO 20022 (pacs.008 credit, pacs.002 status, camt.05x statements) for account rails; ISO 8583 (MTI 0200/0210, response code in field 39) for card-based payouts.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="reveal fold" id="cert">
   <h2>Certification tests</h2>
+  <p class="sum">Twelve cases every corridor passes before launch, with raw traces kept as evidence.</p>
   <div class="card stack" style="gap:8px">
     <div class="glhead"><p class="note">The test matrix every corridor passes before launch, with raw traces kept as evidence. Tick them off to try it.</p><span class="glcount" id="glcount">0 / 12</span></div>
     <ol class="glist" id="glist">
@@ -621,8 +626,9 @@ header>:nth-child(2){animation-delay:.08s}
   </div>
 </section>
 
-<section class="reveal" id="failures">
+<section class="reveal fold" id="failures">
   <h2>Failure handling</h2>
+  <p class="sum">Six production failures, how we detect each, and what we do instead of guessing.</p>
   <p class="note">What breaks in production, how we spot it, and what we do instead of guessing.</p>
   <div class="fbgrid">
     <div class="fb"><b>Timeout on create</b><p><i>Detect</i>No response, or a 5xx, after sending the payout</p><p><i>Fallback</i>The state is unknown, not failed. Query status by our reference; retry only with the same idempotency key if the partner confirms it never arrived.</p></div>
@@ -634,8 +640,9 @@ header>:nth-child(2){animation-delay:.08s}
   </div>
 </section>
 
-<section class="reveal" id="run">
+<section class="reveal fold" id="run">
   <h2>Run &amp; escalate</h2>
+  <p class="sum">A SQL query that turns transaction data into an escalation, and what goes to the roadmap.</p>
   <div class="duo">
     <div class="card">
       <h3>From transaction data to an argument</h3>
@@ -679,8 +686,9 @@ header>:nth-child(2){animation-delay:.08s}
   </div>
 </section>
 
-<section class="reveal" id="api">
+<section class="reveal fold" id="api">
   <h2>API kit</h2>
+  <p class="sum">Sample Postman collection: token, validation, idempotent create, status and a signed callback.</p>
   <div class="card kit">
     <div class="kitl">
       <b>Postman collection <em class="pill">Sample</em></b>
@@ -698,8 +706,9 @@ header>:nth-child(2){animation-delay:.08s}
   </div>
 </section>
 
-<section class="reveal" id="practices">
+<section class="reveal fold" id="practices">
   <h2>Key best practices</h2>
+  <p class="sum">Eight rules for integration and ownership.</p>
   <span class="lbl">Integration</span>
   <div class="bpgrid">
     <div class="bpc"><span class="ic">🔁</span><b>Unknown is not failed</b><p>After a timeout, query status. Never create a second payout to "retry".</p></div>
@@ -880,17 +889,34 @@ $("postman").onclick=()=>{
 };
 
 // Contents: highlight the section, and step, currently on screen
-const tocLinks=[...document.querySelectorAll(".toc ol a,.stepnav a")];
-const spyEls=[...document.querySelectorAll("section[id],.step[id]")];
+// Overview: one step at a time
+const steps=[...document.querySelectorAll(".flow .step")],chips=[...document.querySelectorAll(".stepnav a")];
+function pick(i){steps.forEach((s,j)=>s.classList.toggle("cur",j===i));chips.forEach((c,j)=>{c.classList.toggle("on",j===i);c.setAttribute("aria-current",j===i?"step":"false")})}
+chips.forEach((c,i)=>c.onclick=e=>{e.preventDefault();pick(i)});
+pick(0);
+
+// Deep dives fold open and shut; any in-page link opens the section it points into
+const folds=[...document.querySelectorAll(".fold")];
+function setOpen(f,o){f.classList.toggle("open",o);f.querySelector("h2").setAttribute("aria-expanded",o);syncAll()}
+function syncAll(){$("foldall").textContent=folds.every(f=>f.classList.contains("open"))?"Collapse all":"Expand all"}
+folds.forEach(f=>{const h=f.querySelector("h2");h.tabIndex=0;h.setAttribute("role","button");h.setAttribute("aria-expanded",f.classList.contains("open"));
+  h.onclick=()=>setOpen(f,!f.classList.contains("open"));
+  h.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();h.click()}}});
+$("foldall").onclick=()=>{const o=!folds.every(f=>f.classList.contains("open"));folds.forEach(f=>setOpen(f,o))};
+document.addEventListener("click",e=>{const a=e.target.closest('a[href^="#"]');if(!a||a.closest(".stepnav"))return;
+  const f=document.getElementById(a.getAttribute("href").slice(1))?.closest(".fold");if(f&&!f.classList.contains("open"))setOpen(f,true)});
+syncAll();
+
+const tocLinks=[...document.querySelectorAll(".toc ol a")];
+const spyEls=[...document.querySelectorAll("section[id]")];
 let spyKey="";
 function spyUpdate(){
-  const line=Math.min(innerHeight*0.3,140);let sec="",step="";
-  for(const el of spyEls){if(!el.offsetParent||el.getBoundingClientRect().top>line)continue;el.classList.contains("step")?step=el.id:sec=el.id}
+  const line=Math.min(innerHeight*0.3,140);let sec="";
+  for(const el of spyEls){if(el.offsetParent&&el.getBoundingClientRect().top<=line)sec=el.id}
   // the last section can never reach the line, so claim it at the bottom of the page
-  if(innerHeight+scrollY>=document.documentElement.scrollHeight-4){sec=spyEls.filter(e=>e.tagName==="SECTION"&&e.offsetParent).pop().id;step=""}
-  if(sec!=="flow")step="";
-  if(sec+step===spyKey)return;spyKey=sec+step;
-  tocLinks.forEach(a=>{const t=a.getAttribute("href").slice(1);a.classList.toggle("on",t===sec||t===step)});
+  if(innerHeight+scrollY>=document.documentElement.scrollHeight-4){sec=spyEls.filter(e=>e.offsetParent).pop().id}
+  if(sec===spyKey)return;spyKey=sec;
+  tocLinks.forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+sec));
   const act=tocLinks.find(a=>a.getAttribute("href")==="#"+sec);
   if(act&&innerWidth<=1100){const bar=act.closest("ol");bar.scrollTo({left:act.offsetLeft-bar.clientWidth/2+act.clientWidth/2,behavior:"smooth"})}
 }

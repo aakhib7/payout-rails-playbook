@@ -4,7 +4,7 @@ A single-page work sample by Syed Aakhib: a **proposed approach for onboarding a
 
 ## What's inside
 
-- **At a glance:** the seven onboarding steps as tiles, one shown at a time, each with the common problem, the fix and a "done when" line. Deep-dive sections below open on click (all print in the PDF).
+- **At a glance:** the seven onboarding steps as tiles, one shown at a time, each with the common problem, the fix and a "done when" line. Deep-dive sections below open on click.
 - **Onboarding flow:** seven steps from partner API review to running the live connection, each with the common problem, the fix and a "done when" line.
 - **Delivery plan:** a proposed 8-week timeline with who leads and who supports.
 - **API review & credentials:** ten partner review questions; OAuth 2.0, mTLS, JWT, API key and webhook HMAC handling; cryptography pitfalls.
@@ -24,4 +24,4 @@ A single-page work sample by Syed Aakhib: a **proposed approach for onboarding a
 - **Rail facts** are summarised from public scheme information; confirm them against the partner's spec and scheme rules.
 - Independent work sample; not affiliated with or endorsed by MoneyGram.
 
-Built as one self-contained `index.html` with no build step. After editing, run `./make-pdf.sh` (macOS, Google Chrome) to rebuild the PDF.
+Built as one self-contained `index.html` with no build step.

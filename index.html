@@ -5,57 +5,63 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Payout Rails Playbook</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
-/* Layout: contents sidebar + one column. Teal/blue palette of its own; not styled after any company's site */
+/* Palette follows MoneyGram's public site: red #E42313, near-black #1F1F1F, greys, blue #3650AC, Rubik headings.
+   Chart pair (#D9772E / #3650AC, dark #C9702C / #6F87DA) passes the dataviz palette validator. */
 :root{
-  --bg:#f5f8f8; --surface:#ffffff; --ink:#0f1a1c; --muted:#55676a; --line:#dcebe8;
-  --accent:#0b7a6f; --accent-2:#2563eb; --accent-soft:#e6f6f3; --ok:#1f7a4a; --bad:#b42318;
-  --grad:linear-gradient(135deg,#14b8a6,#0b7a6f 55%,#2563eb);
-  --hero:linear-gradient(175deg,#03121a 10%,#0b5f58 100%);
+  --bg:#f7f7f7; --surface:#ffffff; --ink:#1f1f1f; --muted:#5c5c5c; --line:#e8e8e8;
+  --accent:#e42313; --accent-ink:#b8180b; --accent-soft:#fdecea; --blue:#3650ac; --blue-soft:#ebf0f9;
+  --ok:#008a00; --ok-soft:#e6f3e6; --bad:#da291c; --bad-soft:#fbeae8; --warn:#9a5b00; --warn-soft:#fff3ec;
+  --c1:#d9772e; --c2:#3650ac;
+  --grad:linear-gradient(135deg,#ff4a33,#e42313 55%,#b8180b);
+  --hero:radial-gradient(120% 140% at 85% 0%,#ff5a3d 0%,#e42313 38%,#a3150a 100%);
+  --f-head:"Rubik","Inter",system-ui,sans-serif;
   --f-body:"Inter","Segoe UI",system-ui,sans-serif;
   --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  --r:16px;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#071215; --surface:#0d1d21; --ink:#e8f4f2; --muted:#9bb5b2; --line:#1d3a3c;
-  --accent:#3fd0bd; --accent-2:#7aa7ff; --accent-soft:#0f2e2c; --ok:#55c487; --bad:#f2786b; color-scheme:dark}}
+  --bg:#121212; --surface:#1f1f1f; --ink:#f2f2f2; --muted:#b3b3b3; --line:#333333;
+  --accent:#ff5a4a; --accent-ink:#ff8a7d; --accent-soft:#3a1714; --blue:#8ea2eb; --blue-soft:#1d2440;
+  --ok:#5cc45c; --ok-soft:#173017; --bad:#ff6b5e; --bad-soft:#3a1714; --warn:#f5b45a; --warn-soft:#3a2a12;
+  --c1:#c9702c; --c2:#6f87da; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#071215; --surface:#0d1d21; --ink:#e8f4f2; --muted:#9bb5b2; --line:#1d3a3c;
-  --accent:#3fd0bd; --accent-2:#7aa7ff; --accent-soft:#0f2e2c; --ok:#55c487; --bad:#f2786b; color-scheme:dark}
+  --bg:#121212; --surface:#1f1f1f; --ink:#f2f2f2; --muted:#b3b3b3; --line:#333333;
+  --accent:#ff5a4a; --accent-ink:#ff8a7d; --accent-soft:#3a1714; --blue:#8ea2eb; --blue-soft:#1d2440;
+  --ok:#5cc45c; --ok-soft:#173017; --bad:#ff6b5e; --bad-soft:#3a1714; --warn:#f5b45a; --warn-soft:#3a2a12;
+  --c1:#c9702c; --c2:#6f87da; color-scheme:dark}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55}
-.layout{display:grid;grid-template-columns:200px minmax(0,1000px);gap:36px;justify-content:center;padding:0 24px}
-.wrap{min-width:0;padding:30px 0 44px;display:flex;flex-direction:column;gap:26px}
-section{scroll-margin-top:24px;display:flex;flex-direction:column;gap:12px}
-.step{scroll-margin-top:64px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5}
 h1,h2,h3,p{margin:0}
-h1{font-size:clamp(28px,3.6vw,40px);line-height:1.08;letter-spacing:-.025em;font-weight:800;text-wrap:balance}
-h2{font-size:19px;font-weight:700;letter-spacing:-.01em}
-.sub{color:var(--muted);font-size:16px;max-width:660px}
-.lbl{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+h1,h2,h3{font-family:var(--f-head);letter-spacing:-.01em}
+h2{font-size:20px;font-weight:700}
+code{font-family:var(--f-mono);font-size:.86em}
+.layout{display:grid;grid-template-columns:200px minmax(0,1040px);gap:32px;justify-content:center;padding:0 24px}
+.wrap{min-width:0;padding:26px 0 44px;display:flex;flex-direction:column;gap:22px}
+section{scroll-margin-top:24px;display:flex;flex-direction:column;gap:14px}
+.lbl{font-family:var(--f-head);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
 .note{font-size:12.5px;color:var(--muted)}
-.hint{font-size:12.5px;color:var(--muted)}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:0 1px 2px color-mix(in srgb,var(--accent) 6%,transparent)}
-.card h3{font-size:16px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px}
-code{font-family:var(--f-mono);font-size:.88em;background:var(--accent-soft);color:var(--ink);padding:0 5px;border-radius:4px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px}
+.pill{font-family:var(--f-body);font-style:normal;font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:99px;color:var(--warn);background:var(--warn-soft);border:1px solid color-mix(in srgb,var(--warn) 35%,transparent);white-space:nowrap;vertical-align:middle}
+.ic{display:grid;place-items:center;flex:none;width:40px;height:40px;border-radius:12px;font-size:20px;background:var(--accent-soft)}
 
 /* contents sidebar */
-.toc{position:sticky;top:0;align-self:start;max-height:100vh;overflow-y:auto;padding:30px 0 24px;font-size:13.5px}
-.toct{display:block;font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 10px 12px}
+.toc{position:sticky;top:0;align-self:start;max-height:100vh;overflow-y:auto;padding:26px 0 24px;font-size:13.5px}
+.toct{display:block;font-family:var(--f-head);font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 10px 12px}
 .toc ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
-.toc a{display:block;padding:6px 12px;border-radius:9px;color:var(--ink);text-decoration:none;font-weight:600;border-left:2px solid transparent;transition:background .2s,color .2s,border-color .2s}
-.toc a:hover{background:var(--accent-soft);color:var(--accent)}
-.toc a.on{background:var(--accent-soft);color:var(--accent);border-left-color:var(--accent)}
+.toc a{display:block;padding:6px 12px;border-radius:9px;color:var(--ink);text-decoration:none;font-weight:600;border-left:3px solid transparent;transition:background .2s,color .2s,border-color .2s}
+.toc a:hover{background:var(--accent-soft);color:var(--accent-ink)}
+.toc a.on{background:var(--accent-soft);color:var(--accent-ink);border-left-color:var(--accent)}
 .toc a:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
-.srails{margin-top:20px;padding-top:14px;border-top:1px solid var(--line)}
+.srails{margin-top:18px;padding-top:14px;border-top:1px solid var(--line)}
 .sraill{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;padding:0 4px}
-.sraill button{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;padding:6px 8px;border-radius:9px;border:1px solid var(--line);background:var(--surface);transition:background .2s,border-color .2s;min-width:0}
-.sraill b{font-size:12px;font-weight:600;color:var(--ink);line-height:1.25}
-.sraill small{font-size:10.5px;color:var(--accent);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.sraill em{font-style:normal;font-family:var(--f-mono);font-size:10px;color:var(--muted);line-height:1.3}
+.sraill button{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;padding:6px 8px;border-radius:10px;border:1px solid var(--line);background:var(--surface);transition:background .2s,border-color .2s;min-width:0}
+.sraill b{font-size:12px;font-weight:600;line-height:1.25}
+.sraill small{font-size:10.5px;color:var(--accent-ink);line-height:1.3}
+.sraill em{font-style:normal;font-family:var(--f-mono);font-size:10px;color:var(--muted)}
 .sraill button:hover,.sraill button.on{background:var(--accent-soft);border-color:var(--accent)}
 .sraill button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
-.snote{font-size:11px;line-height:1.4;color:var(--muted);margin:6px 12px 0}
 @media (min-width:1101px){#rails,.toc .trails{display:none}}
 @media (max-width:1100px){
   .layout{grid-template-columns:minmax(0,1fr);gap:0;padding:0 16px}
@@ -65,297 +71,302 @@ code{font-family:var(--f-mono);font-size:.88em;background:var(--accent-soft);col
   .toc>ol::-webkit-scrollbar{display:none}
   .toc a{white-space:nowrap;border-left:0;padding:6px 12px;border-radius:99px;background:var(--surface);border:1px solid var(--line)}
   .toc a.on{border-color:var(--accent)}
-  .wrap{padding-top:24px}
-  section,.step{scroll-margin-top:70px}
+  section{scroll-margin-top:70px}
 }
 
 /* hero */
-header{display:flex;flex-direction:column;gap:10px;background:var(--hero);color:#fff;border-radius:18px;padding:clamp(22px,3.5vw,34px) clamp(22px,4vw,40px);position:relative;overflow:hidden}
-header::after{content:"";position:absolute;right:-80px;top:-80px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,#14b8a6 50%,transparent),transparent 70%);pointer-events:none}
-header>*{position:relative;z-index:1}
-header h1{padding-right:150px}
-header .sub{color:#d3ece8}
-.hero-btn{position:absolute;top:22px;right:22px;z-index:2;font-size:14px;font-weight:700;color:#0b7a6f;background:#fff;padding:9px 18px;border-radius:999px;text-decoration:none;box-shadow:0 8px 20px -10px rgba(0,0,0,.6);transition:transform .15s ease,box-shadow .15s}
-.hero-btn:hover{transform:translateY(-2px)}
-.hero-btn:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.hero{position:relative;overflow:hidden;border-radius:22px;background:var(--hero);color:#fff;padding:30px 34px;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:18px 28px;align-items:center}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 1px 1px,rgba(255,255,255,.16) 1px,transparent 1.5px) 0 0/22px 22px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 70%);mask-image:linear-gradient(90deg,transparent,#000 70%);pointer-events:none}
+.hero>*{position:relative}
+.kicker{font-family:var(--f-head);font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#ffd9d3}
+h1{font-size:clamp(28px,3.4vw,42px);line-height:1.05;font-weight:800;letter-spacing:-.025em;margin-top:6px;text-wrap:balance}
+.hero .sub{margin-top:10px;font-size:16px;color:#ffe9e5;max-width:460px}
+.route{width:100%;height:auto;display:block}
+.route .node rect{fill:#c51d10;stroke:rgba(255,255,255,.55);stroke-width:1.2}
+.route .node text{fill:#fff;font-family:var(--f-head)}
+.route .path{fill:none;stroke:rgba(255,255,255,.7);stroke-width:2;stroke-dasharray:5 6;animation:dash 1.6s linear infinite}
+.route .coin{fill:#fff}
+@keyframes dash{to{stroke-dashoffset:-22}}
+.stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:12px}
+.stat b{font-family:var(--f-head);font-size:28px;font-weight:700;line-height:1;color:var(--accent)}
+.stat span{font-size:13px;color:var(--muted);line-height:1.25}
+@media (max-width:900px){.hero{grid-template-columns:minmax(0,1fr)}.stats{grid-template-columns:repeat(3,minmax(0,1fr))}}
 
-/* overview */
-.phases{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;font-size:15px;font-weight:600}
-.phases span{padding:6px 14px;border-radius:99px;background:var(--accent-soft);color:var(--accent)}
-.phases span small{font-size:11px;font-weight:600;opacity:.65;margin-left:2px}
-.phases i{font-style:normal;color:var(--muted)}
-.phases em{font-style:normal;margin-left:6px;font-size:17px;font-weight:700;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+/* overview: step tiles + one panel */
+.stepnav{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}
+.stepnav button{all:unset;box-sizing:border-box;cursor:pointer;position:relative;display:flex;flex-direction:column;gap:6px;padding:12px 10px 10px;border-radius:14px;border:1px solid var(--line);background:var(--surface);transition:transform .2s,border-color .2s,box-shadow .2s}
+.stepnav .em{font-size:24px;line-height:1}
+.stepnav small{font-family:var(--f-head);font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.stepnav b{font-family:var(--f-head);font-size:13.5px;font-weight:600;line-height:1.2}
+.stepnav .no{position:absolute;top:8px;right:10px;font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+.stepnav button:hover{transform:translateY(-3px);border-color:var(--accent)}
+.stepnav button.on{background:var(--grad);border-color:transparent;color:#fff;box-shadow:0 14px 28px -16px rgba(228,35,19,.8)}
+.stepnav button.on small,.stepnav button.on .no{color:#ffe0db}
+.stepnav button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (max-width:900px){.stepnav{display:flex;overflow-x:auto;scrollbar-width:none;padding-bottom:4px}.stepnav::-webkit-scrollbar{display:none}.stepnav button{flex:none;width:122px}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:14px}
+.ph{display:flex;align-items:center;gap:14px}
+.ph .ic{width:52px;height:52px;border-radius:16px;font-size:26px;background:var(--grad)}
+.ph h3{font-size:19px;font-weight:700}
+.ph small{font-family:var(--f-head);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-ink)}
+.rfd{display:grid;grid-template-columns:minmax(0,1fr) 28px minmax(0,1fr) 28px minmax(0,1fr);align-items:stretch}
+.rfd>i{font-style:normal;display:grid;place-items:center;color:var(--muted);font-size:18px}
+.box{border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;font-size:14px;font-weight:500}
+.box em{font-style:normal;font-family:var(--f-head);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.box.risk{background:var(--bad-soft)}.box.risk em{color:var(--bad)}
+.box.fix{background:var(--ok-soft)}.box.fix em{color:var(--ok)}
+.box.done{background:var(--blue-soft)}.box.done em{color:var(--blue)}
+@media (max-width:760px){.rfd{grid-template-columns:minmax(0,1fr)}.rfd>i{transform:rotate(90deg);height:22px}}
+.chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;padding:4px 10px;border-radius:99px;background:var(--bg);border:1px solid var(--line)}
+a.chip{color:var(--accent-ink);text-decoration:none;border-color:color-mix(in srgb,var(--accent) 40%,var(--line))}
+.kchips{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.kchips div{border:1px dashed color-mix(in srgb,var(--warn) 45%,var(--line));border-radius:12px;padding:8px 10px;display:flex;align-items:center;gap:8px;font-size:18px}
+.kchips b{font-size:13.5px;display:block}
+.kchips span{color:var(--muted);font-size:12px}
+@media (max-width:760px){.kchips{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media screen{.js .panel:not(.cur){display:none}}
 
-/* flow */
-.stepnav{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
-.stepnav a{display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:8px 9px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);text-decoration:none;font-size:12.5px;font-weight:600;line-height:1.25;transition:background .2s,border-color .2s,color .2s,transform .2s}
-.stepnav a span{display:flex;align-items:center;gap:6px;font-size:15px}
-.stepnav a span i{font-style:normal;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-mono);font-size:11px;background:var(--accent-soft);color:var(--accent)}
-.stepnav a:hover{border-color:var(--accent);transform:translateY(-2px)}
-.stepnav a.on{background:var(--grad);border-color:transparent;color:#fff}
-.stepnav a.on span i{background:rgba(255,255,255,.25);color:#fff}
-.stepnav a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-@media (max-width:900px){.stepnav{display:flex;overflow-x:auto;scrollbar-width:none}.stepnav::-webkit-scrollbar{display:none}.stepnav a{flex:none;width:118px}}
-/* one step at a time on screen; print shows them all */
-@media screen{
-  .js .flow .step:not(.cur){display:none}
-  .js .flow .step .line{display:none}
-  .js .flow .step .body{padding-bottom:0}
-  .js .flow{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px}
-}
-/* collapsible deep dives */
-.foldbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:-14px}
-.btn.ghost{background:transparent;color:var(--accent);box-shadow:inset 0 0 0 1.5px var(--accent);padding:5px 14px;font-size:13px}
-.fold{gap:10px;border-top:1px solid var(--line);padding-top:12px}
-.sum{font-size:13.5px;color:var(--muted);margin-top:-8px}
-.js .fold>h2{cursor:pointer;display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;border-radius:8px}
-.js .fold>h2::after{content:"›";margin-left:auto;font-size:22px;line-height:1;color:var(--muted);transition:transform .2s}
-.js .fold.open>h2::after{transform:rotate(90deg)}
-.js .fold>h2:hover{color:var(--accent)}
-.js .fold>h2:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
-.js .fold>h2 .live{margin-left:2px}
-@media screen{.js .fold:not(.open)>:not(h2):not(.sum){display:none}}
-.flow{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
-.step{display:grid;grid-template-columns:36px minmax(0,1fr);gap:0 14px}
-.rail{display:flex;flex-direction:column;align-items:center}
-.dot{width:36px;height:36px;border-radius:50%;background:var(--grad);color:#fff;display:grid;place-items:center;font-family:var(--f-mono);font-weight:600;font-size:13px;flex:none}
-.line{width:2px;flex:1;background:linear-gradient(var(--accent),var(--line));margin:4px 0;opacity:.6}
-.step:last-child .line{display:none}
-.body{padding:2px 0 16px;display:flex;flex-direction:column;gap:6px}
-.step:last-child .body{padding-bottom:0}
-.body h3{font-size:16px;line-height:1.45}
-.emo{display:inline-block;font-size:18px;margin-right:8px;vertical-align:-2px}
-.tag{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:99px;background:var(--accent-soft);color:var(--accent);vertical-align:2px;margin-left:8px;line-height:1.4}
-.pf{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}
-@media (max-width:640px){.pf{grid-template-columns:minmax(0,1fr)}}
-.pf div{display:flex;gap:8px;padding:7px 10px;border-radius:10px;font-size:13.5px}
-.pf .p{background:color-mix(in srgb,var(--bad) 9%,transparent)}
-.pf .f{background:color-mix(in srgb,var(--ok) 11%,transparent)}
-.pf b{font-family:var(--f-mono)}
-.pf .p b{color:var(--bad)}.pf .f b{color:var(--ok)}
-.donew{font-size:12.5px;padding:5px 10px;border-radius:10px;border:1px dashed color-mix(in srgb,var(--accent) 40%,var(--line));background:color-mix(in srgb,var(--accent-soft) 55%,transparent)}
-.donew span{margin-right:6px}
-.donew b{color:var(--accent);margin-right:4px}
-.donew a,.pf a{color:var(--accent)}
-.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:2px}
-@media (max-width:820px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:360px){.kpis{grid-template-columns:minmax(0,1fr)}}
-.kpis div{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:9px 10px;display:flex;flex-direction:column;gap:4px;font-size:13.5px}
-.kpis .ki{font-size:18px;line-height:1}
-.kpis b{font-size:14px;display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px}
-.kpis p{color:var(--muted);font-size:13px}
-.pill{font-style:normal;font-size:10.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:2px 7px;border-radius:99px;color:#8a5a00;background:#fff3d6;border:1px solid #f3d38a;white-space:nowrap}
-.flag{align-self:flex-start;font-size:12px;font-weight:600;color:#8a5a00;background:#fff3d6;border:1px dashed #e9bf5c;padding:3px 10px;border-radius:8px}
-:root[data-theme="dark"] .pill,:root[data-theme="dark"] .flag{color:#f5c869;background:#3a2c0c;border-color:#6b5218}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .pill,:root:not([data-theme="light"]) .flag{color:#f5c869;background:#3a2c0c;border-color:#6b5218}}
+/* deep dives fold */
+.foldbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:-8px}
+.btn{font:inherit;font-weight:600;font-size:14px;padding:8px 16px;border:0;border-radius:999px;background:var(--grad);color:#fff;cursor:pointer;transition:transform .15s,filter .15s}
+.btn:hover{filter:brightness(1.07)}
+.btn:active{transform:scale(.96)}
+.btn.ghost{background:transparent;color:var(--accent-ink);box-shadow:inset 0 0 0 1.5px var(--accent);padding:5px 14px;font-size:13px}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.fold{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:14px 18px;gap:14px;transition:border-color .2s,box-shadow .2s}
+.fh{display:flex;align-items:center;gap:14px}
+.fh .ic{width:44px;height:44px}
+.fh div{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.fh h2{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px}
+.fh p{font-size:13.5px;color:var(--muted)}
+.js .fh{cursor:pointer}
+.js .fh::after{content:"";width:9px;height:9px;flex:none;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(-45deg);transition:transform .2s;margin-right:6px}
+.js .fold.open .fh::after{transform:rotate(45deg)}
+.js .fold:hover{border-color:color-mix(in srgb,var(--accent) 45%,var(--line))}
+.js .fh:focus-visible{outline:2px solid var(--accent);outline-offset:6px;border-radius:10px}
+.fold.open{box-shadow:0 18px 40px -30px rgba(0,0,0,.35)}
+@media screen{.js .fold:not(.open)>:not(.fh){display:none}}
+.live{display:inline-flex;align-items:center;gap:6px;font-family:var(--f-body);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:var(--grad);padding:3px 9px;border-radius:99px}
+.live::before{content:"";width:6px;height:6px;border-radius:50%;background:#fff;animation:blink 1.4s ease-in-out infinite}
+@keyframes blink{50%{opacity:.25}}
+
+/* grids used by deep dives */
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.g5{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+@media (max-width:900px){.g3,.g4,.g5{grid-template-columns:repeat(2,minmax(0,1fr))}.g2{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:460px){.g3,.g4,.g5{grid-template-columns:minmax(0,1fr)}}
+.tile{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:6px;transition:transform .2s,border-color .2s}
+.tile:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--accent) 45%,var(--line))}
+.tile .ic{width:36px;height:36px;font-size:18px;border-radius:10px}
+.tile b{font-family:var(--f-head);font-size:14px;font-weight:600;line-height:1.25}
+.tile span{font-size:12.5px;color:var(--muted);line-height:1.35}
+.tile.row{flex-direction:row;align-items:center;gap:10px}
 
 /* delivery plan */
-.gantt{display:flex;flex-direction:column;overflow-x:auto;padding:10px 16px}
-.gr{display:grid;grid-template-columns:255px minmax(360px,1fr);gap:12px;align-items:center;padding:4px 0;border-bottom:1px solid var(--line)}
+.gantt{display:flex;flex-direction:column;overflow-x:auto}
+.gr{display:grid;grid-template-columns:230px minmax(360px,1fr);gap:12px;align-items:center;padding:5px 0;border-bottom:1px solid var(--line)}
 .gr:last-child{border-bottom:0}
-.gh{padding:0 0 4px}
 .gl{display:flex;flex-direction:column;font-size:11.5px;line-height:1.35;color:var(--muted);min-width:0}
-.gl span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.gl b{font-size:13px;color:var(--ink)}
-.gl em{font-style:normal;font-weight:700;color:var(--accent)}
-.gt{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:4px;align-items:center;background:repeating-linear-gradient(90deg,transparent 0 calc(12.5% - 1px),var(--line) calc(12.5% - 1px) 12.5%);min-height:24px}
+.gl b{font-family:var(--f-head);font-size:13.5px;font-weight:600;color:var(--ink)}
+.gl em{font-style:normal;font-weight:700;color:var(--accent-ink)}
+.gt{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:4px;align-items:center;background:repeating-linear-gradient(90deg,transparent 0 calc(12.5% - 1px),var(--line) calc(12.5% - 1px) 12.5%);min-height:26px}
 .gh .gt{background:none;min-height:0}
 .gh .gt span{font-family:var(--f-mono);font-size:11px;color:var(--muted);text-align:center}
-.gb{height:18px;border-radius:99px;background:var(--grad);color:#fff;font-family:var(--f-mono);font-size:10px;font-weight:600;display:grid;place-items:center;white-space:nowrap;box-shadow:0 6px 14px -8px color-mix(in srgb,var(--accent) 80%,transparent)}
-.gb.par{background:repeating-linear-gradient(135deg,#0b7a6f 0 8px,#14b8a6 8px 16px)}
-@media (max-width:640px){.gantt{padding:10px 12px}.gr{grid-template-columns:minmax(0,1fr);gap:3px;padding:5px 0}.gh .gl{display:none}.gt{min-width:0}.gl span{white-space:normal}}
+.gb{height:20px;border-radius:99px;background:var(--grad);color:#fff;font-family:var(--f-mono);font-size:10px;font-weight:600;display:grid;place-items:center;white-space:nowrap}
+.gb.par{background:repeating-linear-gradient(135deg,var(--blue) 0 8px,color-mix(in srgb,var(--blue) 70%,#fff) 8px 16px)}
+.legendrow{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:var(--muted);align-items:center}
+.sw{display:inline-block;width:12px;height:12px;border-radius:4px;vertical-align:-1px;margin-right:6px}
+@media (max-width:640px){.gr{grid-template-columns:minmax(0,1fr);gap:3px}.gh .gl{display:none}.gt{min-width:0}}
 
-/* review, credentials, tables */
-.duo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-@media (max-width:820px){.duo{grid-template-columns:minmax(0,1fr)}}
-.duo .card,.stack>.card{display:flex;flex-direction:column;gap:10px}
-.stack{display:flex;flex-direction:column;gap:12px}
-.qlist{margin:0;padding:0;list-style:none;counter-reset:q;display:flex;flex-direction:column;gap:5px;font-size:13.5px}
-.qlist li{counter-increment:q;display:grid;grid-template-columns:22px minmax(0,1fr);gap:10px}
-.qlist li::before{content:counter(q);width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-mono);font-size:11px;font-weight:600;background:var(--accent-soft);color:var(--accent)}
-.ticks{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:4px;font-size:13.5px}
-.ticks li{display:grid;grid-template-columns:20px minmax(0,1fr);gap:8px}
-.ticks li::before{content:"✓";color:var(--ok);font-weight:700}
-.tw{overflow-x:auto}
-.dm{width:100%;border-collapse:collapse;font-size:13.5px;min-width:560px}
-.dm th{text-align:left;font-size:11.5px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);padding:6px 8px;border-bottom:1px solid var(--line)}
-.dm td{padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
-.dm td:first-child{font-weight:600}
-.dm code{font-size:12px;white-space:nowrap}
-.cls{font-size:11px;font-weight:700;padding:1px 7px;border-radius:99px;white-space:nowrap}
-.cls.final{color:var(--bad);background:color-mix(in srgb,var(--bad) 12%,transparent)}
-.cls.retry{color:var(--ok);background:color-mix(in srgb,var(--ok) 13%,transparent)}
-.cls.hold{color:#8a5a00;background:#fff3d6}
-.cls.unk{color:var(--accent-2);background:color-mix(in srgb,var(--accent-2) 12%,transparent)}
-@media (max-width:640px){
-  .dm{min-width:0}
-  .dm thead{display:none}
-  .dm tr{display:block;padding:8px 0;border-bottom:1px solid var(--line)}
-  .dm td{display:block;border:0;padding:2px 0}
-  .dm td[data-label]::before{content:attr(data-label) ": ";font-size:12px;font-weight:600;color:var(--muted)}
-}
-.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-.opts.four{grid-template-columns:repeat(4,minmax(0,1fr))}
-@media (max-width:900px){.opts.four{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:460px){.opts,.opts.four{grid-template-columns:minmax(0,1fr)}}
-.opts div{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:8px 10px;display:flex;flex-direction:column;gap:2px}
-.opts b{font-size:13.5px}
-.opts span{font-size:12.5px;color:var(--muted)}
+/* credentials + crypto */
+.cred{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:6px;text-align:center;align-items:center}
+.cred .ic{width:44px;height:44px;border-radius:50%;background:var(--grad);font-size:20px}
+.cred b{font-family:var(--f-head);font-size:14px}
+.cred span{font-size:12.5px;color:var(--muted)}
+.cred .chip{font-size:11px;padding:2px 8px;background:var(--surface);color:var(--ink)}
+.vs{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:6px;align-items:center;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:10px 12px}
+.vs div{display:flex;flex-direction:column;gap:2px;font-size:12px;color:var(--muted)}
+.vs b{font-family:var(--f-mono);font-size:13px;color:var(--ink)}
+.vs .y b::before{content:"✓ ";color:var(--ok)}
+.vs .n b::before{content:"✕ ";color:var(--bad)}
+.vs .t b::before{content:""}
+.vs>i{font-style:normal;font-family:var(--f-head);font-weight:700;font-size:12px;color:var(--accent-ink)}
+
+/* field + error mapping */
+.fmap{display:flex;flex-direction:column;gap:6px}
+.frow{display:grid;grid-template-columns:minmax(0,170px) 34px minmax(0,220px) minmax(0,1fr);align-items:center;gap:8px}
+.frow .our{font-family:var(--f-head);font-weight:600;font-size:13.5px;background:var(--accent-soft);color:var(--accent-ink);border-radius:10px;padding:6px 10px}
+.frow .arr{height:2px;background:linear-gradient(90deg,var(--accent),var(--blue));position:relative}
+.frow .arr::after{content:"";position:absolute;right:-1px;top:-4px;border:5px solid transparent;border-left:7px solid var(--blue);border-right:0}
+.frow .iso{font-family:var(--f-mono);font-size:12px;background:var(--blue-soft);color:var(--blue);border-radius:10px;padding:6px 10px;overflow-wrap:anywhere}
+.frow .chk{font-size:12.5px;color:var(--muted)}
+.frow .chk::before{content:"✓ ";color:var(--ok);font-weight:700}
+.fhead{font-family:var(--f-head);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+@media (max-width:760px){.frow{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.frow .arr,.fhead{display:none}.frow .chk{grid-column:1/-1}}
+.board{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:10px}
+@media (max-width:900px){.board{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:460px){.board{grid-template-columns:minmax(0,1fr)}}
+.lane{border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:8px;border-top:4px solid}
+.lane h3{font-size:15px;display:flex;align-items:center;gap:8px}
+.lane p{font-size:12.5px;color:var(--muted)}
+.lane.final{background:var(--bad-soft);border-color:var(--bad)}
+.lane.retry{background:var(--ok-soft);border-color:var(--ok)}
+.lane.hold{background:var(--warn-soft);border-color:var(--warn)}
+.lane.unk{background:var(--blue-soft);border-color:var(--blue)}
+.code{display:flex;flex-direction:column;gap:1px;background:var(--surface);border-radius:10px;padding:6px 9px;font-size:12.5px}
+.code b{font-family:var(--f-mono);font-size:12px}
+.code span{color:var(--muted)}
 
 /* corridor demo */
-.demo{display:grid;grid-template-columns:190px minmax(0,1fr);gap:18px;padding:16px;border:1.5px solid transparent;
-  background:linear-gradient(var(--surface),var(--surface)) padding-box,var(--grad) border-box;
-  box-shadow:0 30px 60px -36px color-mix(in srgb,var(--accent) 70%,transparent)}
+.demo{display:grid;grid-template-columns:180px minmax(0,1fr);gap:16px}
 @media (max-width:760px){.demo{grid-template-columns:minmax(0,1fr)}}
-.live{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.08em;color:#fff;background:var(--grad);padding:3px 10px;border-radius:99px;vertical-align:middle;margin-left:10px}
-.live::before{content:"";width:7px;height:7px;border-radius:50%;background:#fff;animation:blink 1.4s ease-in-out infinite}
-@keyframes blink{50%{opacity:.25}}
-.railcol{display:flex;flex-direction:column;gap:8px}
-.rails{display:flex;flex-direction:column;gap:2px;background:var(--bg);padding:4px;border-radius:10px;border:1px solid var(--line)}
-.rails button{font:inherit;font-size:14px;font-weight:600;border:0;background:transparent;color:var(--ink);padding:5px 12px;border-radius:9px;cursor:pointer;text-align:start;display:flex;flex-direction:column;line-height:1.25;transition:background .2s}
+.rails{display:flex;flex-direction:column;gap:3px;background:var(--bg);padding:4px;border-radius:12px;border:1px solid var(--line)}
+.rails button{font:inherit;font-size:14px;font-weight:600;border:0;background:transparent;color:var(--ink);padding:6px 12px;border-radius:9px;cursor:pointer;text-align:start;display:flex;flex-direction:column;line-height:1.25;transition:background .2s}
 .rails button small{font-size:11px;font-weight:500;color:var(--muted)}
 .rails button[aria-pressed="true"]{background:var(--grad);color:#fff}
-.rails button[aria-pressed="true"] small{color:#dff7f3}
+.rails button[aria-pressed="true"] small{color:#ffe0db}
 .rails button:not([aria-pressed="true"]):hover{background:var(--accent-soft)}
 .stage{display:flex;flex-direction:column;gap:12px;min-width:0}
-.bar{display:flex;gap:12px;align-items:center;min-height:36px;margin-top:-8px}
-.bar .seqcap{flex:1;min-width:0;text-align:center;font-size:13.5px;font-weight:600;color:var(--accent)}
-.btn{font:inherit;font-size:14px;font-weight:600;padding:8px 16px;border:0;background:var(--grad);color:#fff;cursor:pointer;border-radius:999px;transition:transform .15s ease,filter .15s}
-.btn:hover{filter:brightness(1.08)}
-.btn:active{transform:scale(.96)}
+.bar{display:flex;gap:12px;align-items:center;min-height:36px}
+.bar .seqcap{flex:1;min-width:0;text-align:center;font-size:13.5px;font-weight:600;color:var(--accent-ink)}
 .bar .btn{padding:7px 16px;flex:none}
-button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .track{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:6px}
 .track button{all:unset;cursor:pointer;height:6px;border-radius:99px;background:var(--line);position:relative;transition:background .3s}
 .track button::after{content:"";position:absolute;inset:-8px 0}
-.track button.done{background:color-mix(in srgb,var(--accent) 45%,var(--line))}
-.track button.cur{background:var(--grad);box-shadow:0 0 10px color-mix(in srgb,var(--accent) 60%,transparent)}
-.seqwrap{overflow-x:auto;border-radius:14px;border:1px solid var(--line);padding:8px 4px;
-  background-color:var(--bg);background-image:radial-gradient(color-mix(in srgb,var(--accent) 22%,transparent) 1px,transparent 1.2px);background-size:18px 18px}
+.track button.done{background:color-mix(in srgb,var(--accent) 40%,var(--line))}
+.track button.cur{background:var(--grad)}
+.seqwrap{overflow-x:auto;border-radius:14px;border:1px solid var(--line);padding:8px 4px;background-color:var(--bg);background-image:radial-gradient(color-mix(in srgb,var(--accent) 18%,transparent) 1px,transparent 1.2px);background-size:18px 18px}
 .seq{display:block;min-width:620px;width:100%;height:auto}
 .seq text{font-family:var(--f-body);fill:var(--ink)}
 .seq .actor rect{fill:url(#gAct)}
-.seq .actor text{fill:#fff}
-.seq .life{stroke:color-mix(in srgb,var(--accent) 35%,var(--line));stroke-dasharray:4 5}
+.seq .actor text{fill:#fff;font-family:var(--f-head)}
+.seq .life{stroke:color-mix(in srgb,var(--accent) 30%,var(--line));stroke-dasharray:4 5}
 .seq .cpill{fill:var(--surface);stroke:var(--accent);stroke-width:1}
 .seq .msg line{stroke:var(--muted);stroke-width:1.5}
 .seq .msg polygon{fill:var(--muted)}
 .seq .msg .cap{font-size:13px;fill:var(--muted)}
-.seq .msg.on line{stroke:url(#gMsg);stroke-width:3;filter:url(#glow);stroke-dasharray:640;stroke-dashoffset:640;animation:draw .8s ease forwards}
-.seq .msg.on polygon{fill:var(--accent-2);animation:fadein .2s ease .7s both}
+.seq .msg.on line{stroke:url(#gMsg);stroke-width:3;stroke-dasharray:640;stroke-dashoffset:640;animation:draw .8s ease forwards}
+.seq .msg.on polygon{fill:var(--accent);animation:fadein .2s ease .7s both}
 .seq .msg.on .cap{fill:var(--ink);font-weight:600}
 .seq .msg.past line{stroke:var(--ink);opacity:.55}
 .seq .msg.past polygon{fill:var(--ink);opacity:.55}
-.seq .pkt{fill:#fff;stroke:var(--accent);stroke-width:3;filter:url(#glow)}
+.seq .pkt{fill:#fff;stroke:var(--accent);stroke-width:3}
 .seq.swap{animation:swapin .4s ease}
 @keyframes swapin{from{opacity:.2;transform:translateY(4px)}}
 @keyframes draw{to{stroke-dashoffset:0}}
 @keyframes fadein{from{opacity:0}}
-.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:var(--muted)}
 .facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
 @media (max-width:900px){.facts{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:460px){.facts{grid-template-columns:minmax(0,1fr)}}
-.facts div{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:8px 10px;display:flex;flex-direction:column;gap:2px;font-size:13px}
-.facts i{font-style:normal;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.facts div{display:flex;gap:10px;align-items:flex-start;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px;font-size:13px}
+.facts .ic{width:32px;height:32px;font-size:16px;border-radius:9px}
+.facts p{display:flex;flex-direction:column;gap:2px}
+.facts i{font-style:normal;font-family:var(--f-head);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .seqlist{display:none;list-style:none;margin:0;padding:0;flex-direction:column;gap:8px}
-.seqlist li{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--bg);transition:border-color .3s,box-shadow .3s}
-.seqlist .n{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-mono);font-size:12px;font-weight:600;background:var(--accent-soft);color:var(--accent)}
+.seqlist li{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--bg)}
+.seqlist .n{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-mono);font-size:12px;font-weight:600;background:var(--accent-soft);color:var(--accent-ink)}
 .seqlist div{display:flex;flex-direction:column;gap:2px;min-width:0}
-.seqlist small{font-size:11.5px;color:var(--muted);font-weight:500}
-.seqlist b{font-size:14px;font-weight:600;line-height:1.35}
-.seqlist li.on{background:linear-gradient(var(--surface),var(--surface)) padding-box,var(--grad) border-box;border:1.5px solid transparent;box-shadow:0 8px 22px -14px color-mix(in srgb,var(--accent) 80%,transparent)}
+.seqlist small{font-size:11.5px;color:var(--muted)}
+.seqlist b{font-size:14px;font-weight:600}
+.seqlist li.on{border-color:var(--accent);box-shadow:0 8px 22px -14px rgba(228,35,19,.8)}
 .seqlist li.on .n{background:var(--grad);color:#fff}
-.seqlist li.past .n{background:color-mix(in srgb,var(--accent) 35%,var(--line));color:#fff}
 
-/* test matrix */
-.glhead{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px}
-.glcount{font-family:var(--f-mono);font-size:13px;font-weight:700;color:#fff;background:var(--grad);padding:3px 12px;border-radius:99px}
-.glcount.all{background:var(--ok)}
-.glist{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px 16px}
-@media (max-width:760px){.glist{grid-template-columns:minmax(0,1fr)}}
-.glist label{display:flex;gap:10px;align-items:flex-start;padding:5px 8px;border-radius:10px;cursor:pointer;font-size:13.5px;transition:background .2s}
-.glist label:hover{background:var(--accent-soft)}
-.glist input{width:18px;height:18px;margin:1px 0 0;flex:none;accent-color:var(--ok)}
-.glist small{display:block;color:var(--muted);font-size:12.5px}
-.glist input:checked+span{color:var(--muted)}
-.glist input:checked+span b{text-decoration:line-through}
+/* certification tiles */
+.certhead{display:flex;align-items:center;gap:14px}
+.ring{width:56px;height:56px;flex:none}
+.ring circle{fill:none;stroke-width:6}
+.ring .bg{stroke:var(--line)}
+.ring .fg{stroke:var(--ok);stroke-linecap:round;transition:stroke-dashoffset .4s ease;transform:rotate(-90deg);transform-origin:50% 50%}
+.ring text{font-family:var(--f-head);font-size:13px;font-weight:700;fill:var(--ink)}
+.ctile{all:unset;box-sizing:border-box;cursor:pointer;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:10px 12px;display:flex;gap:10px;align-items:flex-start;transition:border-color .2s,background .2s}
+.ctile .ic{width:34px;height:34px;font-size:17px;border-radius:10px;background:var(--surface);border:1px solid var(--line)}
+.ctile b{font-family:var(--f-head);font-size:13.5px;font-weight:600;display:block;line-height:1.25}
+.ctile span span{font-size:12px;color:var(--muted)}
+.ctile:hover{border-color:var(--accent)}
+.ctile[aria-pressed="true"]{background:var(--ok-soft);border-color:var(--ok)}
+.ctile[aria-pressed="true"] .ic{background:var(--ok);border-color:var(--ok);color:#fff;font-size:0}
+.ctile[aria-pressed="true"] .ic::after{content:"✓";font-size:18px;font-weight:700}
+.ctile:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
-/* failure handling */
-.fbgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-@media (max-width:900px){.fbgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:560px){.fbgrid{grid-template-columns:minmax(0,1fr)}}
-.fb{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:6px;border-top:3px solid var(--bad)}
-.fb b{font-size:14.5px}
-.fb p{font-size:13px;color:var(--muted);display:flex;flex-direction:column;gap:2px}
-.fb i{font-style:normal;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
-.fb p:last-child i{color:var(--ok)}
+/* failures */
+.fcard{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:8px}
+.fcard .top{display:flex;gap:10px;align-items:center}
+.fcard .top .ic{background:var(--bad-soft)}
+.fcard .top b{font-family:var(--f-head);font-size:14.5px;font-weight:600;line-height:1.25}
+.fl{display:flex;gap:8px;align-items:flex-start;font-size:12.5px}
+.fl em{font-style:normal;flex:none;font-family:var(--f-head);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:6px;margin-top:1px}
+.fl.d em{background:var(--blue-soft);color:var(--blue)}
+.fl.a em{background:var(--ok-soft);color:var(--ok)}
 
-/* run & escalate */
-pre.code{font-variant-ligatures:none;margin:0;overflow-x:auto;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-family:var(--f-mono);font-size:12px;line-height:1.6;color:var(--ink)}
-pre.code .c{color:var(--muted)}
-pre.code .k{color:var(--accent);font-weight:600}
-.esc{display:flex;flex-direction:column;gap:6px;font-size:13.5px;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
-.esc b{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-right:6px}
-.esc .subj{font-family:var(--f-mono);font-size:12.5px;color:var(--ink);font-weight:600}
+/* run & escalate: chart */
+.chart{position:relative}
+.chart svg{display:block;width:100%;height:auto}
+.chart .grid{stroke:var(--line);stroke-width:1}
+.chart .axis{font-family:var(--f-mono);font-size:11px;fill:var(--muted)}
+.chart .cat{font-family:var(--f-head);font-size:12.5px;font-weight:600;fill:var(--ink)}
+.chart .catn{font-size:11px;fill:var(--muted)}
+.chart .val{font-family:var(--f-mono);font-size:11px;fill:var(--ink)}
+.chart .b1{fill:var(--c1)}.chart .b2{fill:var(--c2)}
+.chart .hit{fill:transparent}
+.chart path.hl{opacity:.75}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--surface);font-size:12px;padding:6px 9px;border-radius:8px;white-space:nowrap;opacity:0;transform:translate(-50%,-120%);transition:opacity .15s}
+.tip.on{opacity:1}
+.callout{display:flex;gap:10px;align-items:center;font-size:13px;background:var(--warn-soft);border-radius:12px;padding:8px 12px}
+.mail{background:var(--bg);border:1px solid var(--line);border-radius:14px;overflow:hidden;font-size:13px}
+.mail .mh{display:flex;align-items:center;gap:6px;padding:8px 12px;border-bottom:1px solid var(--line);background:var(--surface)}
+.mail .mh i{width:10px;height:10px;border-radius:50%;background:var(--line);display:inline-block}
+.mail .mh .note{margin-left:6px}
+.mail .subj{padding:10px 12px 4px;font-family:var(--f-head);font-weight:600;font-size:13.5px}
+.mail dl{margin:0;padding:4px 12px 12px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 10px}
+.mail dt{font-family:var(--f-head);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding-top:2px}
+.mail dd{margin:0}
+pre.sql{margin:0;overflow-x:auto;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-family:var(--f-mono);font-variant-ligatures:none;font-size:12px;line-height:1.6}
+pre.sql .c{color:var(--muted)}pre.sql .k{color:var(--accent-ink);font-weight:600}
+@media screen{.js #run:not(.sqlon) pre.sql{display:none}}
 
-/* api kit */
-.kit{display:flex;flex-direction:column;gap:12px}
-.kit>div b{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
-.reqs{list-style:none;margin:4px 0 0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-@media (max-width:640px){.reqs{grid-template-columns:minmax(0,1fr)}}
-.reqs li{display:flex;gap:10px;align-items:flex-start;padding:7px 10px;border-radius:10px;background:var(--bg);border:1px solid var(--line);font-size:14px;font-weight:500}
-.reqs .m{flex:none;font-family:var(--f-mono);font-size:11px;font-weight:700;color:#fff;background:var(--grad);padding:2px 7px;border-radius:6px;margin-top:1px}
-.reqs small{display:block;font-size:12px;font-weight:400;color:var(--muted)}
-.kitd{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding-top:14px;border-top:1px solid var(--line)}
-.kitd .hint{flex:1;min-width:220px}
-
-/* best practices */
-.bpgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
-@media (max-width:900px){.bpgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:520px){.bpgrid{grid-template-columns:minmax(0,1fr)}}
-.bpc{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px;display:grid;grid-template-columns:40px minmax(0,1fr);gap:2px 12px;transition:transform .2s ease,box-shadow .2s ease}
-.bpc:hover{transform:translateY(-3px);box-shadow:0 14px 30px -18px color-mix(in srgb,var(--accent) 60%,transparent)}
-.bpc .ic{grid-row:span 2;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-size:20px;background:var(--accent-soft)}
-.bpc b{font-size:14.5px;line-height:1.3}
-.bpc p{font-size:13.5px;color:var(--muted)}
+/* api pipeline */
+.pipe{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
+.pipe div{position:relative;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:12px 10px;display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+.pipe div:not(:last-child)::after{content:"";position:absolute;right:-10px;top:24px;border:5px solid transparent;border-left:7px solid var(--accent);border-right:0}
+.pipe .m{font-family:var(--f-mono);font-size:10.5px;font-weight:700;color:#fff;background:var(--grad);padding:2px 7px;border-radius:6px}
+.pipe .m.get{background:var(--blue)}
+.pipe b{font-family:var(--f-head);font-size:13.5px;font-weight:600;line-height:1.25}
+.pipe span{font-size:12px;color:var(--muted)}
+@media (max-width:900px){.pipe{grid-template-columns:repeat(2,minmax(0,1fr))}.pipe div::after{display:none}}
+.kitd{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.kitd .note{flex:1;min-width:220px}
 
 /* rails strip on narrow screens */
 .rstrip{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,150px),1fr));gap:8px}
 .rstrip button{font:inherit;text-align:left;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:9px 12px;display:flex;flex-direction:column;gap:2px;cursor:pointer}
 .rstrip button.on,.rstrip button:hover{border-color:var(--accent);background:var(--accent-soft)}
 .rstrip b{font-weight:600;font-size:14px}
-.rstrip span{font-size:13px;color:var(--accent);font-weight:500}
+.rstrip span{font-size:13px;color:var(--accent-ink)}
 .rstrip em{font-style:normal;font-family:var(--f-mono);font-size:12px;color:var(--muted)}
-.sig{color:var(--ink)}
-.sig a{color:var(--accent)}
+.sig a{color:var(--accent-ink)}
 
-/* animation: content stays visible without JS; .js turns the reveals on */
-header>*{animation:rise .7s cubic-bezier(.2,.7,.2,1) both}
-header>:nth-child(2){animation-delay:.08s}
+/* motion */
+.hero>*{animation:rise .7s cubic-bezier(.2,.7,.2,1) both}
 @keyframes rise{from{opacity:0;transform:translateY(14px)}}
-.js .step .dot{opacity:0;transform:scale(.4);transition:opacity .3s,transform .5s cubic-bezier(.3,1.6,.5,1)}
-.js .step .line{transform:scaleY(0);transform-origin:top;transition:transform .9s ease .35s}
-.js .step .body{opacity:0;transform:translateY(14px);transition:opacity .5s ease .1s,transform .5s ease .1s}
-.js .step.in .dot,.js .step.in .body{opacity:1;transform:none}
-.js .step.in .line{transform:none}
-.js .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.js .reveal{opacity:0;transform:translateY(16px);transition:opacity .55s ease,transform .55s ease}
 .js .reveal.in{opacity:1;transform:none}
+.panel.cur{animation:rise .35s ease both}
 
 /* phone */
 @media (max-width:640px){
-  .wrap{padding-top:20px;gap:34px}
-  header{padding:70px 20px 26px;border-radius:16px}
-  header h1{padding-right:0}
-  .hero-btn{top:16px;right:16px;font-size:13px;padding:7px 14px}
-  .hero-btn span{display:none}
+  .wrap{padding-top:18px}
+  .hero{padding:22px 20px;border-radius:18px}
   h1{font-size:28px}
-  header .sub{font-size:15px}
-  .phases{gap:6px;font-size:13px}
-  .phases span{padding:5px 11px}
-  .phases em{flex-basis:100%;margin:4px 0 0;font-size:16px}
-  .demo{padding:14px;gap:14px}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stat:first-child{grid-column:1/-1}
+  .fold{padding:12px 14px}
+  .fh .ic{display:none}
   .rails{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
-  .bar{flex-wrap:wrap;margin-top:0}
+  .bar{flex-wrap:wrap}
   .bar .lbl{flex:1}
   .bar .seqcap{order:3;flex-basis:100%;text-align:start}
   .seqwrap{display:none}
@@ -363,34 +374,33 @@ header>:nth-child(2){animation-delay:.08s}
   .kitd .btn{width:100%}
 }
 
-/* print */
+/* print: everything open, light, no controls */
 @media print{
   @page{size:A4;margin:12mm}
   :root,:root[data-theme="dark"],:root:not([data-theme="light"]){
-    --bg:#f5f8f8; --surface:#ffffff; --ink:#0f1a1c; --muted:#55676a; --line:#dcebe8;
-    --accent:#0b7a6f; --accent-2:#2563eb; --accent-soft:#e6f6f3; --ok:#1f7a4a; --bad:#b42318; color-scheme:light}
+    --bg:#f7f7f7; --surface:#ffffff; --ink:#1f1f1f; --muted:#5c5c5c; --line:#e8e8e8;
+    --accent:#e42313; --accent-ink:#b8180b; --accent-soft:#fdecea; --blue:#3650ac; --blue-soft:#ebf0f9;
+    --ok:#008a00; --ok-soft:#e6f3e6; --bad:#da291c; --bad-soft:#fbeae8; --warn:#9a5b00; --warn-soft:#fff3ec; --c1:#d9772e; --c2:#3650ac; color-scheme:light}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact;animation:none!important;transition:none!important}
   body{background:#fff;font-size:13px}
   .layout{display:block;padding:0}
-  .wrap{padding:0;gap:22px}
-  header{padding:26px 28px}
-  header h1{padding-right:0}
-  .hero-btn,.toc,.stepnav,.foldbar,#play,.track,.railcol,.bar .seqcap,.kitd .btn,.live::before{display:none!important}
-  #rails{display:flex!important}
-  .js .step .dot,.js .step .body,.js .reveal,.js .step .line,header>*{opacity:1!important;transform:none!important}
-  .demo{grid-template-columns:minmax(0,1fr);box-shadow:none}
+  .wrap{padding:0;gap:16px}
+  .toc,.stepnav,.foldbar,#play,.track,.railcol,.bar .seqcap,.kitd .btn,#sqlbtn,.live::before,.certhead{display:none!important}
+  #rails{display:none!important}
+  .js .reveal,.hero>*{opacity:1!important;transform:none!important}
+  .panel{break-inside:avoid}
+  .demo{grid-template-columns:minmax(0,1fr)}
   .seqwrap{display:block!important;overflow:visible}
   .seq{min-width:0}
   .seqlist{display:none!important}
-  .phases em{background:none!important;color:var(--accent)!important;-webkit-text-fill-color:var(--accent)}
-  .card,.bpc,.kpis div,.reqs li,.pf div,.fb,.step,.gr,.glist li,.dm tr,.facts div,.opts div{box-shadow:none!important;break-inside:avoid}
-  h2,h3{break-after:avoid}
-  .tw{overflow:visible}
+  .tile,.cred,.vs,.frow,.lane,.ctile,.fcard,.pipe div,.gr,.facts div,.mail,.chart,.stat{break-inside:avoid}
+  .fold{box-shadow:none}
+  .fh{break-after:avoid}
   #failures{break-before:page}
 }
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
-  .js .step .dot,.js .step .body,.js .reveal,.js .step .line{opacity:1!important;transform:none!important}
+  .js .reveal{opacity:1!important;transform:none!important}
 }
 </style>
 </head>
@@ -414,240 +424,188 @@ header>:nth-child(2){animation-delay:.08s}
   <div class="srails">
     <span class="toct">Rails I plan for</span>
     <div class="sraill" id="sraill"></div>
-    <p class="snote">Click a rail to see its payout flow.</p>
   </div>
 </nav>
 
 <div class="wrap">
-<header>
-  <a class="hero-btn" href="payout-rails-playbook.pdf" download>⬇ <span>Download </span>PDF</a>
-  <h1>Payout Rails Partner Onboarding Playbook</h1>
-  <p class="sub">How I would take a new payout partner from API review to a stable live corridor, and keep it there.</p>
+<header class="hero">
+  <div>
+    <span class="kicker">Solutions Engineering · Payout Rails</span>
+    <h1>Payout Rails Partner Onboarding Playbook</h1>
+    <p class="sub">How I would take a new payout partner from API review to a stable live corridor, and keep it there.</p>
+  </div>
+  <svg class="route" viewBox="0 0 440 210" role="img" aria-label="Money moves from the sender, through the payout partner and the local rail, to the beneficiary">
+    <path id="rp" class="path" d="M70 60 C 150 60, 150 150, 220 150 S 290 60, 370 60"/>
+    <circle class="coin" r="6"><animateMotion dur="3.2s" repeatCount="indefinite"><mpath href="#rp"/></animateMotion></circle>
+    <g class="node"><rect x="10" y="30" width="120" height="60" rx="16"/><text x="70" y="58" text-anchor="middle" font-size="22">💸</text><text x="70" y="80" text-anchor="middle" font-size="12" font-weight="600">Sender</text></g>
+    <g class="node"><rect x="160" y="120" width="120" height="60" rx="16"/><text x="220" y="148" text-anchor="middle" font-size="22">🔌</text><text x="220" y="170" text-anchor="middle" font-size="12" font-weight="600">Payout partner</text></g>
+    <g class="node"><rect x="310" y="30" width="120" height="60" rx="16"/><text x="370" y="58" text-anchor="middle" font-size="22">🏦</text><text x="370" y="80" text-anchor="middle" font-size="12" font-weight="600">Rail → bank / wallet</text></g>
+  </svg>
 </header>
+
+<div class="stats" aria-label="Playbook at a glance">
+  <div class="stat"><b>7</b><span>steps,<br>one owner</span></div>
+  <div class="stat"><b>8</b><span>rails in the<br>live demo</span></div>
+  <div class="stat"><b>12</b><span>certification<br>tests</span></div>
+  <div class="stat"><b>6</b><span>failure modes<br>handled</span></div>
+  <div class="stat"><b>8</b><span>weeks to launch<br><em class="pill">Proposed</em></span></div>
+</div>
 
 <section id="flow">
   <h2>At a glance: onboarding a payout partner</h2>
-  <p class="phases"><span>Review <small>1–2</small></span><i>→</i><span>Map <small>3</small></span><i>→</i><span>Specify <small>4</small></span><i>→</i><span>Certify <small>5</small></span><i>→</i><span>Launch <small>6</small></span><i>→</i><span>Run <small>7</small></span><em>One owner per connection, into production.</em></p>
-  <nav class="stepnav" aria-label="Onboarding steps">
-    <a href="#step-1"><span><i>1</i>🔍</span>API review</a><a href="#step-2"><span><i>2</i>🔐</span>Credentials</a><a href="#step-3"><span><i>3</i>🗺️</span>Corridor mapping</a><a href="#step-4"><span><i>4</i>📐</span>Integration spec</a><a href="#step-5"><span><i>5</i>🧪</span>Certification</a><a href="#step-6"><span><i>6</i>🚀</span>Launch</a><a href="#step-7"><span><i>7</i>📈</span>Run &amp; improve</a>
-  </nav>
-  <ol class="flow">
-    <li class="step" id="step-1"><div class="rail"><span class="dot">1</span><span class="line"></span></div>
-      <div class="body"><h3><span class="emo" aria-hidden="true">🔍</span>Partner API review<span class="tag">Status model · limits · cutoffs</span></h3>
-        <div class="pf"><div class="p"><b>✕</b><span>The spec says "real-time", but credits land in batches hours later.</span></div>
-        <div class="f"><b>✓</b><span>Review the spec and sandbox against a fixed question list: status model, idempotency, callbacks, limits, cutoffs and error codes.</span></div></div>
-        <p class="donew"><span aria-hidden="true">🏁</span><b>Done when:</b> The partner confirms the status model in writing, and every gap has an owner.</p></div></li>
-    <li class="step" id="step-2"><div class="rail"><span class="dot">2</span><span class="line"></span></div>
-      <div class="body"><h3><span class="emo" aria-hidden="true">🔐</span>Environments and credential exchange<span class="tag">OAuth 2.0 · mTLS · JWT · API keys</span></h3>
-        <div class="pf"><div class="p"><b>✕</b><span>UAT blocked for a week by a certificate with the wrong chain, and a secret shared over email.</span></div>
-        <div class="f"><b>✓</b><span>Exchange certificates and secrets over an agreed secure channel, allowlist IPs, and log every expiry date on day one.</span></div></div>
-        <p class="donew"><span aria-hidden="true">🏁</span><b>Done when:</b> A sandbox call passes with mTLS and OAuth, and every expiry date has an alert.</p></div></li>
-    <li class="step" id="step-3"><div class="rail"><span class="dot">3</span><span class="line"></span></div>
-      <div class="body"><h3><span class="emo" aria-hidden="true">🗺️</span>Corridor and rail configuration<span class="tag">Field mappings · alias validation · error codes</span></h3>
-        <div class="pf"><div class="p"><b>✕</b><span>Partner code <code>E17</code> maps to "generic failure", so nobody knows whether to retry, refund or fix.</span></div>
-        <div class="f"><b>✓</b><span>Map every field and validation rule per rail, and every partner code to a canonical code that is final, retryable, hold or unknown.</span></div></div>
-        <p class="donew"><span aria-hidden="true">🏁</span><b>Done when:</b> Every partner error code is mapped, and unmapped codes raise an alert. <a href="#mapping">See the mapping</a>.</p></div></li>
-    <li class="step" id="step-4"><div class="rail"><span class="dot">4</span><span class="line"></span></div>
-      <div class="body"><h3><span class="emo" aria-hidden="true">📐</span>Integration spec<span class="tag">Sequence diagrams · test matrix</span></h3>
-        <div class="pf"><div class="p"><b>✕</b><span>Engineering builds from the partner's PDF, and three people read it three ways.</span></div>
-        <div class="f"><b>✓</b><span>One spec per corridor: sequence diagram, field mappings, validation rules and the test matrix. See the <a href="#blueprint">corridor blueprint</a>.</span></div></div>
-        <p class="donew"><span aria-hidden="true">🏁</span><b>Done when:</b> The partner and our platform team both sign off the spec.</p></div></li>
-    <li class="step" id="step-5"><div class="rail"><span class="dot">5</span><span class="line"></span></div>
-      <div class="body"><h3><span class="emo" aria-hidden="true">🧪</span>Certification<span class="tag">Raw traces as evidence</span></h3>
-        <div class="pf"><div class="p"><b>✕</b><span>Only the happy path was tested, and the first production timeout paid out twice.</span></div>
-        <div class="f"><b>✓</b><span>Run the full test matrix: timeouts, duplicates, rejects, callbacks, cutoffs and signature failures, with the raw request and response kept for each case.</span></div></div>
-        <p class="donew"><span aria-hidden="true">🏁</span><b>Done when:</b> Every case in the <a href="#cert">test matrix</a> passes with its traces, and the partner certifies.</p></div></li>
-    <li class="step" id="step-6"><div class="rail"><span class="dot">6</span><span class="line"></span></div>
-      <div class="body"><h3><span class="emo" aria-hidden="true">🚀</span>Launch<span class="tag">Compliance · Commercial sign-off</span><span class="tag">Controlled ramp</span></h3>
-        <div class="pf"><div class="p"><b>✕</b><span>Full volume on day one, and one mapping bug reaches thousands of payouts.</span></div>
-        <div class="f"><b>✓</b><span>Compliance and Commercial sign off, then a ramp: limited volume first, with live monitoring and both on-call contacts confirmed.</span></div></div>
-        <p class="donew"><span aria-hidden="true">🏁</span><b>Done when:</b> The ramp completes with every SLA at target.</p></div></li>
-    <li class="step" id="step-7"><div class="rail"><span class="dot">7</span><span class="line"></span></div>
-      <div class="body"><h3><span class="emo" aria-hidden="true">📈</span>Run, escalate and improve<span class="tag">SLAs · rejection rates · roadmap</span></h3>
-        <div class="pf"><div class="p"><b>✕</b><span>Each failure is handled as a one-off ticket, and the same problem returns every week.</span></div>
-        <div class="f"><b>✓</b><span>A weekly review from transaction data, evidence-based escalations to the partner, and recurring causes fixed in the platform.</span></div></div>
-        <span class="flag">Proposed targets · to agree in the partner SLA</span>
-        <div class="kpis">
-          <div><span class="ki">✅</span><b>Success rate <em class="pill">Proposed</em></b><p>By corridor and rail, with an alert on a drop against the weekly baseline.</p></div>
-          <div><span class="ki">⛔</span><b>Rejection rate <em class="pill">Proposed</em></b><p>By reason code, so a spike points at one cause, not "failures went up".</p></div>
-          <div><span class="ki">⏱️</span><b>Time to credit <em class="pill">Proposed</em></b><p>p95 against the partner's SLA, split by instant and batch rails.</p></div>
-          <div><span class="ki">❓</span><b>Unmapped codes <em class="pill">Proposed</em></b><p>Target zero; each new code is mapped before the next weekly review.</p></div>
-        </div>
-        <p class="donew"><span aria-hidden="true">🏁</span><b>Done when:</b> Every recurring failure has an owner: a partner fix, a platform fix or a roadmap item.</p></div></li>
-  </ol>
+  <div class="stepnav" id="stepnav" role="tablist" aria-label="Onboarding steps"></div>
+  <div id="panels"></div>
 </section>
 
 <div class="foldbar"><span class="lbl">Deep dives · click to open</span><button class="btn ghost" id="foldall" type="button">Expand all</button></div>
 
-<section class="reveal fold" id="plan">
-  <h2>Delivery plan <em class="pill">Proposed</em></h2>
-  <p class="sum">8 weeks for one partner and one corridor; Compliance review runs alongside the build.</p>
-  <p class="note">A typical 8-week path for one partner and one corridor. Compliance review runs alongside the build, so it never blocks launch at the end.</p>
-  <div class="card gantt" role="table" aria-label="Delivery plan">
+<section class="fold reveal" id="plan">
+  <div class="fh"><span class="ic">🗓️</span><div><h2>Delivery plan <em class="pill">Proposed</em></h2><p>8 weeks, one partner, one corridor. Compliance runs alongside the build.</p></div></div>
+  <div class="gantt" role="table" aria-label="Delivery plan">
     <div class="gr gh"><div class="gl"></div><div class="gt"><span>W1</span><span>W2</span><span>W3</span><span>W4</span><span>W5</span><span>W6</span><span>W7</span><span>W8</span></div></div>
-    <div class="gr"><div class="gl"><b>API review</b><span><em>SE</em> · Partner tech, Commercial</span></div><div class="gt"><span class="gb" style="grid-column:1/2">W1</span></div></div>
-    <div class="gr"><div class="gl"><b>Credentials &amp; sandbox</b><span><em>SE</em> · Partner tech, Security</span></div><div class="gt"><span class="gb" style="grid-column:1/3">W1–2</span></div></div>
-    <div class="gr"><div class="gl"><b>Corridor mapping &amp; spec</b><span><em>SE</em> · Platform engineering, Partner</span></div><div class="gt"><span class="gb" style="grid-column:2/4">W2–3</span></div></div>
-    <div class="gr"><div class="gl"><b>Compliance review</b><span><em>Compliance</em> · SE</span></div><div class="gt"><span class="gb par" style="grid-column:2/7">W2–6</span></div></div>
-    <div class="gr"><div class="gl"><b>Build &amp; certification</b><span><em>Platform eng</em> · SE, Partner QA</span></div><div class="gt"><span class="gb" style="grid-column:4/7">W4–6</span></div></div>
-    <div class="gr"><div class="gl"><b>Launch &amp; ramp</b><span><em>SE</em> · Operations, Commercial</span></div><div class="gt"><span class="gb" style="grid-column:7/8">W7</span></div></div>
-    <div class="gr"><div class="gl"><b>Hypercare</b><span><em>SE</em> · Partner ops, Support</span></div><div class="gt"><span class="gb" style="grid-column:7/9">W7–8</span></div></div>
+    <div class="gr"><div class="gl"><b>🔍 API review</b><span><em>SE</em> · Partner tech, Commercial</span></div><div class="gt"><span class="gb" style="grid-column:1/2">W1</span></div></div>
+    <div class="gr"><div class="gl"><b>🔐 Credentials &amp; sandbox</b><span><em>SE</em> · Partner tech, Security</span></div><div class="gt"><span class="gb" style="grid-column:1/3">W1–2</span></div></div>
+    <div class="gr"><div class="gl"><b>🗺️ Mapping &amp; spec</b><span><em>SE</em> · Platform eng, Partner</span></div><div class="gt"><span class="gb" style="grid-column:2/4">W2–3</span></div></div>
+    <div class="gr"><div class="gl"><b>🛡️ Compliance review</b><span><em>Compliance</em> · SE</span></div><div class="gt"><span class="gb par" style="grid-column:2/7">W2–6</span></div></div>
+    <div class="gr"><div class="gl"><b>🧪 Build &amp; certification</b><span><em>Platform eng</em> · SE, Partner QA</span></div><div class="gt"><span class="gb" style="grid-column:4/7">W4–6</span></div></div>
+    <div class="gr"><div class="gl"><b>🚀 Launch &amp; ramp</b><span><em>SE</em> · Ops, Commercial</span></div><div class="gt"><span class="gb" style="grid-column:7/8">W7</span></div></div>
+    <div class="gr"><div class="gl"><b>📈 Hypercare</b><span><em>SE</em> · Partner ops, Support</span></div><div class="gt"><span class="gb" style="grid-column:7/9">W7–8</span></div></div>
   </div>
-  <p class="hint">SE = solutions engineer, who owns the connection. The bold name leads; the others support.</p>
+  <div class="legendrow"><span><i class="sw" style="background:var(--grad)"></i>In sequence</span><span><i class="sw" style="background:var(--blue)"></i>In parallel</span><span>SE = solutions engineer, who owns the connection; the coloured name leads</span></div>
 </section>
 
-<section class="reveal fold" id="review">
-  <h2>API review &amp; credentials</h2>
-  <p class="sum">Ten questions for the partner's API, and how each credential is exchanged and rotated.</p>
-  <div class="duo">
-    <div class="card">
-      <h3>Partner API review questions</h3>
-      <ol class="qlist">
-        <li>Is the payout API synchronous, asynchronous with a callback, or both? Which signal is final?</li>
-        <li>What is the full status model? Which states are final, and can a final state still change (returns, reversals)?</li>
-        <li>Which field carries idempotency, how long is it honoured, and what does a duplicate return?</li>
-        <li>Is there a status enquiry by our reference, and what are its rate limits?</li>
-        <li>How are callbacks signed and retried? Is ordering guaranteed? Which IP ranges send them?</li>
-        <li>Is account or alias validation available before sending, and does it return the account name?</li>
-        <li>What are the per-transaction and daily limits, batch windows, cutoffs and holidays?</li>
-        <li>What is the full error list? ISO 20022 reason codes or proprietary, and which are final?</li>
-        <li>How do prefunding, settlement and the settlement report work, and when do they arrive?</li>
-        <li>What screening does the partner run, and how does a compliance hold or reject reach us?</li>
-      </ol>
-    </div>
-    <div class="card">
-      <h3>Credential exchange</h3>
-      <div class="tw"><table class="dm" style="min-width:0">
-        <thead><tr><th>Method</th><th>Used for</th><th>Rotation</th></tr></thead>
-        <tbody>
-          <tr><td>OAuth 2.0</td><td data-label="Used for">Client-credentials token for API calls; cache until expiry</td><td data-label="Rotation">Rotate the client secret on a schedule</td></tr>
-          <tr><td>mTLS</td><td data-label="Used for">Both sides prove identity at the transport layer</td><td data-label="Rotation">New certificate before expiry, old and new both trusted for an overlap</td></tr>
-          <tr><td>JWT</td><td data-label="Used for">Signed requests or assertions; key chosen by <code>kid</code></td><td data-label="Rotation">Publish the new key first, then switch signing</td></tr>
-          <tr><td>API key</td><td data-label="Used for">Simple or legacy endpoints</td><td data-label="Rotation">Rotate; never in logs or URLs</td></tr>
-          <tr><td>Webhook HMAC</td><td data-label="Used for">Proves a callback came from the partner</td><td data-label="Rotation">Two secrets valid during rotation</td></tr>
-        </tbody>
-      </table></div>
-      <div class="lbl">Cryptography pitfalls I check for</div>
-      <ul class="ticks">
-        <li>AES-256-GCM authenticates the data; CBC does not, so it needs a separate MAC and is open to padding-oracle mistakes.</li>
-        <li>Hex versus Base64: agree the encoding of keys, IVs and signatures; a mismatch looks like "invalid signature".</li>
-        <li>Sign and verify the raw body bytes, not re-serialised JSON, and include a timestamp to stop replays.</li>
-        <li>RSA for signatures or key wrapping, with the padding scheme written into the spec.</li>
-      </ul>
-    </div>
+<section class="fold reveal" id="review">
+  <div class="fh"><span class="ic">🔍</span><div><h2>API review &amp; credentials</h2><p>Ten questions before any build, and how each credential is exchanged and rotated.</p></div></div>
+  <span class="lbl">Ten questions I ask first</span>
+  <div class="g5">
+    <div class="tile"><span class="ic">⚡</span><b>Sync or async?</b><span>Which signal is final?</span></div>
+    <div class="tile"><span class="ic">🔄</span><b>Status model</b><span>Can a final state change?</span></div>
+    <div class="tile"><span class="ic">🧷</span><b>Idempotency</b><span>Which field, for how long?</span></div>
+    <div class="tile"><span class="ic">📨</span><b>Callbacks</b><span>Signed, retried, ordered?</span></div>
+    <div class="tile"><span class="ic">🔎</span><b>Status enquiry</b><span>By our reference? Rate limits?</span></div>
+    <div class="tile"><span class="ic">✅</span><b>Pre-validation</b><span>Is the account name returned?</span></div>
+    <div class="tile"><span class="ic">📏</span><b>Limits &amp; cutoffs</b><span>Caps, windows, holidays</span></div>
+    <div class="tile"><span class="ic">🧾</span><b>Error list</b><span>ISO 20022 or proprietary?</span></div>
+    <div class="tile"><span class="ic">💰</span><b>Settlement</b><span>Prefunding, report, timing</span></div>
+    <div class="tile"><span class="ic">🛡️</span><b>Compliance</b><span>How do holds reach us?</span></div>
+  </div>
+  <span class="lbl">Credentials</span>
+  <div class="g5">
+    <div class="cred"><span class="ic">🎟️</span><b>OAuth 2.0</b><span>Client-credentials token, cached to expiry</span><span class="chip">🔄 rotate secret</span></div>
+    <div class="cred"><span class="ic">🔗</span><b>mTLS</b><span>Both sides prove identity</span><span class="chip">🔄 old + new overlap</span></div>
+    <div class="cred"><span class="ic">✍️</span><b>JWT</b><span>Signed requests, key by <code>kid</code></span><span class="chip">🔄 publish, then switch</span></div>
+    <div class="cred"><span class="ic">🔑</span><b>API key</b><span>Simple or legacy endpoints</span><span class="chip">🚫 never in logs</span></div>
+    <div class="cred"><span class="ic">📨</span><b>Webhook HMAC</b><span>Proves the callback is real</span><span class="chip">🔄 two secrets live</span></div>
+  </div>
+  <span class="lbl">Cryptography pitfalls</span>
+  <div class="g4">
+    <div class="vs"><div class="y"><b>AES-GCM</b>authenticated</div><i>vs</i><div class="n"><b>AES-CBC</b>needs a MAC</div></div>
+    <div class="vs"><div class="y"><b>Agreed</b>hex or Base64</div><i>vs</i><div class="n"><b>Mixed</b>"bad signature"</div></div>
+    <div class="vs"><div class="y"><b>Raw bytes</b>sign the body</div><i>vs</i><div class="n"><b>Rebuilt</b>JSON drifts</div></div>
+    <div class="vs"><div class="y"><b>Timestamp</b>inside the MAC</div><i>vs</i><div class="n"><b>None</b>replayable</div></div>
   </div>
 </section>
 
-<section class="reveal fold" id="mapping">
-  <h2>Field &amp; error mapping <em class="pill">Sample</em></h2>
-  <p class="sum">Our fields to ISO 20022, and every partner error code to final, retryable, hold or unknown.</p>
-  <div class="card stack" style="gap:10px">
-    <h3>Field mapping</h3>
-    <p class="note">Our canonical fields, the matching ISO 20022 pacs.008 element, and the check that runs before anything is sent. The partner's own field names are added from their spec.</p>
-    <div class="tw"><table class="dm">
-      <thead><tr><th>Our field</th><th>ISO 20022 (pacs.008)</th><th>Validation before send</th></tr></thead>
-      <tbody>
-        <tr><td>Payout reference</td><td data-label="ISO 20022"><code>PmtId/EndToEndId</code></td><td data-label="Validation">Unique per payout, at most 35 characters; also the idempotency anchor</td></tr>
-        <tr><td>Amount + currency</td><td data-label="ISO 20022"><code>IntrBkSttlmAmt @Ccy</code></td><td data-label="Validation">ISO 4217 decimals; within the rail's per-transaction cap</td></tr>
-        <tr><td>Beneficiary name</td><td data-label="ISO 20022"><code>Cdtr/Nm</code></td><td data-label="Validation">Length and character set per rail; transliteration rules agreed</td></tr>
-        <tr><td>Account or alias</td><td data-label="ISO 20022"><code>CdtrAcct/Id</code> · <code>CdtrAcct/Prxy</code></td><td data-label="Validation">Per rail: IBAN mod-97, CLABE check digit, IFSC format, E.164 mobile</td></tr>
-        <tr><td>Beneficiary bank</td><td data-label="ISO 20022"><code>CdtrAgt/FinInstnId</code></td><td data-label="Validation">BIC or clearing-system member ID in the partner's bank list</td></tr>
-        <tr><td>Sender details</td><td data-label="ISO 20022"><code>Dbtr/Nm</code> · <code>Dbtr/PstlAdr</code></td><td data-label="Validation">Originator data the corridor's rules require, complete before send</td></tr>
-        <tr><td>Purpose</td><td data-label="ISO 20022"><code>Purp/Cd</code></td><td data-label="Validation">From the corridor's allowed list</td></tr>
-      </tbody>
-    </table></div>
+<section class="fold reveal" id="mapping">
+  <div class="fh"><span class="ic">🗺️</span><div><h2>Field &amp; error mapping <em class="pill">Sample</em></h2><p>Our fields to ISO 20022, and every partner code sorted into one of four lanes.</p></div></div>
+  <div class="fmap">
+    <div class="frow fhead"><span>Our field</span><span></span><span>ISO 20022 · pacs.008</span><span>Checked before send</span></div>
+    <div class="frow"><span class="our">Payout reference</span><span class="arr"></span><span class="iso">PmtId/EndToEndId</span><span class="chk">Unique, ≤ 35 chars, idempotency anchor</span></div>
+    <div class="frow"><span class="our">Amount + currency</span><span class="arr"></span><span class="iso">IntrBkSttlmAmt @Ccy</span><span class="chk">ISO 4217 decimals, within the rail cap</span></div>
+    <div class="frow"><span class="our">Beneficiary name</span><span class="arr"></span><span class="iso">Cdtr/Nm</span><span class="chk">Length, character set, transliteration</span></div>
+    <div class="frow"><span class="our">Account or alias</span><span class="arr"></span><span class="iso">CdtrAcct/Id · /Prxy</span><span class="chk">IBAN mod-97, CLABE check digit, IFSC, E.164</span></div>
+    <div class="frow"><span class="our">Beneficiary bank</span><span class="arr"></span><span class="iso">CdtrAgt/FinInstnId</span><span class="chk">BIC or clearing ID in the partner's list</span></div>
+    <div class="frow"><span class="our">Sender details</span><span class="arr"></span><span class="iso">Dbtr/Nm · /PstlAdr</span><span class="chk">Originator data the corridor requires</span></div>
+    <div class="frow"><span class="our">Purpose</span><span class="arr"></span><span class="iso">Purp/Cd</span><span class="chk">From the corridor's allowed list</span></div>
   </div>
-  <div class="card stack" style="gap:10px">
-    <h3>Error code mapping</h3>
-    <p class="note">Partner codes here are invented examples; the reason codes in brackets are ISO 20022 external status reason codes.</p>
-    <div class="tw"><table class="dm">
-      <thead><tr><th>Partner code</th><th>Canonical code</th><th>Class</th><th>What we do</th></tr></thead>
-      <tbody>
-        <tr><td><code>P-101</code> account not found</td><td data-label="Canonical"><code>ACCOUNT_INVALID</code> (AC01)</td><td data-label="Class"><span class="cls final">Final</span></td><td data-label="Action">Ask the sender to correct the details; never retry as is</td></tr>
-        <tr><td><code>P-102</code> account closed</td><td data-label="Canonical"><code>ACCOUNT_CLOSED</code> (AC04)</td><td data-label="Class"><span class="cls final">Final</span></td><td data-label="Action">Refund or new beneficiary details</td></tr>
-        <tr><td><code>P-210</code> name mismatch</td><td data-label="Canonical"><code>NAME_MISMATCH</code> (BE01)</td><td data-label="Class"><span class="cls final">Final</span></td><td data-label="Action">Correct the name; track as a transliteration signal</td></tr>
-        <tr><td><code>P-300</code> over limit</td><td data-label="Canonical"><code>LIMIT_EXCEEDED</code> (AM02)</td><td data-label="Class"><span class="cls final">Final</span></td><td data-label="Action">Route to a rail that allows the amount, if policy permits</td></tr>
-        <tr><td><code>P-500</code> partner timeout</td><td data-label="Canonical"><code>TEMPORARY</code></td><td data-label="Class"><span class="cls retry">Retryable</span></td><td data-label="Action">Status enquiry first; retry only with the same idempotency key</td></tr>
-        <tr><td><code>P-777</code> compliance hold</td><td data-label="Canonical"><code>COMPLIANCE_HOLD</code> (RR04)</td><td data-label="Class"><span class="cls hold">Hold</span></td><td data-label="Action">Route to Compliance; never auto-retry or resend on another rail</td></tr>
-        <tr><td>Any code not in the table</td><td data-label="Canonical"><code>UNMAPPED</code></td><td data-label="Class"><span class="cls unk">Unknown</span></td><td data-label="Action">Treat as pending, query status, alert, then add the mapping</td></tr>
-      </tbody>
-    </table></div>
-    <p class="note">How compliance shows up technically: a screening match or a name-matching hit usually arrives as a hold or a regulatory reject, not an error. It goes to the compliance queue with the evidence, and it is never treated as a retryable failure.</p>
+  <span class="lbl">Every partner code lands in one lane</span>
+  <div class="board">
+    <div class="lane final"><h3>❌ Final</h3><p>Fix details or refund. Never retry as is.</p>
+      <div class="code"><b>P-101 → AC01</b><span>Account not found</span></div>
+      <div class="code"><b>P-102 → AC04</b><span>Account closed</span></div>
+      <div class="code"><b>P-210 → BE01</b><span>Name mismatch</span></div>
+      <div class="code"><b>P-300 → AM02</b><span>Over the rail limit</span></div></div>
+    <div class="lane retry"><h3>🔁 Retryable</h3><p>Status enquiry first; retry with the same idempotency key.</p>
+      <div class="code"><b>P-500 → TEMPORARY</b><span>Partner timeout</span></div></div>
+    <div class="lane hold"><h3>🛡️ Hold</h3><p>To Compliance. Never auto-retry or re-route.</p>
+      <div class="code"><b>P-777 → RR04</b><span>Compliance hold</span></div></div>
+    <div class="lane unk"><h3>❓ Unknown</h3><p>Treat as pending, query status, alert, map it.</p>
+      <div class="code"><b>Any new code</b><span>Not in the table</span></div></div>
   </div>
+  <p class="note">P-codes are invented examples; AC01, AC04, BE01, AM02 and RR04 are ISO 20022 external status reason codes.</p>
 </section>
 
-<section class="reveal fold open" id="blueprint">
-  <h2>Corridor blueprint (live demo)<span class="live">Interactive</span></h2>
-  <p class="sum">Pick a rail to see the payout flow, and what to validate before money moves.</p>
-  <div class="card demo">
-    <div class="railcol">
-      <span class="lbl">Corridor · rail</span>
-      <div class="rails" id="railbtns" role="group" aria-label="Corridor"></div>
-    </div>
+<section class="fold reveal open" id="blueprint">
+  <div class="fh"><span class="ic">🧭</span><div><h2>Corridor blueprint <span class="live">Live demo</span></h2><p>Pick a rail: the payout flow, and what to check before money moves.</p></div></div>
+  <div class="demo">
+    <div class="railcol"><div class="rails" id="railbtns" role="group" aria-label="Corridor"></div></div>
     <div class="stage">
       <div class="bar"><span class="lbl">Payout flow</span><span class="seqcap" id="seqcap" aria-live="polite"></span><button class="btn" id="play" type="button">▶ Play</button></div>
       <div class="seqwrap"><svg class="seq" id="seq" viewBox="0 0 800 560" role="img" aria-label="Payout sequence diagram"></svg></div>
       <ol class="seqlist" id="seqlist" aria-label="Payout message flow"></ol>
       <div class="track" id="track"></div>
       <div class="facts" id="facts"></div>
-      <div class="legend"><span>🔒 Signed callback: the status we act on, after verifying it</span><span>Steps 2–3 run before money moves</span></div>
     </div>
   </div>
-  <div class="card stack" style="gap:10px">
-    <h3>Rails primer: what I explain to engineers and business leads</h3>
-    <div class="opts four">
-      <div><b>Clearing vs settlement</b><span>Clearing exchanges and confirms the payment messages; settlement moves the funds between institutions. A "credited" status is not the same as settled.</span></div>
-      <div><b>Instant vs deferred batch</b><span>Instant rails confirm in seconds, all day. Batch rails clear in windows, so cutoffs and holidays decide the credit date.</span></div>
-      <div><b>Alias vs account</b><span>An alias (UPI ID, mobile number) is resolved to an account by the rail or a directory; validating it first avoids most rejections.</span></div>
-      <div><b>ISO 20022 vs ISO 8583</b><span>ISO 20022 (pacs.008 credit, pacs.002 status, camt.05x statements) for account rails; ISO 8583 (MTI 0200/0210, response code in field 39) for card-based payouts.</span></div>
-    </div>
+  <span class="lbl">Rails primer</span>
+  <div class="g4">
+    <div class="vs"><div class="t"><b>Clearing</b>messages agreed</div><i>≠</i><div class="t"><b>Settlement</b>funds move</div></div>
+    <div class="vs"><div class="t"><b>Instant</b>seconds, 24×7</div><i>vs</i><div class="t"><b>Batch</b>windows, cutoffs</div></div>
+    <div class="vs"><div class="t"><b>Alias</b>UPI ID, mobile</div><i>→</i><div class="t"><b>Account</b>resolved by rail</div></div>
+    <div class="vs"><div class="t"><b>ISO 20022</b>pacs.008 / 002</div><i>vs</i><div class="t"><b>ISO 8583</b>cards, field 39</div></div>
   </div>
 </section>
 
-<section class="reveal fold" id="cert">
-  <h2>Certification tests</h2>
-  <p class="sum">Twelve cases every corridor passes before launch, with raw traces kept as evidence.</p>
-  <div class="card stack" style="gap:8px">
-    <div class="glhead"><p class="note">The test matrix every corridor passes before launch, with raw traces kept as evidence. Tick them off to try it.</p><span class="glcount" id="glcount">0 / 12</span></div>
-    <ol class="glist" id="glist">
-      <li><label><input type="checkbox"><span><b>Happy path on each rail</b><small>Credited, signed callback verified, reconciled</small></span></label></li>
-      <li><label><input type="checkbox"><span><b>Invalid account format</b><small>Rejected by our validation, never sent</small></span></label></li>
-      <li><label><input type="checkbox"><span><b>Account not found or closed</b><small>Mapped to AC01 / AC04, marked final</small></span></label></li>
-      <li><label><input type="checkbox"><span><b>Name mismatch</b><small>Mapped, routed per policy</small></span></label></li>
-      <li><label><input type="checkbox"><span><b>Amount over the rail cap</b><small>Rejected or re-routed, as the spec says</small></span></label></li>
-      <li><label><input type="checkbox"><span><b>Same request, same idempotency key</b><small>Same payout returned; no second credit</small></span></label></li>
-      <li><label><input type="checkbox"><span><b>Timeout on create</b><small>Status enquiry resolves it; no new payout</small></span></label></li>
-      <li><label><input type="checkbox"><span><b>Repeated or out-of-order callbacks</b><small>Events deduplicated; a final status never goes backwards</small></span></label></li>
-      <li><label><input type="checkbox"><span><b>Bad callback signature</b><small>Rejected and alerted; status unchanged</small></span></label></li>
-      <li><label><input type="checkbox"><span><b>After cutoff or on a holiday</b><small>Correct expected credit date; not marked failed</small></span></label></li>
-      <li><label><input type="checkbox"><span><b>Return after credit</b><small>Handled as a reversal; ledger updated</small></span></label></li>
-      <li><label><input type="checkbox"><span><b>Key or certificate rotation</b><small>Old and new both work during the overlap</small></span></label></li>
-    </ol>
+<section class="fold reveal" id="cert">
+  <div class="fh"><span class="ic">🧪</span><div><h2>Certification tests</h2><p>Twelve cases every corridor passes before launch, with raw traces as evidence.</p></div></div>
+  <div class="certhead">
+    <svg class="ring" viewBox="0 0 56 56" aria-hidden="true"><circle class="bg" cx="28" cy="28" r="24"/><circle class="fg" id="ringfg" cx="28" cy="28" r="24" stroke-dasharray="150.8" stroke-dashoffset="150.8"/><text x="28" y="32" text-anchor="middle" id="ringtx">0/12</text></svg>
+    <p class="note">Click a test to mark it passed. Not saved; resets on reload.</p>
+  </div>
+  <div class="g4">
+    <button class="ctile" type="button" aria-pressed="false"><span class="ic">✅</span><span><b>Happy path, each rail</b><span>Credited, signed, reconciled</span></span></button>
+    <button class="ctile" type="button" aria-pressed="false"><span class="ic">🔤</span><span><b>Bad account format</b><span>Stopped by our validation</span></span></button>
+    <button class="ctile" type="button" aria-pressed="false"><span class="ic">🚫</span><span><b>Not found or closed</b><span>AC01 / AC04, final</span></span></button>
+    <button class="ctile" type="button" aria-pressed="false"><span class="ic">🆔</span><span><b>Name mismatch</b><span>Mapped, routed per policy</span></span></button>
+    <button class="ctile" type="button" aria-pressed="false"><span class="ic">📏</span><span><b>Over the rail cap</b><span>Rejected or re-routed</span></span></button>
+    <button class="ctile" type="button" aria-pressed="false"><span class="ic">🧷</span><span><b>Same key twice</b><span>One payout, one credit</span></span></button>
+    <button class="ctile" type="button" aria-pressed="false"><span class="ic">⏳</span><span><b>Timeout on create</b><span>Status enquiry, no resend</span></span></button>
+    <button class="ctile" type="button" aria-pressed="false"><span class="ic">🔀</span><span><b>Callbacks out of order</b><span>Final never goes backwards</span></span></button>
+    <button class="ctile" type="button" aria-pressed="false"><span class="ic">🔏</span><span><b>Bad signature</b><span>Rejected and alerted</span></span></button>
+    <button class="ctile" type="button" aria-pressed="false"><span class="ic">⏰</span><span><b>After cutoff or holiday</b><span>Right credit date shown</span></span></button>
+    <button class="ctile" type="button" aria-pressed="false"><span class="ic">↩️</span><span><b>Return after credit</b><span>Reversal, ledger updated</span></span></button>
+    <button class="ctile" type="button" aria-pressed="false"><span class="ic">🔄</span><span><b>Key or cert rotation</b><span>Old and new both work</span></span></button>
   </div>
 </section>
 
-<section class="reveal fold" id="failures">
-  <h2>Failure handling</h2>
-  <p class="sum">Six production failures, how we detect each, and what we do instead of guessing.</p>
-  <p class="note">What breaks in production, how we spot it, and what we do instead of guessing.</p>
-  <div class="fbgrid">
-    <div class="fb"><b>Timeout on create</b><p><i>Detect</i>No response, or a 5xx, after sending the payout</p><p><i>Fallback</i>The state is unknown, not failed. Query status by our reference; retry only with the same idempotency key if the partner confirms it never arrived.</p></div>
-    <div class="fb"><b>Repeated or out-of-order callbacks</b><p><i>Detect</i>Same event again, or an older status after a newer one</p><p><i>Fallback</i>Deduplicate events, not the payout. Allow valid changes such as a return, never move a final status backwards, and reconcile with the status API.</p></div>
-    <div class="fb"><b>Rejection spike on one corridor</b><p><i>Detect</i>Rejection rate for one reason code above its baseline</p><p><i>Fallback</i>Query the data, check our own changes first, then escalate with evidence. Pause or re-route if customers are affected.</p></div>
-    <div class="fb"><b>Unmapped error code</b><p><i>Detect</i>A partner code with no entry in the mapping</p><p><i>Fallback</i>Hold as pending, query status, alert, and add the mapping with the partner's written meaning.</p></div>
-    <div class="fb"><b>Missed cutoff or holiday</b><p><i>Detect</i>Batch payout submitted after the window</p><p><i>Fallback</i>Show the real expected credit date. Queue it; don't mark it failed or resend it.</p></div>
-    <div class="fb"><b>Compliance hold or sanctions match</b><p><i>Detect</i>Hold status or a regulatory reject (RR04)</p><p><i>Fallback</i>Route to Compliance with the evidence. Never auto-retry or resend on another rail to get round it.</p></div>
+<section class="fold reveal" id="failures">
+  <div class="fh"><span class="ic">🚨</span><div><h2>Failure handling</h2><p>Six things that break in production: how we spot each, and what we do.</p></div></div>
+  <div class="g3">
+    <div class="fcard"><div class="top"><span class="ic">⏳</span><b>Timeout on create</b></div><p class="fl d"><em>Detect</em>No response or a 5xx</p><p class="fl a"><em>Do</em>Unknown, not failed: query status; retry only with the same key</p></div>
+    <div class="fcard"><div class="top"><span class="ic">🔀</span><b>Repeated or out-of-order callbacks</b></div><p class="fl d"><em>Detect</em>Same event again, or an older status</p><p class="fl a"><em>Do</em>Dedupe events, not payouts; a final status never goes backwards</p></div>
+    <div class="fcard"><div class="top"><span class="ic">📈</span><b>Rejection spike</b></div><p class="fl d"><em>Detect</em>One reason code above its baseline</p><p class="fl a"><em>Do</em>Rule out our own changes, then escalate with data</p></div>
+    <div class="fcard"><div class="top"><span class="ic">❓</span><b>Unmapped error code</b></div><p class="fl d"><em>Detect</em>Code missing from the map</p><p class="fl a"><em>Do</em>Hold as pending, query, alert, then map it</p></div>
+    <div class="fcard"><div class="top"><span class="ic">⏰</span><b>Missed cutoff or holiday</b></div><p class="fl d"><em>Detect</em>Batch sent after the window</p><p class="fl a"><em>Do</em>Show the real credit date; never resend</p></div>
+    <div class="fcard"><div class="top"><span class="ic">🛡️</span><b>Compliance hold</b></div><p class="fl d"><em>Detect</em>Hold status or RR04</p><p class="fl a"><em>Do</em>To Compliance; never retry or re-route around it</p></div>
   </div>
 </section>
 
-<section class="reveal fold" id="run">
-  <h2>Run &amp; escalate</h2>
-  <p class="sum">A SQL query that turns transaction data into an escalation, and what goes to the roadmap.</p>
-  <div class="duo">
-    <div class="card">
-      <h3>From transaction data to an argument</h3>
-      <p class="note">Rejection rate by reason code, this week against the four weeks before. Table and column names are illustrative.</p>
-<pre class="code"><span class="c">-- Rejection rate by reason code: this week vs the prior 4 weeks</span>
+<section class="fold reveal" id="run">
+  <div class="fh"><span class="ic">📊</span><div><h2>Run &amp; escalate</h2><p>From transaction data to an escalation the partner can act on.</p></div></div>
+  <div class="g4">
+    <div class="tile"><span class="ic">✅</span><b>Success rate <em class="pill">Proposed</em></b><span>By corridor and rail</span></div>
+    <div class="tile"><span class="ic">⛔</span><b>Rejections <em class="pill">Proposed</em></b><span>By reason code</span></div>
+    <div class="tile"><span class="ic">⏱️</span><b>Time to credit <em class="pill">Proposed</em></b><span>p95 against the SLA</span></div>
+    <div class="tile"><span class="ic">❓</span><b>Unmapped codes <em class="pill">Proposed</em></b><span>Target: zero</span></div>
+  </div>
+  <div class="g2">
+    <div class="card" style="display:flex;flex-direction:column;gap:10px;background:var(--bg)">
+      <span class="lbl">Rejection rate by reason code · US→PH InstaPay <em class="pill">Illustrative</em></span>
+      <div class="legendrow"><span><i class="sw" style="background:var(--c1)"></i>This week</span><span><i class="sw" style="background:var(--c2)"></i>Prior 4 weeks</span></div>
+      <div class="chart" id="chart"><div class="tip" id="tip"></div></div>
+      <div class="callout">⚠️ <span><b>AC01</b> is about 8× its baseline while the other codes are flat, so it points at one cause.</span></div>
+      <div><button class="btn ghost" id="sqlbtn" type="button">Show the SQL behind it</button></div>
+<pre class="sql"><span class="c">-- Rejection rate by reason code: this week vs the prior 4 weeks (illustrative names)</span>
 <span class="k">WITH</span> w <span class="k">AS</span> (
   <span class="k">SELECT</span> status, reason_code,
          created_at &gt;= now() - interval '7 days' <span class="k">AS</span> this_week
@@ -665,139 +623,138 @@ header>:nth-child(2){animation-delay:.08s}
 <span class="k">GROUP BY</span> reason_code
 <span class="k">ORDER BY</span> pct_this_week <span class="k">DESC</span>;</pre>
     </div>
-    <div class="card">
-      <h3>Escalation note <em class="pill">Illustrative</em></h3>
-      <div class="esc">
-        <span class="subj">[Corvid Pay · US→PH · InstaPay] AC01 rejections 3.1% vs 0.4% baseline since 12 Nov</span>
-        <span><b>What</b>Account-not-found rejections rose eight-fold on one rail; other rails are flat.</span>
-        <span><b>Evidence</b>Query output, 20 sample references with raw request and response traces, first and last timestamps.</span>
-        <span><b>Our side</b>No mapping, validation or release changes since 5 Nov; the same accounts passed validation.</span>
-        <span><b>Impact</b>Payouts rejected and refunded; customers asked to resend.</span>
-        <span><b>Ask</b>Root cause by a set date, and a fix or written plan under the SLA's incident clause.</span>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="mail">
+        <div class="mh"><i></i><i></i><i></i><span class="note">Escalation to the partner <em class="pill">Illustrative</em></span></div>
+        <div class="subj">[Corvid Pay · US→PH · InstaPay] AC01 at 3.1% vs 0.4% baseline since 12 Nov</div>
+        <dl>
+          <dt>What</dt><dd>Account-not-found up about 8× on one rail; others flat</dd>
+          <dt>Proof</dt><dd>Query output and 20 references with raw traces</dd>
+          <dt>Us</dt><dd>No mapping, validation or release change since 5 Nov</dd>
+          <dt>Ask</dt><dd>Root cause by a set date; fix under the SLA</dd>
+        </dl>
       </div>
-      <div class="lbl">Recurring friction → platform roadmap</div>
-      <ul class="ticks">
-        <li>Unmapped codes flagged automatically, not found in tickets.</li>
-        <li>Checksums (IBAN, CLABE) and alias formats validated before send.</li>
-        <li>Cutoff and holiday calendars per rail held in configuration.</li>
-        <li>Certificate and key expiry monitored, with alerts well ahead.</li>
-      </ul>
+      <span class="lbl">Recurring friction → roadmap</span>
+      <div class="g2" style="gap:8px">
+        <div class="tile row"><span class="ic">🚩</span><b>Auto-flag unmapped codes</b></div>
+        <div class="tile row"><span class="ic">🧮</span><b>Checksums before send</b></div>
+        <div class="tile row"><span class="ic">📅</span><b>Cutoff calendars in config</b></div>
+        <div class="tile row"><span class="ic">⏰</span><b>Cert and key expiry alerts</b></div>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="reveal fold" id="api">
-  <h2>API kit</h2>
-  <p class="sum">Sample Postman collection: token, validation, idempotent create, status and a signed callback.</p>
-  <div class="card kit">
-    <div class="kitl">
-      <b>Postman collection <em class="pill">Sample</em></b>
-      <p class="note">Six requests for a fictional payout partner: OAuth token, validation, idempotent create, status and a signed callback.</p>
-      <ol class="reqs">
-        <li><span class="m">POST</span><span>Get OAuth 2.0 token <small>client credentials; mTLS set in Postman's certificate settings</small></span></li>
-        <li><span class="m">POST</span><span>Validate account or alias <small>returns the name for matching</small></span></li>
-        <li><span class="m">POST</span><span>Create payout <small>with a fresh Idempotency-Key</small></span></li>
-        <li><span class="m">POST</span><span>Create it again, same key <small>must return the same payout, not a new one</small></span></li>
-        <li><span class="m">GET</span><span>Payout status by our reference <small>for timeouts and reconciliation</small></span></li>
-        <li><span class="m">POST</span><span>Replay a signed callback <small>HMAC-SHA256 over the raw body, computed in a pre-request script</small></span></li>
-      </ol>
-    </div>
-    <div class="kitd"><button class="btn" id="postman" type="button">⬇ Download sample Postman file</button><span class="hint">A sample to import into Postman. Base URLs, paths, field names and the callback body are placeholders to replace from the partner's spec.</span></div>
+<section class="fold reveal" id="api">
+  <div class="fh"><span class="ic">🧰</span><div><h2>API kit <em class="pill">Sample</em></h2><p>A Postman collection that tests the six calls that matter.</p></div></div>
+  <div class="pipe">
+    <div><span class="m">POST</span><b>OAuth token</b><span>mTLS + client credentials</span></div>
+    <div><span class="m">POST</span><b>Validate</b><span>Account or alias, name back</span></div>
+    <div><span class="m">POST</span><b>Create payout</b><span>Fresh Idempotency-Key</span></div>
+    <div><span class="m">POST</span><b>Create again</b><span>Same key, same payout</span></div>
+    <div><span class="m get">GET</span><b>Status</b><span>By our reference</span></div>
+    <div><span class="m">POST</span><b>Signed callback</b><span>HMAC over the raw body</span></div>
   </div>
+  <div class="kitd"><button class="btn" id="postman" type="button">⬇ Download sample Postman file</button><span class="note">Sample only: base URLs, paths, field names and the callback body are placeholders to replace from the partner's spec.</span></div>
 </section>
 
-<section class="reveal fold" id="practices">
-  <h2>Key best practices</h2>
-  <p class="sum">Eight rules for integration and ownership.</p>
-  <span class="lbl">Integration</span>
-  <div class="bpgrid">
-    <div class="bpc"><span class="ic">🔁</span><b>Unknown is not failed</b><p>After a timeout, query status. Never create a second payout to "retry".</p></div>
-    <div class="bpc"><span class="ic">🧷</span><b>One idempotency key per payout</b><p>Reuse it on every retry, so a duplicate can never pay twice.</p></div>
-    <div class="bpc"><span class="ic">🔒</span><b>Verify, then act</b><p>Check the callback signature over the raw body before changing any status.</p></div>
-    <div class="bpc"><span class="ic">✅</span><b>Validate before money moves</b><p>Checksums, alias formats and name checks catch most rejections up front.</p></div>
-  </div>
-  <span class="lbl">Ownership</span>
-  <div class="bpgrid">
-    <div class="bpc"><span class="ic">📊</span><b>Escalate with data</b><p>A query, sample traces and our own changes ruled out, in every escalation.</p></div>
-    <div class="bpc"><span class="ic">🧩</span><b>Fix the cause</b><p>A problem seen twice becomes a platform change or a roadmap item.</p></div>
-    <div class="bpc"><span class="ic">🗣️</span><b>Two audiences, one page</b><p>Rails for engineers, contracts and SLAs for business leads, in the same note.</p></div>
-    <div class="bpc"><span class="ic">📅</span><b>Track every expiry</b><p>Certificates, keys and secrets, with alerts long before they lapse.</p></div>
+<section class="fold reveal" id="practices">
+  <div class="fh"><span class="ic">⭐</span><div><h2>Key best practices</h2><p>Eight rules for integration and ownership.</p></div></div>
+  <div class="g4">
+    <div class="tile"><span class="ic">🔁</span><b>Unknown ≠ failed</b><span>Query status before any retry</span></div>
+    <div class="tile"><span class="ic">🧷</span><b>One key per payout</b><span>Reused on every retry</span></div>
+    <div class="tile"><span class="ic">🔒</span><b>Verify, then act</b><span>Signature first, status second</span></div>
+    <div class="tile"><span class="ic">✅</span><b>Validate first</b><span>Most rejections caught up front</span></div>
+    <div class="tile"><span class="ic">📊</span><b>Escalate with data</b><span>Query, traces, our side ruled out</span></div>
+    <div class="tile"><span class="ic">🧩</span><b>Fix the cause</b><span>Seen twice → platform fix</span></div>
+    <div class="tile"><span class="ic">🗣️</span><b>Two audiences</b><span>Rails for engineers, SLAs for leads</span></div>
+    <div class="tile"><span class="ic">📅</span><b>Track every expiry</b><span>Certificates, keys, secrets</span></div>
   </div>
 </section>
 
 <section class="reveal" id="rails">
   <h2>Rails I plan for</h2>
   <div class="rstrip" id="rstrip"></div>
-  <p class="note">Click a rail to see its payout flow.</p>
 </section>
 
 <p class="note sig">Prepared by <b>Syed Aakhib</b> · <a href="https://www.linkedin.com/in/syed-aakhib-74110295" target="_blank" rel="noopener">LinkedIn</a></p>
-<p class="note">Proposed approach for a fictional payout partner, Corvid Pay; not a record of past payout-rail delivery. Partner codes, endpoints, field names and figures are placeholders or illustrative. Rail facts are summarised from public scheme information and must be confirmed against the partner's spec and scheme rules. Independent work sample; not affiliated with or endorsed by MoneyGram.</p>
+<p class="note">Proposed approach for a fictional payout partner, Corvid Pay; not a record of past payout-rail delivery. Partner codes, endpoints, field names and figures are placeholders or illustrative. Rail facts are summarised from public scheme information and must be confirmed against the partner's spec and scheme rules. Independent work sample styled after MoneyGram's public site; not affiliated with or endorsed by MoneyGram.</p>
 </div>
 </div>
 
 <script>
-// Corridors and rails. Facts are summaries to confirm with the partner and scheme rules.
-const RAILS=[
- {k:"upi",c:"US → India",r:"UPI",short:"UPI ID",act:"UPI network",speed:"instant",
-  clr:"Instant, 24×7",id:"UPI ID (VPA), e.g. name@handle",val:"UPI ID format, then a name lookup through the partner where offered",watch:"Limits set by NPCI and banks; a pending or deemed status needs a status check before any retry"},
- {k:"imps",c:"US → India",r:"IMPS",short:"account + IFSC",act:"IMPS network",speed:"instant",
-  clr:"Instant, 24×7",id:"Account number + IFSC",val:"IFSC is 11 characters and the 5th is 0",watch:"Timeouts at peak: resolve with a status enquiry, never a resend"},
- {k:"instapay",c:"US → Philippines",r:"InstaPay",short:"account or e-wallet",act:"InstaPay",speed:"instant",
-  clr:"Instant, 24×7, low value",id:"Account or e-wallet + bank code",val:"Bank code in the partner's list; amount within the PHP 50,000 per-transaction cap",watch:"Above the cap, route to PESONet by policy instead of rejecting"},
- {k:"pesonet",c:"US → Philippines",r:"PESONet",short:"account",act:"PESONet",speed:"batch",
-  clr:"Deferred batch; same banking day before cutoff",id:"Account number + bank code",val:"Bank code; cutoff and holiday calendar",watch:"After cutoff it credits the next banking day: show that date, don't mark it failed"},
- {k:"spei",c:"US → Mexico",r:"SPEI",short:"CLABE",act:"SPEI",speed:"instant",
-  clr:"Instant, 24×7 (Banco de México)",id:"18-digit CLABE",val:"CLABE check digit; the first 3 digits identify the bank",watch:"Returns (devoluciones) can follow a credit: handle them as reversals"},
- {k:"bd",c:"US → Bangladesh",r:"NPSB / BEFTN",short:"account + routing no.",act:"NPSB / BEFTN",speed:"instant or batch",
-  clr:"NPSB instant; BEFTN deferred batch",id:"Account number + 9-digit routing number",val:"Routing number in the published list; name as on the account",watch:"Name mismatches are a top rejection cause, so transliteration rules matter"},
- {k:"mm",c:"US → Kenya",r:"Mobile money",short:"mobile number",act:"Mobile money",speed:"instant",
-  clr:"Instant, 24×7",id:"Mobile number (MSISDN), +254…",val:"E.164 format; registered-name lookup where the partner offers it",watch:"Wallet tier limits, and unregistered or dormant numbers"},
- {k:"sepa",c:"US → Euro area",r:"SEPA",short:"IBAN",act:"SCT Inst / SCT",speed:"instant or next day",
-  clr:"SCT Inst in seconds, 24×7; SCT by the next business day",id:"IBAN (BIC optional within SEPA)",val:"IBAN mod-97 check; Verification of Payee for euro transfers",watch:"Not every bank is reachable on SCT Inst; fall back to SCT by policy"}
-];
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;");
 const calm=()=>matchMedia("(prefers-reduced-motion: reduce)").matches;
-let R=RAILS[0],timers=[];
+document.documentElement.classList.add("js");
 
+// ---- Overview: seven steps, one panel at a time on screen (all print) ----
+const STEPS=[
+ {em:"🔍",ph:"Review",t:"Partner API review",risk:"“Real-time” in the spec, batch hours in reality.",fix:"Check status model, idempotency, callbacks, limits, cutoffs and errors.",done:"The status model is confirmed in writing.",out:["📋 Gap list","🔄 Status model"],link:"review"},
+ {em:"🔐",ph:"Review",t:"Credentials & sandbox",risk:"A wrong certificate chain blocks UAT for a week.",fix:"Secure exchange, IP allowlist, every expiry logged.",done:"A sandbox call passes with mTLS and OAuth.",out:["🔗 mTLS certs","🎟️ OAuth client","⏰ Expiry alerts"],link:"review"},
+ {em:"🗺️",ph:"Map",t:"Corridor mapping",risk:"Partner code E17 just means “generic failure”.",fix:"Every field, rule and error code mapped.",done:"No unmapped codes; any new one alerts.",out:["🗺️ Field map","🚦 Error lanes"],link:"mapping"},
+ {em:"📐",ph:"Specify",t:"Integration spec",risk:"Three engineers read one PDF three ways.",fix:"One spec per corridor, signed by both sides.",done:"Partner and platform both sign off.",out:["🧭 Sequence diagram","✅ Validation rules","🧪 Test matrix"],link:"blueprint"},
+ {em:"🧪",ph:"Certify",t:"Certification",risk:"Happy path only; the first timeout pays twice.",fix:"The full test matrix, with raw traces kept.",done:"All 12 cases pass and the partner certifies.",out:["🧪 12 cases","📎 Trace evidence"],link:"cert"},
+ {em:"🚀",ph:"Launch",t:"Launch & ramp",risk:"Full volume on day one; one bug hits thousands.",fix:"Compliance and Commercial sign off, then a controlled ramp.",done:"The ramp completes at SLA.",out:["🛡️ Compliance ✓","💼 Commercial ✓","📶 Ramp plan"],link:"plan"},
+ {em:"📈",ph:"Run",t:"Run & improve",risk:"Same failure, new ticket, every week.",fix:"Data-led reviews, evidence escalations, root-cause fixes.",done:"Every recurring failure has an owner.",out:["📊 KPI dashboard","📨 Escalations","🧩 Roadmap items"],link:"run",kpi:true}
+];
+$("stepnav").innerHTML=STEPS.map((s,i)=>`<button type="button" role="tab" id="tab${i}" aria-controls="p${i}"><span class="no">${i+1}</span><span class="em" aria-hidden="true">${s.em}</span><small>${s.ph}</small><b>${esc(s.t)}</b></button>`).join("");
+$("panels").innerHTML=STEPS.map((s,i)=>`<div class="panel" id="p${i}" role="tabpanel" aria-labelledby="tab${i}">
+  <div class="ph"><span class="ic" aria-hidden="true">${s.em}</span><div><small>Step ${i+1} · ${s.ph}</small><h3>${esc(s.t)}</h3></div></div>
+  <div class="rfd"><div class="box risk"><em>⚠ Risk</em>${esc(s.risk)}</div><i aria-hidden="true">➜</i><div class="box fix"><em>✓ Fix</em>${esc(s.fix)}</div><i aria-hidden="true">➜</i><div class="box done"><em>🏁 Done when</em>${esc(s.done)}</div></div>
+  ${s.kpi?`<div class="kchips"><div>✅<p><b>Success rate</b><span>by rail</span></p></div><div>⛔<p><b>Rejections</b><span>by reason code</span></p></div><div>⏱️<p><b>Time to credit</b><span>p95 vs SLA</span></p></div><div>❓<p><b>Unmapped codes</b><span>target zero</span></p></div></div><p class="note">KPI targets are <em class="pill">Proposed</em>, to agree in the partner SLA.</p>`:""}
+  <div class="chips"><span class="lbl">Outputs</span>${s.out.map(o=>`<span class="chip">${esc(o)}</span>`).join("")}<a class="chip" href="#${s.link}">Open the detail →</a></div>
+</div>`).join("");
+const tabs=[...document.querySelectorAll("#stepnav button")],panels=[...document.querySelectorAll(".panel")];
+function pick(i){tabs.forEach((t,j)=>{t.classList.toggle("on",j===i);t.setAttribute("aria-selected",j===i);t.tabIndex=j===i?0:-1});panels.forEach((p,j)=>p.classList.toggle("cur",j===i))}
+tabs.forEach((t,i)=>{t.onclick=()=>pick(i);t.onkeydown=e=>{const d=e.key==="ArrowRight"?1:e.key==="ArrowLeft"?-1:0;if(d){const n=(i+d+tabs.length)%tabs.length;pick(n);tabs[n].focus()}}});
+pick(0);
+
+// ---- Deep dives fold open and shut; any in-page link opens its section ----
+const folds=[...document.querySelectorAll(".fold")];
+function setOpen(f,o){f.classList.toggle("open",o);f.querySelector(".fh").setAttribute("aria-expanded",o);$("foldall").textContent=folds.every(x=>x.classList.contains("open"))?"Collapse all":"Expand all"}
+folds.forEach(f=>{const h=f.querySelector(".fh");h.tabIndex=0;h.setAttribute("role","button");
+  h.onclick=()=>setOpen(f,!f.classList.contains("open"));
+  h.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();h.click()}};setOpen(f,f.classList.contains("open"))});
+$("foldall").onclick=()=>{const o=!folds.every(f=>f.classList.contains("open"));folds.forEach(f=>setOpen(f,o))};
+document.addEventListener("click",e=>{const a=e.target.closest('a[href^="#"]');if(!a)return;
+  const f=document.getElementById(a.getAttribute("href").slice(1))?.closest(".fold");if(f&&!f.classList.contains("open"))setOpen(f,true)});
+
+// ---- Corridor demo. Rail facts are summaries to confirm with the partner and scheme rules ----
+const RAILS=[
+ {k:"upi",c:"US → India",r:"UPI",short:"UPI ID",act:"UPI network",speed:"instant",clr:"Instant, 24×7",id:"UPI ID (VPA), name@handle",val:"UPI ID format, then a name lookup where offered",watch:"Pending or deemed status: check status before any retry"},
+ {k:"imps",c:"US → India",r:"IMPS",short:"account + IFSC",act:"IMPS network",speed:"instant",clr:"Instant, 24×7",id:"Account number + IFSC",val:"IFSC: 11 characters, the 5th is 0",watch:"Peak-time timeouts: status enquiry, never a resend"},
+ {k:"instapay",c:"US → Philippines",r:"InstaPay",short:"account or e-wallet",act:"InstaPay",speed:"instant",clr:"Instant, 24×7, low value",id:"Account or e-wallet + bank code",val:"Bank code listed; up to PHP 50,000 per transaction",watch:"Above the cap, route to PESONet by policy"},
+ {k:"pesonet",c:"US → Philippines",r:"PESONet",short:"account",act:"PESONet",speed:"batch",clr:"Batch; same banking day before cutoff",id:"Account number + bank code",val:"Bank code; cutoff and holiday calendar",watch:"After cutoff: next banking day, not failed"},
+ {k:"spei",c:"US → Mexico",r:"SPEI",short:"CLABE",act:"SPEI",speed:"instant",clr:"Instant, 24×7 (Banco de México)",id:"18-digit CLABE",val:"Check digit; the first 3 digits name the bank",watch:"Returns (devoluciones) after credit = reversal"},
+ {k:"bd",c:"US → Bangladesh",r:"NPSB / BEFTN",short:"account + routing no.",act:"NPSB / BEFTN",speed:"instant or batch",clr:"NPSB instant; BEFTN batch",id:"Account + 9-digit routing number",val:"Routing number listed; name as on the account",watch:"Name mismatch is a top rejection cause"},
+ {k:"mm",c:"US → Kenya",r:"Mobile money",short:"mobile number",act:"Mobile money",speed:"instant",clr:"Instant, 24×7",id:"Mobile number (MSISDN), +254…",val:"E.164 format; registered-name lookup",watch:"Wallet tier limits; dormant numbers"},
+ {k:"sepa",c:"US → Euro area",r:"SEPA",short:"IBAN",act:"SCT Inst / SCT",speed:"instant or next day",clr:"SCT Inst in seconds, 24×7; SCT next business day",id:"IBAN (BIC optional within SEPA)",val:"IBAN mod-97; Verification of Payee",watch:"Not every bank is on SCT Inst: fall back to SCT"}
+];
+let R=RAILS[0],timers=[];
 const ICON=["🌐","🔌","🏦"];
 const actors=()=>["Our platform","Payout partner",R.act];
 const msgs=()=>[
- [0,1,"OAuth 2.0 token over mTLS"],
- [0,1,`Validate ${R.short}`],
- [1,0,"Valid · name match result"],
- [0,1,"Create payout · Idempotency-Key"],
- [1,0,"202 Accepted · PENDING"],
- [1,2,`Submit on ${R.r} · ${R.speed}`],
- [2,1,"Credited, or rejected with reason"],
- [1,0,"Signed callback: final status 🔒"],
- [0,1,"Status query + daily reconciliation"]
-];
+ [0,1,"OAuth 2.0 token over mTLS"],[0,1,`Validate ${R.short}`],[1,0,"Valid · name match result"],
+ [0,1,"Create payout · Idempotency-Key"],[1,0,"202 Accepted · PENDING"],[1,2,`Submit on ${R.r} · ${R.speed}`],
+ [2,1,"Credited, or rejected with reason"],[1,0,"Signed callback: final status 🔒"],[0,1,"Status query + daily reconciliation"]];
 const X=[130,400,670];
-// userSpaceOnUse: horizontal lines have a zero-height bounding box, which would blank a bbox-relative gradient or filter
-const DEFS=`<defs>
-  <linearGradient id="gAct" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#14b8a6"/><stop offset=".6" stop-color="#0b7a6f"/><stop offset="1" stop-color="#2563eb"/></linearGradient>
-  <linearGradient id="gMsg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="800" y2="0"><stop offset="0" stop-color="#14b8a6"/><stop offset="1" stop-color="#2563eb"/></linearGradient>
-  <filter id="glow" filterUnits="userSpaceOnUse" x="0" y="0" width="800" height="560"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-</defs>`;
-
+// userSpaceOnUse: horizontal lines have a zero-height bounding box, which would blank a bbox-relative gradient
+const DEFS=`<defs><linearGradient id="gAct" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff4a33"/><stop offset=".6" stop-color="#e42313"/><stop offset="1" stop-color="#b8180b"/></linearGradient>
+<linearGradient id="gMsg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="800" y2="0"><stop offset="0" stop-color="#ff4a33"/><stop offset="1" stop-color="#b8180b"/></linearGradient></defs>`;
 function drawSeq(on=-1){
   const A=actors(),M=msgs();
-  let s=DEFS+X.map((x,i)=>`<line class="life" x1="${x}" y1="52" x2="${x}" y2="550"/><g class="actor"><rect x="${x-110}" y="8" width="220" height="46" rx="23"/><text x="${x}" y="37" text-anchor="middle" font-size="15" font-weight="700">${ICON[i]} ${esc(A[i])}</text></g>`).join("");
+  let s=DEFS+X.map((x,i)=>`<line class="life" x1="${x}" y1="52" x2="${x}" y2="550"/><g class="actor"><rect x="${x-110}" y="8" width="220" height="46" rx="23"/><text x="${x}" y="37" text-anchor="middle" font-size="15" font-weight="600">${ICON[i]} ${esc(A[i])}</text></g>`).join("");
   M.forEach(([a,b,cap],i)=>{
-    const y=98+i*51,x1=X[a],x2=X[b],dir=x2>x1?1:-1,xe=x2-dir*4;
-    const st=i===on?"on":(on>=0&&i<on?"past":"");
+    const y=98+i*51,x1=X[a],x2=X[b],dir=x2>x1?1:-1,xe=x2-dir*4,st=i===on?"on":(on>=0&&i<on?"past":"");
     const pkt=i===on&&!calm()?`<circle class="pkt" cx="${x1}" cy="${y}" r="5"><animate attributeName="cx" from="${x1}" to="${xe-dir*10}" dur="0.8s" fill="freeze"/></circle>`:"";
-    s+=`<g class="msg ${st}"><line x1="${x1}" y1="${y}" x2="${xe-dir*8}" y2="${y}"/><polygon points="${xe},${y} ${xe-dir*10},${y-5} ${xe-dir*10},${y+5}"/>
-      <text class="cap" x="${(x1+x2)/2}" y="${y-10}" text-anchor="middle">${i+1}. ${esc(cap)}</text>${pkt}</g>`;
+    s+=`<g class="msg ${st}"><line x1="${x1}" y1="${y}" x2="${xe-dir*8}" y2="${y}"/><polygon points="${xe},${y} ${xe-dir*10},${y-5} ${xe-dir*10},${y+5}"/><text class="cap" x="${(x1+x2)/2}" y="${y-10}" text-anchor="middle">${i+1}. ${esc(cap)}</text>${pkt}</g>`;
   });
   const svg=$("seq");svg.innerHTML=s;
   const cap=svg.querySelector(".msg.on .cap");
   if(cap){const bb=cap.getBBox(),r=document.createElementNS("http://www.w3.org/2000/svg","rect");
-    r.setAttribute("class","cpill");r.setAttribute("x",bb.x-10);r.setAttribute("y",bb.y-3);r.setAttribute("width",bb.width+20);r.setAttribute("height",bb.height+6);r.setAttribute("rx",(bb.height+6)/2);
-    cap.parentNode.insertBefore(r,cap);}
-  $("seqlist").innerHTML=M.map(([a,b,cap],i)=>`<li class="${i===on?"on":(on>=0&&i<on?"past":"")}"><span class="n">${i+1}</span><div><small>${ICON[a]} ${esc(A[a])} → ${ICON[b]} ${esc(A[b])}</small><b>${esc(cap)}</b></div></li>`).join("");
+    Object.entries({class:"cpill",x:bb.x-10,y:bb.y-3,width:bb.width+20,height:bb.height+6,rx:(bb.height+6)/2}).forEach(([k,v])=>r.setAttribute(k,v));cap.parentNode.insertBefore(r,cap)}
+  $("seqlist").innerHTML=M.map(([a,b,cap],i)=>`<li class="${i===on?"on":""}"><span class="n">${i+1}</span><div><small>${ICON[a]} ${esc(A[a])} → ${ICON[b]} ${esc(A[b])}</small><b>${esc(cap)}</b></div></li>`).join("");
   $("track").querySelectorAll("button").forEach((t,i)=>{t.classList.toggle("cur",i===on);t.classList.toggle("done",on>=0&&i<on)});
 }
 function showStep(i){drawSeq(i);$("seqcap").textContent=`${i+1} / ${msgs().length} · ${msgs()[i][2]}`}
@@ -807,46 +764,64 @@ function stop(){timers.forEach(clearTimeout);timers=[];$("play").textContent="�
 function render(){
   stop();$("seqcap").textContent="";
   document.querySelectorAll("[data-k]").forEach(b=>{const on=b.dataset.k===R.k;b.classList.toggle("on",on);if(b.closest("#railbtns"))b.setAttribute("aria-pressed",on)});
-  $("facts").innerHTML=[["Clearing",R.clr],["Beneficiary ID",R.id],["Validate before send",R.val],["Watch for",R.watch]].map(([t,v])=>`<div><i>${t}</i>${esc(v)}</div>`).join("");
-  drawSeq();
-  const seq=$("seq");seq.classList.remove("swap");void seq.getBoundingClientRect();seq.classList.add("swap");
+  $("facts").innerHTML=[["⚡","Clearing",R.clr],["🆔","Beneficiary ID",R.id],["✅","Check before send",R.val],["👀","Watch for",R.watch]].map(([e,t,v])=>`<div><span class="ic" aria-hidden="true">${e}</span><p><i>${t}</i>${esc(v)}</p></div>`).join("");
+  drawSeq();const seq=$("seq");seq.classList.remove("swap");void seq.getBoundingClientRect();seq.classList.add("swap");
 }
 function play(){
-  stop();
-  const gap=calm()?400:1200,n=msgs().length;
-  $("play").textContent="Playing…";
+  stop();const gap=calm()?400:1200,n=msgs().length;$("play").textContent="Playing…";
   for(let i=0;i<n;i++)timers.push(setTimeout(()=>showStep(i),i*gap));
   timers.push(setTimeout(()=>{drawSeq();$("seqcap").textContent="";$("play").textContent="↻ Replay"},n*gap+600));
 }
 $("play").onclick=play;
-
 // One rail list, three places: demo buttons, sidebar boxes, narrow-screen strip
 $("railbtns").innerHTML=RAILS.map(r=>`<button type="button" data-k="${r.k}" aria-pressed="false">${esc(r.r)}<small>${esc(r.c)}</small></button>`).join("");
 $("sraill").innerHTML=RAILS.map(r=>`<button type="button" data-k="${r.k}" title="${esc(r.c)} · ${esc(r.r)}"><b>${esc(r.r)}</b><small>${esc(r.c.replace("US → ",""))}</small><em>${esc(r.speed)}</em></button>`).join("");
 $("rstrip").innerHTML=RAILS.map(r=>`<button type="button" data-k="${r.k}"><b>${esc(r.r)}</b><span>${esc(r.c.replace("US → ",""))}</span><em>${esc(r.speed)}</em></button>`).join("");
 document.querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>{
   R=RAILS.find(r=>r.k===b.dataset.k);render();
-  if(!b.closest("#railbtns"))$("blueprint").scrollIntoView({behavior:calm()?"auto":"smooth",block:"start"});
+  if(!b.closest("#railbtns")){setOpen($("blueprint"),true);$("blueprint").scrollIntoView({behavior:calm()?"auto":"smooth",block:"start"})}
 });
 
-// Scroll reveals; the demo plays itself once when it first comes into view
-document.documentElement.classList.add("js");
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.15});
-document.querySelectorAll(".step,.reveal").forEach(el=>io.observe(el));
+// ---- Certification tiles + progress ring (not saved) ----
+const ctiles=[...document.querySelectorAll(".ctile")];
+function ring(){const n=ctiles.filter(t=>t.getAttribute("aria-pressed")==="true").length;$("ringfg").style.strokeDashoffset=150.8*(1-n/ctiles.length);$("ringtx").textContent=`${n}/${ctiles.length}`}
+ctiles.forEach(t=>t.onclick=()=>{t.setAttribute("aria-pressed",t.getAttribute("aria-pressed")!=="true");ring()});
+ring();
+
+// ---- Illustrative chart: rejection rate by reason code, this week vs prior 4 weeks ----
+const CH=[["AC01","Account not found",3.1,0.4],["BE01","Name mismatch",0.9,0.8],["AC04","Account closed",0.3,0.3],["AM02","Over limit",0.2,0.2],["RR04","Compliance",0.1,0.1]];
+(function chart(){
+  const W=520,L=130,top=22,row=40,bh=13,max=3.5,H=top+CH.length*row+6,sx=v=>L+(W-L-44)*v/max;
+  // only the data end is rounded; the bar sits square on the baseline
+  const bar=(x0,y,x1,cls)=>{const r=Math.min(4,(x1-x0)/2);return `<path class="${cls}" d="M${x0} ${y}H${x1-r}Q${x1} ${y} ${x1} ${y+r}V${y+bh-r}Q${x1} ${y+bh} ${x1-r} ${y+bh}H${x0}Z"/>`};
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Rejection rate by reason code, this week versus the prior four weeks (illustrative): ${CH.map(([c,,a,b])=>`${c} ${a}% vs ${b}%`).join(", ")}">`;
+  [0,1,2,3].forEach(v=>s+=`<line class="grid" x1="${sx(v)}" y1="${top-6}" x2="${sx(v)}" y2="${H-4}"/><text class="axis" x="${sx(v)}" y="${top-10}" text-anchor="middle">${v}%</text>`);
+  CH.forEach(([c,n,a,b],i)=>{
+    const y=top+i*row+5;
+    s+=`<text class="cat" x="0" y="${y+12}">${c}</text><text class="catn" x="0" y="${y+27}">${n}</text>`;
+    [[a,"b1","This week"],[b,"b2","Prior 4 weeks"]].forEach(([v,cls,lab],j)=>{const yy=y+j*(bh+2);
+      s+=`<g data-t="${c} · ${lab}: ${v}%">${bar(sx(0),yy,Math.max(sx(v),sx(0)+3),cls)}<text class="val" x="${sx(v)+5}" y="${yy+10}">${v}%</text><rect class="hit" x="${L}" y="${yy-1}" width="${W-L}" height="${bh+2}"/></g>`});
+  });
+  $("chart").insertAdjacentHTML("afterbegin",s+"</svg>");
+  const tip=$("tip"),box=$("chart");
+  box.querySelectorAll("g[data-t]").forEach(g=>{
+    g.onmousemove=e=>{const r=box.getBoundingClientRect();tip.textContent=g.dataset.t;tip.style.left=(e.clientX-r.left)+"px";tip.style.top=(e.clientY-r.top)+"px";tip.classList.add("on");g.querySelector("path").classList.add("hl")};
+    g.onmouseleave=()=>{tip.classList.remove("on");g.querySelector("path").classList.remove("hl")}});
+})();
+$("sqlbtn").onclick=()=>{const on=$("run").classList.toggle("sqlon");$("sqlbtn").textContent=on?"Hide the SQL":"Show the SQL behind it"};
+
+// ---- Scroll reveals; the demo plays itself once when first seen ----
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.05});
+document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
 let autoplayed=false;
 new IntersectionObserver((es,o)=>es.forEach(e=>{if(e.isIntersecting&&!autoplayed){autoplayed=true;o.disconnect();setTimeout(play,400)}}),{threshold:.3}).observe(document.querySelector(".demo"));
 
-// Certification counter (not saved; resets on reload)
-const glBoxes=[...document.querySelectorAll("#glist input")];
-glBoxes.forEach(b=>b.onchange=()=>{const n=glBoxes.filter(x=>x.checked).length;$("glcount").textContent=`${n} / ${glBoxes.length}`;$("glcount").classList.toggle("all",n===glBoxes.length)});
-
-// Sample Postman collection, built in the browser
+// ---- Sample Postman collection, built in the browser ----
 $("postman").onclick=()=>{
   const json={key:"Content-Type",value:"application/json"},auth={key:"Authorization",value:"Bearer {{accessToken}}"};
   const raw=o=>({mode:"raw",raw:JSON.stringify(o,null,2),options:{raw:{language:"json"}}});
   const PAYOUT={reference:"{{payoutRef}}",amount:"100.00",currency:"PHP",rail:"INSTAPAY",
-    beneficiary:{name:"Juan Dela Cruz",account:"{{beneficiaryAccount}}",bankCode:"{{bankCode}}"},
-    sender:{name:"Sample Sender",country:"US"},purpose:"FAMILY_SUPPORT"};
+    beneficiary:{name:"Juan Dela Cruz",account:"{{beneficiaryAccount}}",bankCode:"{{bankCode}}"},sender:{name:"Sample Sender",country:"US"},purpose:"FAMILY_SUPPORT"};
   const CALLBACK={eventId:"evt-0001",reference:"{{payoutRef}}",status:"CREDITED",reasonCode:null,occurredAt:"2026-11-12T09:30:00Z"};
   const col={
     info:{name:"Corvid Pay payouts — SAMPLE (not a working integration)",schema:"https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -868,8 +843,7 @@ $("postman").onclick=()=>{
       {name:"4. Create again with the same key (must not pay twice)",
        event:[{listen:"test",script:{exec:["pm.test('Same payout returned', () => pm.expect(pm.response.json().id).to.eql(pm.collectionVariables.get('payoutId')));"]}}],
        request:{method:"POST",header:[json,auth,{key:"Idempotency-Key",value:"{{idemKey}}"}],body:raw(PAYOUT),url:"{{baseUrl}}/<payouts path>"}},
-      {name:"5. Payout status by our reference",request:{method:"GET",header:[auth],url:"{{baseUrl}}/<payouts path>?reference={{payoutRef}}",
-        description:"Use after any timeout, before deciding anything."}},
+      {name:"5. Payout status by our reference",request:{method:"GET",header:[auth],url:"{{baseUrl}}/<payouts path>?reference={{payoutRef}}",description:"Use after any timeout, before deciding anything."}},
       {name:"6. Replay a signed callback to our server",
        event:[{listen:"prerequest",script:{exec:[
          "// HMAC-SHA256 over the exact raw body bytes, Base64-encoded. Match the partner's spec for encoding and header name.",
@@ -888,25 +862,7 @@ $("postman").onclick=()=>{
   setTimeout(()=>URL.revokeObjectURL(a.href),1000);
 };
 
-// Contents: highlight the section, and step, currently on screen
-// Overview: one step at a time
-const steps=[...document.querySelectorAll(".flow .step")],chips=[...document.querySelectorAll(".stepnav a")];
-function pick(i){steps.forEach((s,j)=>s.classList.toggle("cur",j===i));chips.forEach((c,j)=>{c.classList.toggle("on",j===i);c.setAttribute("aria-current",j===i?"step":"false")})}
-chips.forEach((c,i)=>c.onclick=e=>{e.preventDefault();pick(i)});
-pick(0);
-
-// Deep dives fold open and shut; any in-page link opens the section it points into
-const folds=[...document.querySelectorAll(".fold")];
-function setOpen(f,o){f.classList.toggle("open",o);f.querySelector("h2").setAttribute("aria-expanded",o);syncAll()}
-function syncAll(){$("foldall").textContent=folds.every(f=>f.classList.contains("open"))?"Collapse all":"Expand all"}
-folds.forEach(f=>{const h=f.querySelector("h2");h.tabIndex=0;h.setAttribute("role","button");h.setAttribute("aria-expanded",f.classList.contains("open"));
-  h.onclick=()=>setOpen(f,!f.classList.contains("open"));
-  h.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();h.click()}}});
-$("foldall").onclick=()=>{const o=!folds.every(f=>f.classList.contains("open"));folds.forEach(f=>setOpen(f,o))};
-document.addEventListener("click",e=>{const a=e.target.closest('a[href^="#"]');if(!a||a.closest(".stepnav"))return;
-  const f=document.getElementById(a.getAttribute("href").slice(1))?.closest(".fold");if(f&&!f.classList.contains("open"))setOpen(f,true)});
-syncAll();
-
+// ---- Contents: highlight the section on screen ----
 const tocLinks=[...document.querySelectorAll(".toc ol a")];
 const spyEls=[...document.querySelectorAll("section[id]")];
 let spyKey="";
@@ -914,7 +870,7 @@ function spyUpdate(){
   const line=Math.min(innerHeight*0.3,140);let sec="";
   for(const el of spyEls){if(el.offsetParent&&el.getBoundingClientRect().top<=line)sec=el.id}
   // the last section can never reach the line, so claim it at the bottom of the page
-  if(innerHeight+scrollY>=document.documentElement.scrollHeight-4){sec=spyEls.filter(e=>e.offsetParent).pop().id}
+  if(innerHeight+scrollY>=document.documentElement.scrollHeight-4)sec=spyEls.filter(e=>e.offsetParent).pop().id;
   if(sec===spyKey)return;spyKey=sec;
   tocLinks.forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+sec));
   const act=tocLinks.find(a=>a.getAttribute("href")==="#"+sec);

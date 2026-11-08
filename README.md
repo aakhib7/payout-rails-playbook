@@ -1,5 +1,7 @@
 # Payout Rails Partner Onboarding Playbook
 
+**Live page:** https://aakhib7.github.io/payout-rails-playbook/
+
 A single-page work sample by Syed Aakhib: a **proposed approach for onboarding a fictional payout partner (Corvid Pay)**, not a record of past payout-rail delivery. Prepared for a Solutions Engineer, Payout Rails role.
 
 ## What's inside

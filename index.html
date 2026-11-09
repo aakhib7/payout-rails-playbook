@@ -418,6 +418,49 @@ pre.sql .c{color:var(--muted)}pre.sql .k{color:var(--accent-ink);font-weight:600
 .js .reveal.in{opacity:1;transform:none}
 .panel.cur{animation:rise .35s ease both}
 
+/* compact: tighter spacing everywhere; phone rules below still win */
+.wrap{gap:12px;padding:18px 0 32px}
+section{gap:10px}
+h2{font-size:17px}
+.hero{padding:20px 26px;border-radius:18px;gap:10px 24px}
+h1{font-size:clamp(24px,2.8vw,34px);margin-top:4px}
+.hero .sub{font-size:14.5px;margin-top:6px}
+.route{max-height:150px}
+.stats{gap:8px}
+.stat{padding:8px 12px;gap:10px}
+.stat b{font-size:24px}
+.stat span{font-size:12px}
+.stepnav{gap:6px}
+.stepnav button{padding:8px 8px 7px;gap:3px;border-radius:12px}
+.stepnav .em{font-size:18px}
+.stepnav b{font-size:12.5px}
+.stepnav small{font-size:10px}
+.panel{padding:14px;gap:10px;border-radius:14px}
+.ph .ic{width:40px;height:40px;font-size:20px;border-radius:12px}
+.ph h3{font-size:16px}
+.box{padding:9px 11px;font-size:13px}
+.bignum{font-size:96px;bottom:-22px}
+.foldbar{margin:2px 0 -4px}
+.fold{padding:9px 14px;gap:10px;border-radius:14px}
+.fh{gap:12px}
+.fh::before{font-size:24px;min-width:34px}
+.fh h2{font-size:16px}
+.fh p{font-size:12.5px}
+.js .fh::after{width:8px;height:8px}
+.g2,.g3,.g4,.g5,.flow5,.board,.pipe{gap:8px}
+.tile,.cred,.fcard,.flow5>div,.lane{padding:10px}
+.toc{padding-top:18px;font-size:13px}
+.toc a{padding:4px 10px}
+.srails{margin-top:12px;padding-top:10px}
+@media (min-width:901px){
+  .fh>div{flex-direction:row;align-items:baseline;gap:14px}
+  .fh h2{flex:none}
+  .fh p{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+}
+.fold{padding:7px 14px}
+.fold.open{padding-bottom:14px}
+@media (max-width:640px){.fh p{display:none}.fh::before{font-size:20px;min-width:28px}.hero .route{display:none}.fold{padding:9px 12px}}
+
 /* phone */
 @media (max-width:640px){
   .wrap{padding-top:18px}
@@ -519,6 +562,7 @@ pre.sql .c{color:var(--muted)}pre.sql .k{color:var(--accent-ink);font-weight:600
 <section id="flow">
   <h2>At a glance: onboarding a payout partner</h2>
   <div class="stepnav" id="stepnav" role="tablist" aria-label="Onboarding steps"></div>
+  <p class="note" id="stephint">Click a step to see its risk, fix and finish line.</p>
   <div id="panels"></div>
 </section>
 
@@ -631,7 +675,7 @@ pre.sql .c{color:var(--muted)}pre.sql .k{color:var(--accent-ink);font-weight:600
   <p class="note">P-codes are invented examples; AC01, AC04, BE01, AM02 and RR04 are ISO 20022 external status reason codes.</p>
 </section>
 
-<section class="fold reveal open" id="blueprint">
+<section class="fold reveal" id="blueprint">
   <div class="fh"><span class="ic">🧭</span><div><h2>Corridor blueprint <span class="live">Live demo</span></h2><p>Pick a rail: the payout flow, and what to check before money moves.</p></div></div>
   <div class="demo">
     <div class="railcol"><div class="rails" id="railbtns" role="group" aria-label="Corridor"></div></div>
@@ -872,9 +916,10 @@ $("panels").innerHTML=STEPS.map((s,i)=>`<div class="panel" id="p${i}" role="tabp
   <div class="chips"><span class="lbl">Outputs</span>${s.out.map(o=>`<span class="chip">${esc(o)}</span>`).join("")}<a class="chip" href="#${s.link}">Open the detail →</a></div>
 </div>`).join("");
 const tabs=[...document.querySelectorAll("#stepnav button")],panels=[...document.querySelectorAll(".panel")];
-function pick(i){tabs.forEach((t,j)=>{t.classList.toggle("on",j===i);t.classList.toggle("done",j<i);t.setAttribute("aria-selected",j===i);t.tabIndex=j===i?0:-1});panels.forEach((p,j)=>p.classList.toggle("cur",j===i))}
-tabs.forEach((t,i)=>{t.onclick=()=>pick(i);t.onkeydown=e=>{const d=e.key==="ArrowRight"?1:e.key==="ArrowLeft"?-1:0;if(d){const n=(i+d+tabs.length)%tabs.length;pick(n);tabs[n].focus()}}});
-pick(0);
+// i = -1 closes the detail panel; everything starts collapsed
+function pick(i){tabs.forEach((t,j)=>{t.classList.toggle("on",j===i);t.classList.toggle("done",j<i);t.setAttribute("aria-selected",j===i);t.tabIndex=j===Math.max(i,0)?0:-1});panels.forEach((p,j)=>p.classList.toggle("cur",j===i));$("stephint").hidden=i>=0}
+tabs.forEach((t,i)=>{t.onclick=()=>pick(t.classList.contains("on")?-1:i);t.onkeydown=e=>{const d=e.key==="ArrowRight"?1:e.key==="ArrowLeft"?-1:0;if(d){const n=(i+d+tabs.length)%tabs.length;pick(n);tabs[n].focus()}}});
+pick(-1);
 
 // ---- Deep dives fold open and shut; any in-page link opens its section ----
 const folds=[...document.querySelectorAll(".fold")];

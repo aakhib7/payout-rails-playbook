@@ -56,19 +56,10 @@ section{scroll-margin-top:24px;display:flex;flex-direction:column;gap:14px}
 .toc a:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 .tgrp{margin:10px 0 2px 12px;font-family:var(--f-head);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 @media (max-width:1100px){.tgrp{display:none}}
-.srails{margin-top:18px;padding-top:14px;border-top:1px solid var(--line)}
-.sraill{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;padding:0 4px}
-.sraill button{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;padding:6px 8px;border-radius:10px;border:1px solid var(--line);background:var(--surface);transition:background .2s,border-color .2s;min-width:0}
-.sraill b{font-size:12px;font-weight:600;line-height:1.25}
-.sraill small{font-size:10.5px;color:var(--accent-ink);line-height:1.3}
-.sraill em{font-style:normal;font-family:var(--f-mono);font-size:10px;color:var(--muted)}
-.sraill button:hover,.sraill button.on{background:var(--accent-soft);border-color:var(--accent)}
-.sraill button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
-@media (min-width:1101px){#rails,.toc .trails{display:none}}
 @media (max-width:1100px){
   .layout{grid-template-columns:minmax(0,1fr);gap:0;padding:0 16px}
   .toc{position:sticky;top:0;z-index:20;max-height:none;overflow:visible;margin:0 -16px;padding:10px 16px;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-  .toct,.srails{display:none}
+  .toct{display:none}
   .toc>ol{flex-direction:row;gap:6px;overflow-x:auto;scrollbar-width:none}
   .toc>ol::-webkit-scrollbar{display:none}
   .toc a{white-space:nowrap;border-left:0;padding:6px 12px;border-radius:99px;background:var(--surface);border:1px solid var(--line)}
@@ -353,13 +344,6 @@ pre.sql .c{color:var(--muted)}pre.sql .k{color:var(--accent-ink);font-weight:600
 .kitd{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
 .kitd .note{flex:1;min-width:220px}
 
-/* rails strip on narrow screens */
-.rstrip{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,150px),1fr));gap:8px}
-.rstrip button{font:inherit;text-align:left;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:9px 12px;display:flex;flex-direction:column;gap:2px;cursor:pointer}
-.rstrip button.on,.rstrip button:hover{border-color:var(--accent);background:var(--accent-soft)}
-.rstrip b{font-weight:600;font-size:14px}
-.rstrip span{font-size:13px;color:var(--accent-ink)}
-.rstrip em{font-style:normal;font-family:var(--f-mono);font-size:12px;color:var(--muted)}
 .sig a{color:var(--accent-ink)}
 
 /* pre-sales */
@@ -450,7 +434,6 @@ h1{font-size:clamp(24px,2.8vw,34px);margin-top:4px}
 .tile,.cred,.fcard,.flow5>div,.lane{padding:10px}
 .toc{padding-top:18px;font-size:13px}
 .toc a{padding:4px 10px}
-.srails{margin-top:12px;padding-top:10px}
 @media (min-width:901px){
   .fh>div{flex-direction:row;align-items:baseline;gap:14px}
   .fh h2{flex:none}
@@ -516,7 +499,6 @@ dialog::backdrop{background:rgba(10,10,10,.55);backdrop-filter:blur(3px);-webkit
   .layout{display:block;padding:0}
   .wrap{padding:0;gap:16px}
   .toc,.stepnav,.foldbar,#play,.track,.railcol,.bar .seqcap,.kitd .btn,#sqlbtn,.live::before,.certhead{display:none!important}
-  #rails{display:none!important}
   .js .reveal,.hero>*{opacity:1!important;transform:none!important}
   .panel{break-inside:avoid}
   .demo{grid-template-columns:minmax(0,1fr)}
@@ -555,12 +537,7 @@ dialog::backdrop{background:rgba(10,10,10,.55);backdrop-filter:blur(3px);-webkit
     <li class="tgrp">Beyond onboarding</li>
     <li><a href="#presales">Pre-sales</a></li>
     <li><a href="#roadmap">Roadmap input</a></li>
-    <li class="trails"><a href="#rails">Rails</a></li>
   </ol>
-  <div class="srails">
-    <span class="toct">Rails I plan for</span>
-    <div class="sraill" id="sraill"></div>
-  </div>
 </nav>
 
 <div class="wrap">
@@ -914,11 +891,6 @@ dialog::backdrop{background:rgba(10,10,10,.55);backdrop-filter:blur(3px);-webkit
 
 </div>
 
-<section class="reveal" id="rails">
-  <h2>Rails I plan for</h2>
-  <div class="rstrip" id="rstrip"></div>
-</section>
-
 <dialog id="dlg" aria-labelledby="dtitle"><div class="dh"><div class="dhead" id="dhead"></div><button class="dclose" id="dclose" type="button" aria-label="Close">✕</button></div><div class="db" id="dbody"></div></dialog>
 
 <p class="note sig">Prepared by <b>Syed Aakhib</b> · <a href="https://www.linkedin.com/in/syed-aakhib-74110295" target="_blank" rel="noopener">LinkedIn</a></p>
@@ -1031,13 +1003,9 @@ function play(){
   timers.push(setTimeout(()=>{drawSeq();$("seqcap").textContent="";$("play").textContent="↻ Replay"},n*gap+600));
 }
 $("play").onclick=play;
-// One rail list, three places: demo buttons, sidebar boxes, narrow-screen strip
 $("railbtns").innerHTML=RAILS.map(r=>`<button type="button" data-k="${r.k}" aria-pressed="false">${esc(r.r)}<small>${esc(r.c)}</small></button>`).join("");
-$("sraill").innerHTML=RAILS.map(r=>`<button type="button" data-k="${r.k}" title="${esc(r.c)} · ${esc(r.r)}"><b>${esc(r.r)}</b><small>${esc(r.c.replace("US → ",""))}</small><em>${esc(r.speed)}</em></button>`).join("");
-$("rstrip").innerHTML=RAILS.map(r=>`<button type="button" data-k="${r.k}"><b>${esc(r.r)}</b><span>${esc(r.c.replace("US → ",""))}</span><em>${esc(r.speed)}</em></button>`).join("");
 document.querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>{
   R=RAILS.find(r=>r.k===b.dataset.k);render();
-  if(!b.closest("#railbtns"))openFold($("blueprint"));
 });
 
 // ---- Certification tiles + progress ring (not saved) ----

@@ -582,7 +582,7 @@ dialog::backdrop{background:rgba(10,10,10,.55);backdrop-filter:blur(3px);-webkit
 </section>
 
 <section class="fold reveal" id="mapping">
-  <div class="fh"><span class="ic">🗺️</span><div><h2>Field &amp; error mapping <em class="pill">Sample</em></h2><p>Our fields to ISO 20022, and every partner code sorted into one of four lanes.</p></div></div>
+  <div class="fh"><span class="ic">🗺️</span><div><h2>Field &amp; error mapping <em class="pill">Sample</em></h2><p>Our fields in a proposed ISO 20022 model, and every partner code sorted into one of four lanes.</p></div></div>
   <div class="fmap">
     <div class="frow fhead"><span>Our field</span><span></span><span>ISO 20022 · pacs.008</span><span>Checked before send</span></div>
     <div class="frow"><span class="our">Payout reference</span><span class="arr"></span><span class="iso">PmtId/EndToEndId</span><span class="chk">Unique, ≤ 35 chars, idempotency anchor</span></div>
@@ -607,7 +607,7 @@ dialog::backdrop{background:rgba(10,10,10,.55);backdrop-filter:blur(3px);-webkit
     <div class="lane unk"><h3>❓ Unknown</h3><p>Treat as pending, query status, alert, map it.</p>
       <div class="code"><b>Any new code</b><span>Not in the table</span></div></div>
   </div>
-  <p class="note">P-codes are invented examples; AC01, AC04, BE01, AM02 and RR04 are ISO 20022 external status reason codes.</p>
+  <p class="note">ISO 20022 is the proposed canonical model on our side; not every rail or partner uses it, so each partner's own format maps into it. P-codes are invented examples; AC01, AC04, BE01, AM02 and RR04 are ISO 20022 external status reason codes.</p>
 </section>
 
 <section class="fold reveal" id="blueprint">
@@ -766,7 +766,7 @@ dialog::backdrop{background:rgba(10,10,10,.55);backdrop-filter:blur(3px);-webkit
     <div><span class="m get">GET</span><b>Status</b><span>By our reference</span></div>
     <div><span class="m">POST</span><b>Signed callback</b><span>HMAC over the raw body</span></div>
   </div>
-  <div class="kitd"><button class="btn" id="postman" type="button">⬇ Download sample Postman file</button><span class="note">Sample only: base URLs, paths, field names and the callback body are placeholders to replace from the partner's spec.</span></div>
+  <div class="kitd"><button class="btn" id="postman" type="button">⬇ Download sample Postman file</button><span class="note">Sample only: base URLs, paths, field names and the callback body are placeholders to replace from the partner's spec. Set <code>callbackSecret</code> in the collection variables before replaying the callback.</span></div>
 </section>
 
 <section class="fold reveal" id="practices">
@@ -1012,7 +1012,7 @@ $("postman").onclick=()=>{
   const CALLBACK={eventId:"evt-0001",reference:"{{payoutRef}}",status:"CREDITED",reasonCode:null,occurredAt:"2026-11-06T09:30:00Z"};
   const col={
     info:{name:"Corvid Pay payouts — SAMPLE (not a working integration)",schema:"https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-      description:"SAMPLE collection for a fictional payout partner. Every URL, path and field name is a placeholder to replace from the partner's spec. Configure the mTLS client certificate in Postman's settings for the partner host."},
+      description:"SAMPLE collection for a fictional payout partner. Every URL, path and field name is a placeholder to replace from the partner's spec. Configure the mTLS client certificate in Postman's settings for the partner host. Set callbackSecret in the collection variables (Variables tab) before running request 6; the signing script reads it there."},
     variable:[["baseUrl","<partner base URL>"],["tokenUrl","<partner OAuth token URL>"],["clientId",""],["clientSecret",""],["accessToken",""],
       ["payoutRef","PO-TEST-000184"],["beneficiaryAccount","<test account from partner>"],["bankCode","<test bank code>"],["idemKey",""],["payoutId",""],
       ["callbackUrl","https://uat.example.com/payouts/callback"],["callbackSecret",""]].map(([key,value])=>({key,value})),
@@ -1036,7 +1036,7 @@ $("postman").onclick=()=>{
          "// HMAC-SHA256 over the exact raw body bytes, Base64-encoded. Match the partner's spec for encoding and header name.",
          "const body = pm.variables.replaceIn(pm.request.body.raw);",
          "const ts = Math.floor(Date.now() / 1000).toString();",
-         "const sig = CryptoJS.HmacSHA256(ts + '.' + body, pm.collectionVariables.get('callbackSecret')).toString(CryptoJS.enc.Base64);",
+         "const sig = CryptoJS.HmacSHA256(ts + '.' + body, pm.variables.get('callbackSecret')).toString(CryptoJS.enc.Base64);",
          "pm.request.headers.upsert({ key: 'X-Timestamp', value: ts });",
          "pm.request.headers.upsert({ key: 'X-Signature', value: sig });"]}},
          {listen:"test",script:{exec:["pm.test('Callback accepted', () => pm.response.to.have.status(200));"]}}],

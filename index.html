@@ -54,6 +54,8 @@ section{scroll-margin-top:24px;display:flex;flex-direction:column;gap:14px}
 .toc a:hover{background:var(--accent-soft);color:var(--accent-ink)}
 .toc a.on{background:var(--accent-soft);color:var(--accent-ink);border-left-color:var(--accent)}
 .toc a:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.tgrp{margin:10px 0 2px 12px;font-family:var(--f-head);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+@media (max-width:1100px){.tgrp{display:none}}
 .srails{margin-top:18px;padding-top:14px;border-top:1px solid var(--line)}
 .sraill{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;padding:0 4px}
 .sraill button{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;padding:6px 8px;border-radius:10px;border:1px solid var(--line);background:var(--surface);transition:background .2s,border-color .2s;min-width:0}
@@ -96,7 +98,7 @@ h1{font-size:clamp(28px,3.4vw,42px);line-height:1.05;font-weight:800;letter-spac
 @media (max-width:900px){.hero{grid-template-columns:minmax(0,1fr)}.stats{grid-template-columns:repeat(3,minmax(0,1fr))}}
 
 /* overview: step tiles + one panel */
-.stepnav{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:8px}
+.stepnav{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}
 .stepnav button{all:unset;box-sizing:border-box;cursor:pointer;position:relative;display:flex;flex-direction:column;gap:6px;padding:12px 10px 10px;border-radius:14px;border:1px solid var(--line);background:var(--surface);transition:transform .2s,border-color .2s,box-shadow .2s}
 .stepnav .em{font-size:24px;line-height:1}
 .stepnav small{font-family:var(--f-head);font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
@@ -515,7 +517,6 @@ h1{font-size:clamp(24px,2.8vw,34px);margin-top:4px}
   <span class="toct">Contents</span>
   <ol>
     <li><a href="#flow">At a glance</a></li>
-    <li><a href="#presales">Pre-sales</a></li>
     <li><a href="#plan">Delivery plan</a></li>
     <li><a href="#review">API review &amp; credentials</a></li>
     <li><a href="#mapping">Field &amp; error mapping</a></li>
@@ -524,9 +525,11 @@ h1{font-size:clamp(24px,2.8vw,34px);margin-top:4px}
     <li><a href="#failures">Failure handling</a></li>
     <li><a href="#debugging">Debugging</a></li>
     <li><a href="#run">Run &amp; escalate</a></li>
-    <li><a href="#roadmap">Roadmap input</a></li>
     <li><a href="#api">API kit</a></li>
     <li><a href="#practices">Best practices</a></li>
+    <li class="tgrp">Beyond onboarding</li>
+    <li><a href="#presales">Pre-sales</a></li>
+    <li><a href="#roadmap">Roadmap input</a></li>
     <li class="trails"><a href="#rails">Rails</a></li>
   </ol>
   <div class="srails">
@@ -552,7 +555,7 @@ h1{font-size:clamp(24px,2.8vw,34px);margin-top:4px}
 </header>
 
 <div class="stats" aria-label="Playbook at a glance">
-  <div class="stat"><b>8</b><span>steps,<br>one owner</span></div>
+  <div class="stat"><b>7</b><span>steps,<br>one owner</span></div>
   <div class="stat"><b>8</b><span>rails in the<br>live demo</span></div>
   <div class="stat"><b>12</b><span>certification<br>tests</span></div>
   <div class="stat"><b>6</b><span>failure modes<br>handled</span></div>
@@ -566,38 +569,7 @@ h1{font-size:clamp(24px,2.8vw,34px);margin-top:4px}
   <div id="panels"></div>
 </section>
 
-<div class="foldbar"><span class="lbl">Deep dives · click to open</span><button class="btn ghost" id="foldall" type="button">Expand all</button></div>
-
-<section class="fold reveal" id="presales">
-  <div class="fh"><span class="ic">💼</span><div><h2>Pre-sales with Sales &amp; Commercial</h2><p>Technical truth early, so Sales only promises corridors we can actually deliver.</p></div></div>
-  <span class="lbl">How I work a deal with Sales</span>
-  <div class="flow5">
-    <div><i>01</i><b>Qualify</b><span>Corridors, volumes, timeline and why this partner</span></div>
-    <div><i>02</i><b>Technical discovery</b><span>Joint call: API, rails, status model, compliance</span></div>
-    <div><i>03</i><b>Fit and gaps</b><span>Scorecard plus a list of what's missing</span></div>
-    <div><i>04</i><b>Effort and risk</b><span>Weeks, owners, top risks, open questions</span></div>
-    <div><i>05</i><b>Go / no-go</b><span>A one-page summary Sales and Commercial sign</span></div>
-  </div>
-  <div class="g2">
-    <div class="card score" style="background:var(--bg)">
-      <span class="lbl">Partner fit scorecard · Corvid Pay <em class="pill">Illustrative</em></span>
-      <div class="srow"><p>Corridor coverage<span>Banks and wallets reached</span></p><div class="dots" aria-label="4 of 5"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i></i></div></div>
-      <div class="srow"><p>API maturity<span>Docs, sandbox, versioning</span></p><div class="dots" aria-label="3 of 5"><i class="f"></i><i class="f"></i><i class="f"></i><i></i><i></i></div></div>
-      <div class="srow"><p>Status and callbacks<span>Final states, signed, retried</span></p><div class="dots" aria-label="2 of 5"><i class="f"></i><i class="f"></i><i></i><i></i><i></i></div></div>
-      <div class="srow"><p>Instant rail access<span>Share of volume on instant rails</span></p><div class="dots" aria-label="4 of 5"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i></i></div></div>
-      <div class="srow"><p>Compliance posture<span>Screening, holds, reporting</span></p><div class="dots" aria-label="3 of 5"><i class="f"></i><i class="f"></i><i class="f"></i><i></i><i></i></div></div>
-      <p class="note">The low score on callbacks becomes a named risk and a launch condition, not a surprise in UAT.</p>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:10px">
-      <div class="split">
-        <div><h3>💼 Sales &amp; Commercial own</h3><ul><li>The relationship and the deal</li><li>Pricing and contract terms</li><li>Commercial SLAs and penalties</li></ul></div>
-        <div><h3>🛠️ I own</h3><ul><li>Technical fit and gaps</li><li>Effort, risks and dependencies</li><li>What we can promise, and when</li></ul></div>
-      </div>
-      <span class="lbl">What I hand Sales</span>
-      <div class="chips"><span class="chip">📄 One-page solution summary</span><span class="chip">📏 Effort in weeks</span><span class="chip">⚠️ Top 5 risks</span><span class="chip">❓ Open questions for the partner</span><span class="chip">🧭 Corridor blueprint demo</span><span class="chip">📋 SLA terms to put in the contract</span></div>
-    </div>
-  </div>
-</section>
+<div class="foldbar"><span class="lbl">Onboarding deep dives · click to open</span><button class="btn ghost" id="foldall" type="button">Expand all</button></div>
 
 <section class="fold reveal" id="plan">
   <div class="fh"><span class="ic">🗓️</span><div><h2>Delivery plan <em class="pill">Proposed</em></h2><p>8 weeks, one partner, one corridor. Compliance runs alongside the build.</p></div></div>
@@ -816,7 +788,67 @@ h1{font-size:clamp(24px,2.8vw,34px);margin-top:4px}
           <dt>Ask</dt><dd>Root cause by a set date; fix under the SLA</dd>
         </dl>
       </div>
-      <a class="chip" href="#roadmap" style="align-self:flex-start">🧩 Recurring friction goes to the roadmap →</a>
+      <a class="chip" href="#roadmap" style="align-self:flex-start">🧩 Recurring friction feeds roadmap input →</a>
+    </div>
+  </div>
+</section>
+
+<section class="fold reveal" id="api">
+  <div class="fh"><span class="ic">🧰</span><div><h2>API kit <em class="pill">Sample</em></h2><p>A Postman collection that tests the six calls that matter.</p></div></div>
+  <div class="pipe">
+    <div><span class="m">POST</span><b>OAuth token</b><span>mTLS + client credentials</span></div>
+    <div><span class="m">POST</span><b>Validate</b><span>Account or alias, name back</span></div>
+    <div><span class="m">POST</span><b>Create payout</b><span>Fresh Idempotency-Key</span></div>
+    <div><span class="m">POST</span><b>Create again</b><span>Same key, same payout</span></div>
+    <div><span class="m get">GET</span><b>Status</b><span>By our reference</span></div>
+    <div><span class="m">POST</span><b>Signed callback</b><span>HMAC over the raw body</span></div>
+  </div>
+  <div class="kitd"><button class="btn" id="postman" type="button">⬇ Download sample Postman file</button><span class="note">Sample only: base URLs, paths, field names and the callback body are placeholders to replace from the partner's spec.</span></div>
+</section>
+
+<section class="fold reveal" id="practices">
+  <div class="fh"><span class="ic">⭐</span><div><h2>Key best practices</h2><p>Eight rules for integration and ownership.</p></div></div>
+  <div class="g4">
+    <div class="tile"><span class="ic">🔁</span><b>Unknown ≠ failed</b><span>Query status before any retry</span></div>
+    <div class="tile"><span class="ic">🧷</span><b>One key per payout</b><span>Reused on every retry</span></div>
+    <div class="tile"><span class="ic">🔒</span><b>Verify, then act</b><span>Signature first, status second</span></div>
+    <div class="tile"><span class="ic">✅</span><b>Validate first</b><span>Most rejections caught up front</span></div>
+    <div class="tile"><span class="ic">📊</span><b>Escalate with data</b><span>Query, traces, our side ruled out</span></div>
+    <div class="tile"><span class="ic">🧩</span><b>Fix the cause</b><span>Seen twice → platform fix</span></div>
+    <div class="tile"><span class="ic">🗣️</span><b>Two audiences</b><span>Rails for engineers, SLAs for leads</span></div>
+    <div class="tile"><span class="ic">📅</span><b>Track every expiry</b><span>Certificates, keys, secrets</span></div>
+  </div>
+</section>
+
+<div class="foldbar"><span class="lbl">Beyond onboarding · additional SE work</span></div>
+
+<section class="fold reveal" id="presales">
+  <div class="fh"><span class="ic">💼</span><div><h2>Pre-sales with Sales &amp; Commercial</h2><p>Technical truth early, so Sales only promises corridors we can actually deliver.</p></div></div>
+  <span class="lbl">How I work a deal with Sales</span>
+  <div class="flow5">
+    <div><i>01</i><b>Qualify</b><span>Corridors, volumes, timeline and why this partner</span></div>
+    <div><i>02</i><b>Technical discovery</b><span>Joint call: API, rails, status model, compliance</span></div>
+    <div><i>03</i><b>Fit and gaps</b><span>Scorecard plus a list of what's missing</span></div>
+    <div><i>04</i><b>Effort and risk</b><span>Weeks, owners, top risks, open questions</span></div>
+    <div><i>05</i><b>Go / no-go</b><span>A one-page summary Sales and Commercial sign</span></div>
+  </div>
+  <div class="g2">
+    <div class="card score" style="background:var(--bg)">
+      <span class="lbl">Partner fit scorecard · Corvid Pay <em class="pill">Illustrative</em></span>
+      <div class="srow"><p>Corridor coverage<span>Banks and wallets reached</span></p><div class="dots" aria-label="4 of 5"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i></i></div></div>
+      <div class="srow"><p>API maturity<span>Docs, sandbox, versioning</span></p><div class="dots" aria-label="3 of 5"><i class="f"></i><i class="f"></i><i class="f"></i><i></i><i></i></div></div>
+      <div class="srow"><p>Status and callbacks<span>Final states, signed, retried</span></p><div class="dots" aria-label="2 of 5"><i class="f"></i><i class="f"></i><i></i><i></i><i></i></div></div>
+      <div class="srow"><p>Instant rail access<span>Share of volume on instant rails</span></p><div class="dots" aria-label="4 of 5"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i></i></div></div>
+      <div class="srow"><p>Compliance posture<span>Screening, holds, reporting</span></p><div class="dots" aria-label="3 of 5"><i class="f"></i><i class="f"></i><i class="f"></i><i></i><i></i></div></div>
+      <p class="note">The low score on callbacks becomes a named risk and a launch condition, not a surprise in UAT.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div class="split">
+        <div><h3>💼 Sales &amp; Commercial own</h3><ul><li>The relationship and the deal</li><li>Pricing and contract terms</li><li>Commercial SLAs and penalties</li></ul></div>
+        <div><h3>🛠️ I own</h3><ul><li>Technical fit and gaps</li><li>Effort, risks and dependencies</li><li>What we can promise, and when</li></ul></div>
+      </div>
+      <span class="lbl">What I hand Sales</span>
+      <div class="chips"><span class="chip">📄 One-page solution summary</span><span class="chip">📏 Effort in weeks</span><span class="chip">⚠️ Top 5 risks</span><span class="chip">❓ Open questions for the partner</span><span class="chip">🧭 Corridor blueprint demo</span><span class="chip">📋 SLA terms to put in the contract</span></div>
     </div>
   </div>
 </section>
@@ -854,33 +886,6 @@ h1{font-size:clamp(24px,2.8vw,34px);margin-top:4px}
   </div>
 </section>
 
-<section class="fold reveal" id="api">
-  <div class="fh"><span class="ic">🧰</span><div><h2>API kit <em class="pill">Sample</em></h2><p>A Postman collection that tests the six calls that matter.</p></div></div>
-  <div class="pipe">
-    <div><span class="m">POST</span><b>OAuth token</b><span>mTLS + client credentials</span></div>
-    <div><span class="m">POST</span><b>Validate</b><span>Account or alias, name back</span></div>
-    <div><span class="m">POST</span><b>Create payout</b><span>Fresh Idempotency-Key</span></div>
-    <div><span class="m">POST</span><b>Create again</b><span>Same key, same payout</span></div>
-    <div><span class="m get">GET</span><b>Status</b><span>By our reference</span></div>
-    <div><span class="m">POST</span><b>Signed callback</b><span>HMAC over the raw body</span></div>
-  </div>
-  <div class="kitd"><button class="btn" id="postman" type="button">⬇ Download sample Postman file</button><span class="note">Sample only: base URLs, paths, field names and the callback body are placeholders to replace from the partner's spec.</span></div>
-</section>
-
-<section class="fold reveal" id="practices">
-  <div class="fh"><span class="ic">⭐</span><div><h2>Key best practices</h2><p>Eight rules for integration and ownership.</p></div></div>
-  <div class="g4">
-    <div class="tile"><span class="ic">🔁</span><b>Unknown ≠ failed</b><span>Query status before any retry</span></div>
-    <div class="tile"><span class="ic">🧷</span><b>One key per payout</b><span>Reused on every retry</span></div>
-    <div class="tile"><span class="ic">🔒</span><b>Verify, then act</b><span>Signature first, status second</span></div>
-    <div class="tile"><span class="ic">✅</span><b>Validate first</b><span>Most rejections caught up front</span></div>
-    <div class="tile"><span class="ic">📊</span><b>Escalate with data</b><span>Query, traces, our side ruled out</span></div>
-    <div class="tile"><span class="ic">🧩</span><b>Fix the cause</b><span>Seen twice → platform fix</span></div>
-    <div class="tile"><span class="ic">🗣️</span><b>Two audiences</b><span>Rails for engineers, SLAs for leads</span></div>
-    <div class="tile"><span class="ic">📅</span><b>Track every expiry</b><span>Certificates, keys, secrets</span></div>
-  </div>
-</section>
-
 <section class="reveal" id="rails">
   <h2>Rails I plan for</h2>
   <div class="rstrip" id="rstrip"></div>
@@ -899,14 +904,13 @@ document.documentElement.classList.add("js");
 
 // ---- Overview: seven steps, one panel at a time on screen (all print) ----
 const STEPS=[
- {em:"💼",ph:"Pre-sales",t:"Pre-sales with Sales",risk:"Sales promises a corridor before anyone reads the API.",fix:"Join discovery early: fit, gaps, effort and risks on one page.",done:"Go / no-go agreed with Sales and Commercial.",out:["📄 Solution summary","📏 Effort estimate","⚠️ Risk list"],link:"presales"},
  {em:"🔍",ph:"Review",t:"Partner API review",risk:"“Real-time” in the spec, batch hours in reality.",fix:"Check status model, idempotency, callbacks, limits, cutoffs and errors.",done:"The status model is confirmed in writing.",out:["📋 Gap list","🔄 Status model"],link:"review"},
  {em:"🔐",ph:"Review",t:"Credentials & sandbox",risk:"A wrong certificate chain blocks UAT for a week.",fix:"Secure exchange, IP allowlist, every expiry logged.",done:"A sandbox call passes with mTLS and OAuth.",out:["🔗 mTLS certs","🎟️ OAuth client","⏰ Expiry alerts"],link:"review"},
  {em:"🗺️",ph:"Map",t:"Corridor mapping",risk:"Partner code E17 just means “generic failure”.",fix:"Every field, rule and error code mapped.",done:"No unmapped codes; any new one alerts.",out:["🗺️ Field map","🚦 Error lanes"],link:"mapping"},
  {em:"📐",ph:"Specify",t:"Integration spec",risk:"Three engineers read one PDF three ways.",fix:"One spec per corridor, signed by both sides.",done:"Partner and platform both sign off.",out:["🧭 Sequence diagram","✅ Validation rules","🧪 Test matrix"],link:"blueprint"},
  {em:"🧪",ph:"Certify",t:"Certification",risk:"Happy path only; the first timeout pays twice.",fix:"The full test matrix, with raw traces kept.",done:"All 12 cases pass and the partner certifies.",out:["🧪 12 cases","📎 Trace evidence","🐞 Debug log"],link:"debugging"},
  {em:"🚀",ph:"Launch",t:"Launch & ramp",risk:"Full volume on day one; one bug hits thousands.",fix:"Compliance and Commercial sign off, then a controlled ramp.",done:"The ramp completes at SLA.",out:["🛡️ Compliance ✓","💼 Commercial ✓","📶 Ramp plan"],link:"plan"},
- {em:"📈",ph:"Run",t:"Run & improve",risk:"Same failure, new ticket, every week.",fix:"Data-led reviews, debugging to root cause, roadmap briefs for Product.",done:"Every recurring failure has an owner.",out:["📊 KPI dashboard","🐞 Root causes","🧩 Roadmap briefs"],link:"roadmap",kpi:true}
+ {em:"📈",ph:"Run",t:"Run & improve",risk:"Same failure, new ticket, every week.",fix:"Data-led reviews, debugging to root cause, evidence escalations.",done:"Every recurring failure has an owner.",out:["📊 KPI dashboard","🐞 Root causes","📨 Escalations"],link:"run",kpi:true}
 ];
 $("stepnav").innerHTML=STEPS.map((s,i)=>`<button type="button" role="tab" id="tab${i}" aria-controls="p${i}"><span class="no">${i+1}</span><span class="em" aria-hidden="true">${s.em}</span><small>${s.ph}</small><b>${esc(s.t)}</b></button>`).join("");
 $("panels").innerHTML=STEPS.map((s,i)=>`<div class="panel" id="p${i}" role="tabpanel" aria-labelledby="tab${i}"><span class="bignum" aria-hidden="true">0${i+1}</span>

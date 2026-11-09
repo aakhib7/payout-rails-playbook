@@ -6,9 +6,8 @@ A single-page work sample by Syed Aakhib: a **proposed approach for onboarding a
 
 ## What's inside
 
-- **At a glance:** the eight onboarding steps as tiles, one shown at a time, each with the common problem, the fix and a "done when" line. Deep-dive sections below open on click.
-- **Onboarding flow:** eight steps from partner API review to running the live connection, each with the common problem, the fix and a "done when" line.
-- **Pre-sales with Sales & Commercial:** a five-step pre-sales flow, a partner fit scorecard, who owns what, and what goes to Sales.
+- **At a glance:** the seven onboarding steps as tiles, one shown at a time, each with the common problem, the fix and a "done when" line. Deep-dive sections below open on click.
+- **Onboarding flow:** seven steps from partner API review to running the live connection, each with the common problem, the fix and a "done when" line.
 - **Delivery plan:** a proposed 8-week timeline with who leads and who supports.
 - **API review & credentials:** ten partner review questions; OAuth 2.0, mTLS, JWT, API key and webhook HMAC handling; cryptography pitfalls.
 - **Corridor blueprint (live demo):** a nine-step payout sequence diagram for eight rails (UPI, IMPS, InstaPay, PESONet, SPEI, NPSB/BEFTN, mobile money, SEPA), plus a rails primer.
@@ -17,8 +16,12 @@ A single-page work sample by Syed Aakhib: a **proposed approach for onboarding a
 - **Failure handling:** six production failures, how to detect each, and the fallback.
 - **Run & escalate:** a SQL query for rejection rates by reason code, an escalation note, and roadmap items.
 - **Debugging playbook:** reproduce, trace, isolate, fix, prevent; a worked signature-failure example; a decision tree for stuck payouts.
-- **Product roadmap input:** signal to shipped fix, an impact × frequency matrix and a sample roadmap brief.
 - **API kit:** a sample Postman collection to download.
+
+### Beyond onboarding: additional SE work
+
+- **Pre-sales with Sales & Commercial:** a five-step pre-sales flow, a partner fit scorecard, who owns what, and what goes to Sales.
+- **Product roadmap input:** signal to shipped fix, an impact × frequency matrix and a sample roadmap brief.
 
 ## What is proposed, a placeholder or illustrative
 

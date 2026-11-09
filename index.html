@@ -38,7 +38,7 @@ h1,h2,h3{font-family:var(--f-head);letter-spacing:-.01em}
 h2{font-size:20px;font-weight:700}
 code{font-family:var(--f-mono);font-size:.86em}
 .layout{padding:0 clamp(14px,3vw,40px)}
-.wrap{max-width:1480px;margin:0 auto;min-width:0;padding:26px 0 44px;display:flex;flex-direction:column;gap:22px}
+.wrap{max-width:1160px;margin:0 auto;min-width:0;padding:26px 0 44px;display:flex;flex-direction:column;gap:22px}
 section{scroll-margin-top:24px;display:flex;flex-direction:column;gap:14px}
 .lbl{font-family:var(--f-head);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
 .note{font-size:12.5px;color:var(--muted)}
@@ -421,10 +421,11 @@ h1{font-size:clamp(24px,2.8vw,34px);margin-top:4px}
 @media (max-width:640px){.fh p{display:none}.hero .route{display:none}.fold{padding:9px 12px}}
 
 /* deep dives: a grid of cards; each opens in a pop-up */
-.dives{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
-@media (max-width:1200px){.dives{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media (max-width:900px){.dives{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:560px){.dives{grid-template-columns:minmax(0,1fr)}}
+.dives{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.dives>.fold:last-child:nth-child(3n+1){grid-column:1/-1}
+.dives.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:900px){.dives{grid-template-columns:repeat(2,minmax(0,1fr))}.dives>.fold:last-child{grid-column:auto}}
+@media (max-width:560px){.dives,.dives.two{grid-template-columns:minmax(0,1fr)}}
 .dives .fold{padding:14px;transition:transform .2s,border-color .2s,box-shadow .2s}
 .js .dives .fold:hover{transform:translateY(-3px);box-shadow:0 16px 30px -22px rgba(0,0,0,.45)}
 .dives .fh{position:relative;flex-direction:column;align-items:flex-start;gap:10px;height:100%}
@@ -784,7 +785,7 @@ dialog::backdrop{background:rgba(10,10,10,.55);backdrop-filter:blur(3px);-webkit
 </div>
 
 <div class="foldbar"><span class="lbl">Beyond onboarding · additional SE work</span></div>
-<div class="dives">
+<div class="dives two">
 <section class="fold reveal" id="presales">
   <div class="fh"><span class="ic">💼</span><div><h2>Pre-sales with Sales &amp; Commercial</h2><p>Technical truth early, so Sales only promises corridors we can actually deliver.</p></div></div>
   <span class="lbl">How I work a deal with Sales</span>

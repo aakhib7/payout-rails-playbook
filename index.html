@@ -37,35 +37,14 @@ h1,h2,h3,p{margin:0}
 h1,h2,h3{font-family:var(--f-head);letter-spacing:-.01em}
 h2{font-size:20px;font-weight:700}
 code{font-family:var(--f-mono);font-size:.86em}
-.layout{display:grid;grid-template-columns:200px minmax(0,1040px);gap:32px;justify-content:center;padding:0 24px}
-.wrap{min-width:0;padding:26px 0 44px;display:flex;flex-direction:column;gap:22px}
+.layout{padding:0 clamp(14px,3vw,40px)}
+.wrap{max-width:1480px;margin:0 auto;min-width:0;padding:26px 0 44px;display:flex;flex-direction:column;gap:22px}
 section{scroll-margin-top:24px;display:flex;flex-direction:column;gap:14px}
 .lbl{font-family:var(--f-head);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
 .note{font-size:12.5px;color:var(--muted)}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px}
 .pill{font-family:var(--f-body);font-style:normal;font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:99px;color:var(--warn);background:var(--warn-soft);border:1px solid color-mix(in srgb,var(--warn) 35%,transparent);white-space:nowrap;vertical-align:middle}
 .ic{display:grid;place-items:center;flex:none;width:40px;height:40px;border-radius:12px;font-size:20px;background:var(--accent-soft)}
-
-/* contents sidebar */
-.toc{position:sticky;top:0;align-self:start;max-height:100vh;overflow-y:auto;padding:26px 0 24px;font-size:13.5px}
-.toct{display:block;font-family:var(--f-head);font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 10px 12px}
-.toc ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
-.toc a{display:block;padding:6px 12px;border-radius:9px;color:var(--ink);text-decoration:none;font-weight:600;border-left:3px solid transparent;transition:background .2s,color .2s,border-color .2s}
-.toc a:hover{background:var(--accent-soft);color:var(--accent-ink)}
-.toc a.on{background:var(--accent-soft);color:var(--accent-ink);border-left-color:var(--accent)}
-.toc a:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
-.tgrp{margin:10px 0 2px 12px;font-family:var(--f-head);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-@media (max-width:1100px){.tgrp{display:none}}
-@media (max-width:1100px){
-  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding:0 16px}
-  .toc{position:sticky;top:0;z-index:20;max-height:none;overflow:visible;margin:0 -16px;padding:10px 16px;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-  .toct{display:none}
-  .toc>ol{flex-direction:row;gap:6px;overflow-x:auto;scrollbar-width:none}
-  .toc>ol::-webkit-scrollbar{display:none}
-  .toc a{white-space:nowrap;border-left:0;padding:6px 12px;border-radius:99px;background:var(--surface);border:1px solid var(--line)}
-  .toc a.on{border-color:var(--accent)}
-  section{scroll-margin-top:70px}
-}
 
 /* hero */
 .hero{position:relative;overflow:hidden;border-radius:22px;background:var(--hero);color:#fff;padding:30px 34px;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:18px 28px;align-items:center}
@@ -86,7 +65,7 @@ h1{font-size:clamp(28px,3.4vw,42px);line-height:1.05;font-weight:800;letter-spac
 .stat b{font-family:var(--f-head);font-size:30px;font-weight:300;line-height:1;color:var(--ink);letter-spacing:-.02em}
 .stat{border-top:3px solid var(--accent)}
 .stat span{font-size:13px;color:var(--muted);line-height:1.25}
-@media (max-width:900px){.hero{grid-template-columns:minmax(0,1fr)}.stats{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:900px){.hero{grid-template-columns:minmax(0,1fr)}.stats{grid-template-columns:repeat(5,minmax(0,1fr))}.stat{flex-direction:column;align-items:flex-start;gap:4px}}
 
 /* overview: step tiles + one panel */
 .stepnav{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}
@@ -432,8 +411,6 @@ h1{font-size:clamp(24px,2.8vw,34px);margin-top:4px}
 .js .fh::after{width:8px;height:8px}
 .g2,.g3,.g4,.g5,.flow5,.board,.pipe{gap:8px}
 .tile,.cred,.fcard,.flow5>div,.lane{padding:10px}
-.toc{padding-top:18px;font-size:13px}
-.toc a{padding:4px 10px}
 @media (min-width:901px){
   .fh>div{flex-direction:row;align-items:baseline;gap:14px}
   .fh h2{flex:none}
@@ -444,7 +421,8 @@ h1{font-size:clamp(24px,2.8vw,34px);margin-top:4px}
 @media (max-width:640px){.fh p{display:none}.hero .route{display:none}.fold{padding:9px 12px}}
 
 /* deep dives: a grid of cards; each opens in a pop-up */
-.dives{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.dives{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+@media (max-width:1200px){.dives{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media (max-width:900px){.dives{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:560px){.dives{grid-template-columns:minmax(0,1fr)}}
 .dives .fold{padding:14px;transition:transform .2s,border-color .2s,box-shadow .2s}
@@ -476,6 +454,7 @@ dialog::backdrop{background:rgba(10,10,10,.55);backdrop-filter:blur(3px);-webkit
   h1{font-size:28px}
   .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
   .stat:first-child{grid-column:1/-1}
+  .stat{flex-direction:row;align-items:center;gap:10px}
   .fold{padding:12px 14px}
   .fh .ic{display:none}
   .rails{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -498,7 +477,7 @@ dialog::backdrop{background:rgba(10,10,10,.55);backdrop-filter:blur(3px);-webkit
   body{background:#fff;font-size:13px}
   .layout{display:block;padding:0}
   .wrap{padding:0;gap:16px}
-  .toc,.stepnav,.foldbar,#play,.track,.railcol,.bar .seqcap,.kitd .btn,#sqlbtn,.live::before,.certhead{display:none!important}
+  .stepnav,.foldbar,#play,.track,.railcol,.bar .seqcap,.kitd .btn,#sqlbtn,.live::before,.certhead{display:none!important}
   .js .reveal,.hero>*{opacity:1!important;transform:none!important}
   .panel{break-inside:avoid}
   .demo{grid-template-columns:minmax(0,1fr)}
@@ -520,25 +499,6 @@ dialog::backdrop{background:rgba(10,10,10,.55);backdrop-filter:blur(3px);-webkit
 </head>
 <body>
 <div class="layout">
-<nav class="toc" aria-label="Contents">
-  <span class="toct">Contents</span>
-  <ol>
-    <li><a href="#flow">At a glance</a></li>
-    <li><a href="#plan">Delivery plan</a></li>
-    <li><a href="#review">API review &amp; credentials</a></li>
-    <li><a href="#mapping">Field &amp; error mapping</a></li>
-    <li><a href="#blueprint">Corridor blueprint</a></li>
-    <li><a href="#cert">Certification tests</a></li>
-    <li><a href="#failures">Failure handling</a></li>
-    <li><a href="#debugging">Debugging</a></li>
-    <li><a href="#run">Run &amp; escalate</a></li>
-    <li><a href="#api">API kit</a></li>
-    <li><a href="#practices">Best practices</a></li>
-    <li class="tgrp">Beyond onboarding</li>
-    <li><a href="#presales">Pre-sales</a></li>
-    <li><a href="#roadmap">Roadmap input</a></li>
-  </ol>
-</nav>
 
 <div class="wrap">
 <header class="hero">
@@ -1088,23 +1048,6 @@ $("postman").onclick=()=>{
   setTimeout(()=>URL.revokeObjectURL(a.href),1000);
 };
 
-// ---- Contents: highlight the section on screen ----
-const tocLinks=[...document.querySelectorAll(".toc ol a")];
-const spyEls=[...document.querySelectorAll("section[id]")];
-let spyKey="";
-function spyUpdate(){
-  const line=Math.min(innerHeight*0.3,140);let sec="";
-  for(const el of spyEls){if(el.offsetParent&&el.getBoundingClientRect().top<=line)sec=el.id}
-  // the last section can never reach the line, so claim it at the bottom of the page
-  if(innerHeight+scrollY>=document.documentElement.scrollHeight-4)sec=spyEls.filter(e=>e.offsetParent).pop().id;
-  if(sec===spyKey)return;spyKey=sec;
-  tocLinks.forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+sec));
-  const act=tocLinks.find(a=>a.getAttribute("href")==="#"+sec);
-  if(act&&innerWidth<=1100){const bar=act.closest("ol");bar.scrollTo({left:act.offsetLeft-bar.clientWidth/2+act.clientWidth/2,behavior:"smooth"})}
-}
-addEventListener("scroll",spyUpdate,{passive:true});
-addEventListener("resize",spyUpdate);
-spyUpdate();
 render();
 </script>
 </body>

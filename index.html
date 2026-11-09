@@ -743,11 +743,11 @@ dialog::backdrop{background:rgba(10,10,10,.55);backdrop-filter:blur(3px);-webkit
     <div style="display:flex;flex-direction:column;gap:12px">
       <div class="mail">
         <div class="mh"><i></i><i></i><i></i><span class="note">Escalation to the partner <em class="pill">Illustrative</em></span></div>
-        <div class="subj">[Corvid Pay · US→PH · InstaPay] AC01 at 3.1% vs 0.4% baseline since 12 Nov</div>
+        <div class="subj">[Corvid Pay · US→PH · InstaPay] AC01 at 3.1% vs 0.4% baseline since 6 Nov</div>
         <dl>
           <dt>What</dt><dd>Account-not-found up about 8× on one rail; others flat</dd>
           <dt>Proof</dt><dd>Query output and 20 references with raw traces</dd>
-          <dt>Us</dt><dd>No mapping, validation or release change since 5 Nov</dd>
+          <dt>Us</dt><dd>No mapping, validation or release change since 28 Oct</dd>
           <dt>Ask</dt><dd>Root cause by a set date; fix under the SLA</dd>
         </dl>
       </div>
@@ -1009,7 +1009,7 @@ $("postman").onclick=()=>{
   const raw=o=>({mode:"raw",raw:JSON.stringify(o,null,2),options:{raw:{language:"json"}}});
   const PAYOUT={reference:"{{payoutRef}}",amount:"100.00",currency:"PHP",rail:"INSTAPAY",
     beneficiary:{name:"Juan Dela Cruz",account:"{{beneficiaryAccount}}",bankCode:"{{bankCode}}"},sender:{name:"Sample Sender",country:"US"},purpose:"FAMILY_SUPPORT"};
-  const CALLBACK={eventId:"evt-0001",reference:"{{payoutRef}}",status:"CREDITED",reasonCode:null,occurredAt:"2026-11-12T09:30:00Z"};
+  const CALLBACK={eventId:"evt-0001",reference:"{{payoutRef}}",status:"CREDITED",reasonCode:null,occurredAt:"2026-11-06T09:30:00Z"};
   const col={
     info:{name:"Corvid Pay payouts — SAMPLE (not a working integration)",schema:"https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
       description:"SAMPLE collection for a fictional payout partner. Every URL, path and field name is a placeholder to replace from the partner's spec. Configure the mTLS client certificate in Postman's settings for the partner host."},

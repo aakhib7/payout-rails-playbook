@@ -1,4 +1,4 @@
-# Payout Rails Partner Onboarding Playbook
+# Solutions Engineer Playbook: payout rails partner onboarding
 
 **Live page:** https://aakhib7.github.io/payout-rails-playbook/
 

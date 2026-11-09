@@ -148,8 +148,8 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .fh{display:flex;align-items:center;gap:14px}
 .fh .ic{width:34px;height:34px;font-size:17px;border-radius:10px;transition:background .2s}
 .fold.open .fh .ic{background:var(--ink)}
-.fold>.lbl{display:flex;align-items:center;gap:10px}
-.fold>.lbl::after{content:"";flex:1;height:1px;background:var(--line)}
+.fold>.lbl,.db>.lbl{display:flex;align-items:center;gap:10px}
+.fold>.lbl::after,.db>.lbl::after{content:"";flex:1;height:1px;background:var(--line)}
 .fh div{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
 .fh h2{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px}
 .fh p{font-size:13.5px;color:var(--muted)}
@@ -339,7 +339,7 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .mail dd{margin:0}
 pre.sql{margin:0;overflow-x:auto;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-family:var(--f-mono);font-variant-ligatures:none;font-size:12px;line-height:1.6}
 pre.sql .c{color:var(--muted)}pre.sql .k{color:var(--accent-ink);font-weight:600}
-@media screen{.js #run:not(.sqlon) pre.sql{display:none}}
+@media screen{.js pre.sql:not(.on){display:none}}
 
 /* api pipeline */
 .pipe{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
@@ -460,6 +460,32 @@ h1{font-size:clamp(24px,2.8vw,34px);margin-top:4px}
 .fold.open{padding-bottom:14px}
 @media (max-width:640px){.fh p{display:none}.hero .route{display:none}.fold{padding:9px 12px}}
 
+/* deep dives: a grid of cards; each opens in a pop-up */
+.dives{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media (max-width:900px){.dives{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.dives{grid-template-columns:minmax(0,1fr)}}
+.dives .fold{padding:14px;transition:transform .2s,border-color .2s,box-shadow .2s}
+.js .dives .fold:hover{transform:translateY(-3px);box-shadow:0 16px 30px -22px rgba(0,0,0,.45)}
+.dives .fh{position:relative;flex-direction:column;align-items:flex-start;gap:10px;height:100%}
+.dives .fh>div{flex-direction:column;align-items:flex-start;gap:4px}
+.dives .fh h2{font-size:15.5px}
+.dives .fh p{white-space:normal;overflow:visible;font-size:12.5px}
+.js .dives .fh::after{position:absolute;top:6px;right:4px;margin:0;transform:rotate(-45deg)}
+dialog{border:0;border-radius:18px;padding:0;width:min(1040px,94vw);max-height:90vh;background:var(--surface);color:var(--ink);box-shadow:0 40px 80px -30px rgba(0,0,0,.6);overflow:hidden}
+dialog[open]{display:flex;flex-direction:column;animation:pop .25s cubic-bezier(.2,.7,.2,1)}
+@keyframes pop{from{opacity:0;transform:translateY(12px) scale(.98)}}
+dialog::backdrop{background:rgba(10,10,10,.55);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+.dh{display:flex;align-items:flex-start;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line)}
+.dhead{flex:1;min-width:0;display:flex;align-items:center;gap:12px}
+.dhead .ic{width:40px;height:40px;background:var(--ink)}
+.dhead>div{display:flex;flex-direction:column;gap:2px}
+.dhead h2{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;font-size:18px}
+.dhead p{font-size:13px;color:var(--muted)}
+.dclose{font:inherit;font-size:16px;width:34px;height:34px;flex:none;border-radius:50%;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+.dclose:hover{border-color:var(--ink)}
+.db{overflow-y:auto;padding:16px 18px 20px;display:flex;flex-direction:column;gap:12px}
+@media (max-width:640px){dialog{width:100vw;max-width:100vw;max-height:94vh;margin:auto 0 0;border-radius:18px 18px 0 0}.db{padding:14px}}
+
 /* phone */
 @media (max-width:640px){
   .wrap{padding-top:18px}
@@ -501,6 +527,8 @@ h1{font-size:clamp(24px,2.8vw,34px);margin-top:4px}
   .fold{box-shadow:none}
   .fh{break-after:avoid}
   #failures{break-before:page}
+  .dives{display:block}.dives>.fold{margin-bottom:12px}
+  dialog{display:none!important}
 }
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
@@ -566,8 +594,8 @@ h1{font-size:clamp(24px,2.8vw,34px);margin-top:4px}
   <div id="panels"></div>
 </section>
 
-<div class="foldbar"><span class="lbl">Onboarding deep dives · click to open</span><button class="btn ghost" id="foldall" type="button">Expand all</button></div>
-
+<div class="foldbar"><span class="lbl">Onboarding deep dives · click a card to open</span></div>
+<div class="dives">
 <section class="fold reveal" id="plan">
   <div class="fh"><span class="ic">🗓️</span><div><h2>Delivery plan <em class="pill">Proposed</em></h2><p>8 weeks, one partner, one corridor. Compliance runs alongside the build.</p></div></div>
   <div class="gantt" role="table" aria-label="Delivery plan">
@@ -816,9 +844,10 @@ h1{font-size:clamp(24px,2.8vw,34px);margin-top:4px}
     <div class="tile"><span class="ic">📅</span><b>Track every expiry</b><span>Certificates, keys, secrets</span></div>
   </div>
 </section>
+</div>
 
 <div class="foldbar"><span class="lbl">Beyond onboarding · additional SE work</span></div>
-
+<div class="dives">
 <section class="fold reveal" id="presales">
   <div class="fh"><span class="ic">💼</span><div><h2>Pre-sales with Sales &amp; Commercial</h2><p>Technical truth early, so Sales only promises corridors we can actually deliver.</p></div></div>
   <span class="lbl">How I work a deal with Sales</span>
@@ -883,10 +912,14 @@ h1{font-size:clamp(24px,2.8vw,34px);margin-top:4px}
   </div>
 </section>
 
+</div>
+
 <section class="reveal" id="rails">
   <h2>Rails I plan for</h2>
   <div class="rstrip" id="rstrip"></div>
 </section>
+
+<dialog id="dlg" aria-labelledby="dtitle"><div class="dh"><div class="dhead" id="dhead"></div><button class="dclose" id="dclose" type="button" aria-label="Close">✕</button></div><div class="db" id="dbody"></div></dialog>
 
 <p class="note sig">Prepared by <b>Syed Aakhib</b> · <a href="https://www.linkedin.com/in/syed-aakhib-74110295" target="_blank" rel="noopener">LinkedIn</a></p>
 <p class="note">Proposed approach for a fictional payout partner, Corvid Pay; not a record of past payout-rail delivery. Partner codes, endpoints, field names and figures are placeholders or illustrative. Rail facts are summarised from public scheme information and must be confirmed against the partner's spec and scheme rules. Independent work sample styled after MoneyGram's public site; not affiliated with or endorsed by MoneyGram.</p>
@@ -922,15 +955,28 @@ function pick(i){tabs.forEach((t,j)=>{t.classList.toggle("on",j===i);t.classList
 tabs.forEach((t,i)=>{t.onclick=()=>pick(t.classList.contains("on")?-1:i);t.onkeydown=e=>{const d=e.key==="ArrowRight"?1:e.key==="ArrowLeft"?-1:0;if(d){const n=(i+d+tabs.length)%tabs.length;pick(n);tabs[n].focus()}}});
 pick(-1);
 
-// ---- Deep dives fold open and shut; any in-page link opens its section ----
-const folds=[...document.querySelectorAll(".fold")];
-function setOpen(f,o){f.classList.toggle("open",o);f.querySelector(".fh").setAttribute("aria-expanded",o);$("foldall").textContent=folds.every(x=>x.classList.contains("open"))?"Collapse all":"Expand all"}
-folds.forEach(f=>{const h=f.querySelector(".fh");h.tabIndex=0;h.setAttribute("role","button");
-  h.onclick=()=>setOpen(f,!f.classList.contains("open"));
-  h.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();h.click()}};setOpen(f,f.classList.contains("open"))});
-$("foldall").onclick=()=>{const o=!folds.every(f=>f.classList.contains("open"));folds.forEach(f=>setOpen(f,o))};
+// ---- Deep dives: cards that open in a pop-up. The section's own nodes move into the dialog and back,
+// so the demo, chart and tests keep their state and handlers ----
+const folds=[...document.querySelectorAll(".fold")],dlg=$("dlg");
+let curFold=null;
+function closeFold(){if(!curFold)return;[...$("dbody").children].forEach(c=>curFold.appendChild(c));curFold=null}
+function openFold(f){
+  if(curFold===f)return;closeFold();curFold=f;
+  $("dhead").innerHTML=f.querySelector(".fh").innerHTML;$("dhead").querySelector("h2").id="dtitle";
+  [...f.children].filter(c=>!c.classList.contains("fh")).forEach(c=>$("dbody").appendChild(c));
+  if(!dlg.open)dlg.showModal();
+  $("dbody").scrollTop=0;
+  if(f.id==="blueprint")render();
+}
+dlg.addEventListener("close",closeFold);
+$("dclose").onclick=()=>dlg.close();
+dlg.addEventListener("click",e=>{if(e.target===dlg)dlg.close()});
+folds.forEach(f=>{const h=f.querySelector(".fh");h.tabIndex=0;h.setAttribute("role","button");h.setAttribute("aria-haspopup","dialog");
+  h.onclick=()=>openFold(f);
+  h.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();openFold(f)}}});
 document.addEventListener("click",e=>{const a=e.target.closest('a[href^="#"]');if(!a)return;
-  const f=document.getElementById(a.getAttribute("href").slice(1))?.closest(".fold");if(f&&!f.classList.contains("open"))setOpen(f,true)});
+  const t=document.getElementById(a.getAttribute("href").slice(1)),f=t&&(t.classList.contains("fold")?t:curFold&&curFold.id===t.id?null:t.closest(".fold"));
+  if(f){e.preventDefault();openFold(f)}});
 
 // ---- Corridor demo. Rail facts are summaries to confirm with the partner and scheme rules ----
 const RAILS=[
@@ -991,7 +1037,7 @@ $("sraill").innerHTML=RAILS.map(r=>`<button type="button" data-k="${r.k}" title=
 $("rstrip").innerHTML=RAILS.map(r=>`<button type="button" data-k="${r.k}"><b>${esc(r.r)}</b><span>${esc(r.c.replace("US → ",""))}</span><em>${esc(r.speed)}</em></button>`).join("");
 document.querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>{
   R=RAILS.find(r=>r.k===b.dataset.k);render();
-  if(!b.closest("#railbtns")){setOpen($("blueprint"),true);$("blueprint").scrollIntoView({behavior:calm()?"auto":"smooth",block:"start"})}
+  if(!b.closest("#railbtns"))openFold($("blueprint"));
 });
 
 // ---- Certification tiles + progress ring (not saved) ----
@@ -1020,7 +1066,7 @@ const CH=[["AC01","Account not found",3.1,0.4],["BE01","Name mismatch",0.9,0.8],
     g.onmousemove=e=>{const r=box.getBoundingClientRect();tip.textContent=g.dataset.t;tip.style.left=(e.clientX-r.left)+"px";tip.style.top=(e.clientY-r.top)+"px";tip.classList.add("on");g.querySelector("path").classList.add("hl")};
     g.onmouseleave=()=>{tip.classList.remove("on");g.querySelector("path").classList.remove("hl")}});
 })();
-$("sqlbtn").onclick=()=>{const on=$("run").classList.toggle("sqlon");$("sqlbtn").textContent=on?"Hide the SQL":"Show the SQL behind it"};
+$("sqlbtn").onclick=()=>{const on=document.querySelector("pre.sql").classList.toggle("on");$("sqlbtn").textContent=on?"Hide the SQL":"Show the SQL behind it"};
 
 // ---- Scroll reveals; the demo plays itself once when first seen ----
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.05});
